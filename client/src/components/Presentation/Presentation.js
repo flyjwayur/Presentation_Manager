@@ -1,17 +1,18 @@
 import React, { Component } from 'react'
 
 class Presentation extends Component {
-  
-  
+    
   render() {
+    const {presenter, evaluator, topic, article, keywords, date} = this.props.presentation; 
+
     return (
       <div>      
-      <p> {this.props.presentation.presenter}</p>
-      <p> {this.props.presentation.evaluator}</p>
-      <p> {this.props.presentation.topic}</p>
-      <p> {this.props.presentation.article}</p>
-      <p> {this.props.presentation.keywords}</p>
-      <p> {this.props.presentation.date}</p>
+      <p> {presenter}</p>
+      <p> {evaluator}</p>
+      <p> {topic}</p>
+      <p> {article}</p>
+      <p> {keywords}</p>
+      <p> {date}</p>
       </div>
     )
   }

@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import Presentation from "../../components/Presentation/Presentation";
+import uuid from 'uuid';
 
 export default class Presentations extends Component {
   state = {
@@ -11,7 +12,7 @@ export default class Presentations extends Component {
     axios.get("/presentations").then(response => {
       console.log(response.data);
       this.setState({
-        presentations: this.state.presentations.concat(response.data)
+        presentations: [...this.state.presentations, (response.data)]
       })
     }).catch(error => {
       console.log(error);
@@ -20,9 +21,10 @@ export default class Presentations extends Component {
 
   renderPresentations = () => {
     let presentations = this.state.presentations;
+    console.log("Are presentaions is coming from data", presentations);
     return presentations.map(presentation => {
       return (
-        <Presentation key={presentation._id} presentation={presentation} />
+        <Presentation key={uuid.v4()} presentation={presentation} />
       );
     });
   };
