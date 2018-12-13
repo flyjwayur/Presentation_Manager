@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const morgan = require('morgan');
 //const MongoClient = require('mongodb').MongoClient;
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 5005;
 const hostname = "localhost";
 
 const app = express();
@@ -81,7 +81,7 @@ app.get('/presentations/:presenter', (req, res) => {
   const presenter = firstLetter.concat(restLetter);
 
   Presentation.findOne({presenter}, (err, presentations) => {
-    console.log(presentations); // how to print
+    console.log(presentations); 
     
     if(err){
       console.log('from err', err);  
