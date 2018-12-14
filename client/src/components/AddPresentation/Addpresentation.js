@@ -12,7 +12,6 @@ export default class Addpresentation extends Component {
   };
 
   handleChange = e => {
-    console.log(e.target.type);
     this.setState({
       [e.target.name]: e.target.value
     });
@@ -20,7 +19,6 @@ export default class Addpresentation extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    console.log(this.state);
 
     axios
       .post("/presentations", this.state)
