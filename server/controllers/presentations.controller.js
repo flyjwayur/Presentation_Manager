@@ -10,17 +10,16 @@ module.exports = {
 
 function showPresentations(req, res) {
   Presentation.find({}, (err, presentations) => {
-    if (err) {
+
+    if(presentations){
+      res.json(presentations);
+    }else if(err){
       console.log("from err", err);
-      res.status(404).send("An error");
-    }
-
-    if (presentations.length < 1) {
+      es.status(500).json({ title: "Internal server error", name: err.name, message: err.message });
+    }else if (presentations.length < 1) {
       console.log("A presentations is not found");
-      res.send("A presentations was not found");
-    }
-
-    res.json(presentations);
+      res.status(404).json({ title: "Not found", message: _id + " does not exist" });
+    }   
   });
 }
 

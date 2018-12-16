@@ -44,7 +44,8 @@ class PresentationDetail extends Component {
           topic,
           article,
           keywords,
-          date
+          date,
+          summary
         } = singlePresentation;
         return (<div>
           <p>
@@ -70,6 +71,10 @@ class PresentationDetail extends Component {
           <p>
             <span>Date: </span>
             {date}
+          </p>
+          <p>
+            <span>Summary: </span>
+            {summary}
           </p>
           <button> Detail </button>
         </div>)

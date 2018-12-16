@@ -8,7 +8,8 @@ export default class Addpresentation extends Component {
     topic: "",
     article: "",
     date: "",
-    keywords: ""
+    keywords: "",
+    summary: ""
   };
 
   handleChange = e => {
@@ -87,6 +88,15 @@ export default class Addpresentation extends Component {
             id="keywords"
             name="keywords"
             value={this.state.keywords}
+            onChange={this.handleChange}
+            required
+          />
+          <label htmlFor="summary">Summary</label>
+          <input
+            type="text"
+            id="summary"
+            name="summary"
+            value={this.state.summary}
             onChange={this.handleChange}
             required
           />

@@ -10,7 +10,8 @@ class Presentation extends Component {
       topic,
       article,
       keywords,
-      date
+      date,
+      summary
     } = this.props.presentation;
 
     return (
@@ -42,6 +43,10 @@ class Presentation extends Component {
             <p>
               <span>Date: </span>
               {date}
+            </p>
+            <p>
+              <span>Summary: </span>
+              {summary}
             </p>
             <button> Detail </button>
           </div>
