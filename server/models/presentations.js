@@ -22,6 +22,9 @@ const PresentationSchema = new Schema({
   keywords : {
     type : String
   }
+  ,summary : {
+    type : String
+  }
 });
 
 const Presentation = mongoose.model('Presentation', PresentationSchema);
