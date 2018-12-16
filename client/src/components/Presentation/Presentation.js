@@ -1,20 +1,53 @@
-import React, { Component } from 'react'
+import React, { Component, Fragment } from "react";
+import { Link } from "react-router-dom";
 
 class Presentation extends Component {
-    
   render() {
-    const {presenter, evaluator, topic, article, keywords, date} = this.props.presentation; 
+    const {
+      _id,
+      presenter,
+      evaluator,
+      topic,
+      article,
+      keywords,
+      date
+    } = this.props.presentation;
 
     return (
-      <div>      
-      <p> {presenter}</p>
-      <p> {evaluator}</p>
-      <p> {topic}</p>
-      <p> {article}</p>
-      <p> {keywords}</p>
-      <p> {date}</p>
-      </div>
-    )
+      <Fragment>
+        <Link to= {`/presentations/${_id}`} 
+          style={{ textDecoration: "none" }}
+        >
+          <div>
+            <p>
+              <span>Presenter: </span>
+              {presenter}
+            </p>
+            <p>
+              <span>Evaluator: </span>
+              {evaluator}
+            </p>
+            <p>
+              <span>Topic: </span>
+              {topic}
+            </p>
+            <p>
+              <span>Article: </span>
+              {article}
+            </p>
+            <p>
+              <span>Keywords: </span>
+              {keywords}
+            </p>
+            <p>
+              <span>Date: </span>
+              {date}
+            </p>
+            <button> Detail </button>
+          </div>
+        </Link>
+      </Fragment>
+    );
   }
 }
 
