@@ -11,6 +11,7 @@ import { Route, Switch, Redirect } from "react-router-dom";
 class App extends Component {
   state = {
     presentations: [],
+    singlePresentation : null,
     isLoading: false,
     error: false
   };
@@ -37,19 +38,7 @@ class App extends Component {
     });
   };
 
-
   render() {
-
-    const PresentationWithId = ({ match, history }) => {
-      return (
-        <PresentationDetail
-          presentation={this.state.presentations.find(presentation => {
-            return presentation._id === match.params.presentationId;
-          })}
-          history={history}
-        />
-      );
-    };
 
     return (
       <div className="App">
@@ -69,7 +58,10 @@ class App extends Component {
           <Route
             exact
             path="/presentations/:presentationId"
-            component={PresentationWithId}
+            render={props => <PresentationDetail
+              presentation= {this.state.presentations}
+              {...props}
+            />}
           />
           <Redirect to="/" />
         </Switch>
