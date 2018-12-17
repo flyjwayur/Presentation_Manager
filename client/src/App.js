@@ -13,14 +13,15 @@ class App extends Component {
     presentations: [],
     singlePresentation : null,
     isLoading: false,
-    error: false
+    error: false,
+    errorMessage: ""
   };
 
   componentDidMount() {
-    this.loadpresentations();
+    this.loadPresentations();
   }
 
-  loadpresentations = () => {
+  loadPresentations = () => {
     this.setState({ isLoading: true }, () => {
       axios
         .get("/presentations")
@@ -32,14 +33,14 @@ class App extends Component {
         })
         .catch(error => {
           this.setState({
-            error: error.response
+            error: true,
+            errorMessage: (error.response.data.message) ? error.response.data.message : error.response.data
           });
         });
     });
   };
 
   render() {
-
     return (
       <div className="App">
         <Navigation />
@@ -48,7 +49,7 @@ class App extends Component {
           <Route
             exact
             path="/presentations"
-            render={props => <Presentations {...props} presentations={this.state.presentations} isLoading={this.state.isLoading} error={this.state.error}/>}
+            render={props => <Presentations {...props} presentations={this.state.presentations} isLoading={this.state.isLoading} error={this.state.error} errorMessage={this.state.errorMessage}/>}
           />
           <Route
            exact

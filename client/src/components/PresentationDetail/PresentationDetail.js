@@ -7,7 +7,7 @@ class PresentationDetail extends Component {
     singlePresentation: null,
     isLoading: false,
     error: false,
-    hasError: false
+    errorMessage : ""
   };
 
   componentDidMount() {
@@ -26,15 +26,17 @@ class PresentationDetail extends Component {
           });
         })
         .catch(error => {
+          console.log('error from detail', error);
           this.setState({
-            error: error.response
+            error: true, 
+            errorMessage : error.response.data
           });
         });
     });
   };
 
   render() {
-    const { error, isLoading, singlePresentation } = this.state;
+    const { error, errorMessage, isLoading, singlePresentation } = this.state;
 
     const displayDetail = () => {
       if (singlePresentation) {
@@ -84,7 +86,7 @@ class PresentationDetail extends Component {
     console.log("from detail", singlePresentation);
     return (
       <Fragment>
-        {error && <div style={{ color: "#900" }}>{error}</div>}
+        {error && <div style={{ color: "#900" }}>{errorMessage.title}</div>}
         {isLoading && <Spinner />}
         {displayDetail()}
       </Fragment>

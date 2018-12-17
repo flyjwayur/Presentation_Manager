@@ -5,26 +5,31 @@ import Presentation from "../../components/Presentation/Presentation";
 
 export default class Presentations extends Component {
   render() {
-    const { isLoading, error, presentations } = this.props;
+    const { isLoading, error, errorMessage, presentations } = this.props;
     console.log("presentations", presentations);
 
-    const renderPresentations = ({match, presentations}) => {
-      return presentations.map(presentation => {
-        return (
-          <Presentation
-            key={presentation._id}
-            presentation={presentation}
-            match={match}
-          />
-        );
-      });
+    const renderPresentations = ({match, presentations}) =>{
+      if(presentations.length === 0) {
+        return <h1> There is no presentation yet</h1>
+      }else if(presentations.length > 0){
+        return presentations.map(presentation => {
+          return (
+            <Presentation
+              key={presentation._id}
+              presentation={presentation}
+              match={match}
+            />
+          );
+        });
+      }
     }
+
     return (
       <div>
         <p>{presentations.length}</p>
-        {error && <div style={{ color: "#900" }}>{error}</div>}
+        {error && <div style={{ color: "#900" }}><div>{errorMessage}</div><div> Could you refresh the page?</div></div>}
         {isLoading && <Spinner />}
-        {presentations.length > 0 && renderPresentations(this.props)}
+        {renderPresentations(this.props)}
         {/* <Route
           path={`${this.props.match.path}/:presentationId`}
           component={PresentationWithId}
