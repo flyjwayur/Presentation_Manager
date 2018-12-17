@@ -87,7 +87,6 @@ class PresentationDetail extends Component {
       }
     };
 
-    console.log("from detail", singlePresentation);
     return (
       <Fragment>
         {error && (

@@ -16,9 +16,7 @@ class Presentation extends Component {
 
     return (
       <Fragment>
-        <Link to= {`/presentations/${_id}`} 
-          style={{ textDecoration: "none" }}
-        >
+        <Link to={`/presentations/${_id}`} style={{ textDecoration: "none" }}>
           <div>
             <p>
               <span>Presenter: </span>

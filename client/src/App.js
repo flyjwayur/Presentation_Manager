@@ -11,10 +11,19 @@ import { Route, Switch, Redirect } from "react-router-dom";
 class App extends Component {
   state = {
     presentations: [],
-    singlePresentation : null,
+    singlePresentation: null,
     isLoading: false,
     error: false,
-    errorMessage: ""
+    errorMessage: "",
+    formInputs: {
+      presenter: "",
+      evaluator: "",
+      topic: "",
+      article: "",
+      date: "",
+      keywords: "",
+      summary: ""
+    }
   };
 
   componentDidMount() {
@@ -34,10 +43,32 @@ class App extends Component {
         .catch(error => {
           this.setState({
             error: true,
-            errorMessage: (error.response.data.message) ? error.response.data.message : error.response.data
+            errorMessage: error.response.data.message
+              ? error.response.data.message
+              : error.response.data
           });
         });
     });
+  };
+
+  handleInputsChange = e => {
+    this.setState({
+      formInputs : {...this.state.formInputs, [e.target.name]: e.target.value}
+    });
+  };
+
+  handleInputsSubmit = e => {
+    e.preventDefault();
+
+    axios
+      .post("/presentations", this.state.formInputs)
+      .then(response => {
+        console.log(response);
+        this.setState({
+          presentations : this.state.presentations.concat(this.state.formInputs)
+        })
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
@@ -49,20 +80,37 @@ class App extends Component {
           <Route
             exact
             path="/presentations"
-            render={props => <Presentations {...props} presentations={this.state.presentations} isLoading={this.state.isLoading} error={this.state.error} errorMessage={this.state.errorMessage}/>}
+            render={props => (
+              <Presentations
+                {...props}
+                presentations={this.state.presentations}
+                isLoading={this.state.isLoading}
+                error={this.state.error}
+                errorMessage={this.state.errorMessage}
+              />
+            )}
           />
           <Route
-           exact
+            exact
             path="/presentations/addPresentation"
-            render={props => <Addpresentation {...props} />}
+            render={props => (
+              <Addpresentation
+                {...props}
+                handleInputsChange={this.handleInputsChange}
+                handleInputsSubmit={this.handleInputsSubmit}
+                formInputs={this.state.formInputs}
+              />
+            )}
           />
           <Route
             exact
             path="/presentations/:presentationId"
-            render={props => <PresentationDetail
-              presentation= {this.state.presentations}
-              {...props}
-            />}
+            render={props => (
+              <PresentationDetail
+                presentation={this.state.presentations}
+                {...props}
+              />
+            )}
           />
           <Redirect to="/" />
         </Switch>

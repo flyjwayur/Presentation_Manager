@@ -14,11 +14,12 @@ export default class Presentations extends Component {
       }else if(presentations.length > 0){
         return presentations.map(presentation => {
           return (
+            <ul key={presentation._id}>
             <Presentation
-              key={presentation._id}
               presentation={presentation}
               match={match}
             />
+          </ul>
           );
         });
       }

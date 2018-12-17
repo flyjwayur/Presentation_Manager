@@ -1,49 +1,19 @@
 import React, { Component } from "react";
-import axios from 'axios';
+
 
 export default class Addpresentation extends Component {
-  state = {
-    presenter: "",
-    evaluator: "",
-    topic: "",
-    article: "",
-    date: "",
-    keywords: "",
-    summary: ""
-  };
-
-  handleChange = e => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  };
-
-  handleSubmit = e => {
-    e.preventDefault();
-
-    axios
-      .post("/presentations", this.state)
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => console.log(err));
-  };
-  
-  componentDidUpdate(){
-    console.log(this.state);
-  }
-
   render() {
+    const { handleInputsChange, handleInputsSubmit, formInputs } = this.props;
     return (
       <div>
-        <form onSubmit={this.handleSubmit} method="POST">
+        <form onSubmit={handleInputsSubmit} method="POST">
         <label htmlFor="presenter">Presenter</label>
           <input
             type="text"
             id="presenter"
             name="presenter"
-            value={this.state.presenter}
-            onChange={this.handleChange}
+            value={formInputs.presenter}
+            onChange={handleInputsChange}
             required
           />
           <label htmlFor="evaluator">Evaluator</label>
@@ -51,8 +21,8 @@ export default class Addpresentation extends Component {
             type="text"
             id="evaluator"
             name="evaluator"
-            value={this.state.evaluator}
-            onChange={this.handleChange}
+            value={formInputs.evaluator}
+            onChange={handleInputsChange}
             required
           />
           <label htmlFor="topic">Topic</label>
@@ -60,8 +30,8 @@ export default class Addpresentation extends Component {
             type="text"
             id="topic"
             name="topic"
-            value={this.state.topic}
-            onChange={this.handleChange}
+            value={formInputs.topic}
+            onChange={handleInputsChange}
             required
           />
           <label htmlFor="article">Article</label>
@@ -69,8 +39,8 @@ export default class Addpresentation extends Component {
             type="text"
             id="article"
             name="article"
-            value={this.state.article}
-            onChange={this.handleChange}
+            value={formInputs.article}
+            onChange={handleInputsChange}
             required
           />
           <label htmlFor="date">Date</label>
@@ -78,8 +48,8 @@ export default class Addpresentation extends Component {
             type="date"
             id="date"
             name="date"
-            value={this.state.date}
-            onChange={this.handleChange}
+            value={formInputs.date}
+            onChange={handleInputsChange}
             required
           />
           <label htmlFor="keywords">Keywords</label>
@@ -87,8 +57,8 @@ export default class Addpresentation extends Component {
             type="text"
             id="keywords"
             name="keywords"
-            value={this.state.keywords}
-            onChange={this.handleChange}
+            value={formInputs.keywords}
+            onChange={handleInputsChange}
             required
           />
           <label htmlFor="summary">Summary</label>
@@ -96,8 +66,8 @@ export default class Addpresentation extends Component {
             type="text"
             id="summary"
             name="summary"
-            value={this.state.summary}
-            onChange={this.handleChange}
+            value={formInputs.summary}
+            onChange={handleInputsChange}
             required
           />
           <button>Add Presentation</button>
