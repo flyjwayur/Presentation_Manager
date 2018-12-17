@@ -3,9 +3,9 @@ import "./App.css";
 import HomePage from "./components/HomePage/HomePage";
 import axios from "axios";
 import Presentations from "./containers/Presentations/Presentations";
-import Addpresentation from "./components/AddPresentation/Addpresentation";
+import Addpresentation from "./containers/AddPresentation/Addpresentation";
 import Navigation from "./components/Navigation/Navigation";
-import PresentationDetail from "./components/PresentationDetail/PresentationDetail";
+import PresentationDetail from "./containers/PresentationDetail/PresentationDetail";
 import { Route, Switch, Redirect } from "react-router-dom";
 
 class App extends Component {
