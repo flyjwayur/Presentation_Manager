@@ -14,7 +14,7 @@ export default class Presentations extends Component {
       }else if(presentations.length > 0){
         return presentations.map(presentation => {
           return (
-            <ul key={presentation._id}>
+            <ul key={presentation._id.toString()}>
             <Presentation
               presentation={presentation}
               match={match}

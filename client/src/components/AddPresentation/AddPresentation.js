@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 
 
-export default class Addpresentation extends Component {
+export default class AddPresentation extends Component {
   render() {
     const { handleInputsChange, handleInputsSubmit, formInputs } = this.props;
     return (

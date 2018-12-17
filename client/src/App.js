@@ -3,7 +3,7 @@ import "./App.css";
 import HomePage from "./components/HomePage/HomePage";
 import axios from "axios";
 import Presentations from "./containers/Presentations/Presentations";
-import Addpresentation from "./containers/AddPresentation/Addpresentation";
+import AddPresentation from "./components/AddPresentation/AddPresentation";
 import Navigation from "./components/Navigation/Navigation";
 import PresentationDetail from "./containers/PresentationDetail/PresentationDetail";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -94,7 +94,7 @@ class App extends Component {
             exact
             path="/presentations/addPresentation"
             render={props => (
-              <Addpresentation
+              <AddPresentation
                 {...props}
                 handleInputsChange={this.handleInputsChange}
                 handleInputsSubmit={this.handleInputsSubmit}
