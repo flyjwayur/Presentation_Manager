@@ -15,7 +15,7 @@ function showPresentations(req, res) {
       res.json(presentations);
     }else if(err){
       console.log("from err", err);
-      es.status(500).json({ title: "Internal server error", name: err.name, message: err.message });
+      res.status(500).json({ title: "Internal server error", name: err.name, message: err.message });
     }else if (presentations.length < 1) {
       console.log("A presentations is not found");
       res.status(404).json({ title: "Not found", message: _id + " does not exist" });
@@ -48,27 +48,33 @@ function addPresentation(req, res) {
       console.log("Data is saved");
     })
     .catch(err => console.log("Error", err));
-  res.send("A new presentation has been added");
+  res.json(newPresentation);
+  //res.send("A new presentation has been added");
 }
 
 function editPresentation(req, res) {
-  console.log("from put", req);
+  console.log("from put", req.body);
   const _id = req.params.id;
   Presentation.findOne({ _id }, (err, presentation) => {
+    // presentation = req.body;
+    presentation.presenter = req.body.presenter;
     presentation.evaluator = req.body.evaluator;
     presentation.topic = req.body.topic;
     presentation.article = req.body.article;
+    presentation.date = req.body.date;
     presentation.keywords = req.body.keywords;
+    presentation.summary = req.body.summary;
 
     presentation
       .save()
       .then(() => {
         console.log("Saved");
-        res.send("Presentation has been updated");
+        console.log("presentation", presentation);
       })
       .catch(err => {
-        res.status(404).send(err);
-      });
+        console.log(err);
+      });  
+      res.json(presentation); 
   });
 }
 

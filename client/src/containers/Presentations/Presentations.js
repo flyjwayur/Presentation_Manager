@@ -4,9 +4,15 @@ import Presentation from "../../components/Presentation/Presentation";
 
 
 export default class Presentations extends Component {
+
+  componentDidMount(){
+    this.props.loadPresentations()
+    console.log("Presentations mounted")
+  }
+
   render() {
     const { isLoading, error, errorMessage, presentations } = this.props;
-    console.log("presentations", presentations);
+    console.log("render presentations", this.props);
 
     const renderPresentations = ({match, presentations}) =>{
       if(presentations.length === 0) {

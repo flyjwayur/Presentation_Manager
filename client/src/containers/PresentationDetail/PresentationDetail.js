@@ -1,29 +1,35 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import PresentationForms from "../../components/PresentationForms/PresentationForms";
+import { Redirect, Link} from "react-router-dom";
 
 class PresentationDetail extends Component {
   state = {
     singlePresentation: null,
     isLoading: false,
     error: false,
-    errorMessage: ""
+    errorMessage: "",
+    //editable: false
   };
 
   componentDidMount() {
-    this.loadSinglePresentation(this.props.match);
+    console.log("detail mounted")
+    this.loadSinglePresentation(this.props);
   }
 
-  loadSinglePresentation = match => {
+  loadSinglePresentation = ({match}) => {
     this.setState({ isLoading: true }, () => {
       axios
         .get("/presentations/" + match.params.presentationId)
         .then(response => {
-          console.log(response.data);
+          let singlePresentation = response.data;
+          console.log("get single presentation", singlePresentation);
           this.setState({
             isLoading: false,
-            singlePresentation: response.data
+            singlePresentation: singlePresentation
           });
+          //this.props.updateSinglePresentation(singlePresentation);
         })
         .catch(error => {
           console.log("error from detail", error);
@@ -35,8 +41,25 @@ class PresentationDetail extends Component {
     });
   };
 
+  enableEdit = e => {
+    this.props.history.push(`/presentations/${this.props.match.params.presentationId}/edit`);
+    //this.setState({ editable: true });
+  };
+
+  // disableEdit = e => {
+  //   this.setState({editable: false })
+  // }
+
   render() {
-    const { error, errorMessage, isLoading, singlePresentation } = this.state;
+    const {
+      editable,
+      error,
+      errorMessage,
+      isLoading,
+      singlePresentation,
+    } = this.state;
+    const { history , match } = this.props;
+    console.log("render from detail", this.props);
 
     const displayDetail = () => {
       if (singlePresentation) {
@@ -80,7 +103,8 @@ class PresentationDetail extends Component {
               {summary}
             </p>
             <button> Detail </button>
-          </div>
+            <button onClick={e => this.enableEdit(e)}>Edit</button>
+          </div>       
         );
       } else {
         return null;
@@ -95,6 +119,15 @@ class PresentationDetail extends Component {
           </div>
         )}
         {isLoading && <Spinner />}
+        {/* { editable ? (
+          <PresentationForms
+            editable={editable}
+            singlePresentation={singlePresentation}
+            disableEdit={this.disableEdit}
+            history={history}
+            presentationId={match.params.presentationId}
+          />
+        ) : displayDetail() } */}
         {displayDetail()}
       </Fragment>
     );

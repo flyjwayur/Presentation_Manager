@@ -3,7 +3,7 @@ import "./App.css";
 import HomePage from "./components/HomePage/HomePage";
 import axios from "axios";
 import Presentations from "./containers/Presentations/Presentations";
-import AddPresentation from "./components/AddPresentation/AddPresentation";
+import PresentationForms from "./components/PresentationForms/PresentationForms";
 import Navigation from "./components/Navigation/Navigation";
 import PresentationDetail from "./containers/PresentationDetail/PresentationDetail";
 import { Route, Switch, Redirect } from "react-router-dom";
@@ -11,22 +11,13 @@ import { Route, Switch, Redirect } from "react-router-dom";
 class App extends Component {
   state = {
     presentations: [],
-    singlePresentation: null,
     isLoading: false,
     error: false,
-    errorMessage: "",
-    formInputs: {
-      presenter: "",
-      evaluator: "",
-      topic: "",
-      article: "",
-      date: "",
-      keywords: "",
-      summary: ""
-    }
+    errorMessage: ""
   };
 
   componentDidMount() {
+    console.log("App, I am mounted");
     this.loadPresentations();
   }
 
@@ -35,9 +26,10 @@ class App extends Component {
       axios
         .get("/presentations")
         .then(response => {
+          console.log("get all :", response.data);
           this.setState({
             isLoading: false,
-            presentations: this.state.presentations.concat(response.data)
+            presentations: response.data
           });
         })
         .catch(error => {
@@ -51,27 +43,33 @@ class App extends Component {
     });
   };
 
-  handleInputsChange = e => {
+  updateSinglePresentation = singlePresentation => {
     this.setState({
-      formInputs : {...this.state.formInputs, [e.target.name]: e.target.value}
+      presentations: this.state.presentations.map(existingPresentation => {
+        if (existingPresentation._id === singlePresentation._id) {
+          return singlePresentation;
+        } else {
+          return existingPresentation;
+        }
+      })
     });
   };
 
-  handleInputsSubmit = e => {
-    e.preventDefault();
-
-    axios
-      .post("/presentations", this.state.formInputs)
-      .then(response => {
-        console.log(response);
-        this.setState({
-          presentations : this.state.presentations.concat(this.state.formInputs)
-        })
-      })
-      .catch(err => console.log(err));
-  };
-
   render() {
+    const editWithId = ({ match, history }) => {
+      return (
+        <PresentationForms
+          formType="editForm"
+          singlePresentation={this.state.presentations.find(presentation => {
+            console.log("presentation._id", presentation._id);
+            console.log("id from params", match.params.presentationId);
+            return presentation._id === match.params.presentationId;
+          })}
+          history={history}
+        />
+      );
+    };
+
     return (
       <div className="App">
         <Navigation />
@@ -83,6 +81,7 @@ class App extends Component {
             render={props => (
               <Presentations
                 {...props}
+                loadPresentations={this.loadPresentations}
                 presentations={this.state.presentations}
                 isLoading={this.state.isLoading}
                 error={this.state.error}
@@ -94,23 +93,18 @@ class App extends Component {
             exact
             path="/presentations/addPresentation"
             render={props => (
-              <AddPresentation
-                {...props}
-                handleInputsChange={this.handleInputsChange}
-                handleInputsSubmit={this.handleInputsSubmit}
-                formInputs={this.state.formInputs}
-              />
+              <PresentationForms formType="addForm" {...props} />
             )}
           />
           <Route
             exact
+            path="/presentations/:presentationId/edit"
+            component={editWithId}
+          />
+          <Route
+            exact
             path="/presentations/:presentationId"
-            render={props => (
-              <PresentationDetail
-                presentation={this.state.presentations}
-                {...props}
-              />
-            )}
+            render={props => <PresentationDetail {...props} updateSinglePresentation={this.updateSinglePresentation}/>}
           />
           <Redirect to="/" />
         </Switch>

@@ -27,6 +27,6 @@ const PresentationSchema = new Schema({
   }
 });
 
-const Presentation = mongoose.model('Presentation', PresentationSchema);
+const Presentation = mongoose.model('PresentationsDB', PresentationSchema);
 
 module.exports = Presentation;
