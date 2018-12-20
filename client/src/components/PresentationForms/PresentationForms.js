@@ -37,6 +37,9 @@ export default class PresentaionForms extends Component {
       .post("/presentations", newPresentation)
       .then(response => {
         console.log("post :",response);
+        /* When it was in app.js
+        However we fetch data from db, so we dont need to set state,
+        just need to fetch the data again after update*/ 
         // this.setState({
         //   presentations : this.state.presentations.concat(response.data)
         // })
@@ -68,6 +71,7 @@ export default class PresentaionForms extends Component {
       .put(`/presentations/${id}`, edittedPresentation)
       .then(response => {
         console.log("put :", response.data);
+        /* When it was in app.js*/ 
         // this.setState({
         //   presentations: this.state.presentations.map(presentation => {
         //     if (presentation.id === id) {
@@ -78,11 +82,12 @@ export default class PresentaionForms extends Component {
         //   })
         // });
         this.props.history.push(`/presentations/${id}`);
-        // this.props.history.push(`/presentations/${id}`);
       })
       .catch(err => console.log(err));
       
   };
+
+  /*Before it was needed to have existing contents in inputs */
   // componentDidMount() {
   //   if(this.props.singlePresentation){
   //   this.props.onPresentationFormsLoad(this.props.singlePresentation);}
@@ -95,7 +100,7 @@ export default class PresentaionForms extends Component {
     } = this.props;
     console.log("render form", this.props);
     let keysOnSinglePresentation = null;
-    //If it is editable mode, give edit fields
+    //If it is edit type, give edit fields
     if (formType === 'editForm') {
       //Get the all keys except _id and _V to create edit field with existing value
       keysOnSinglePresentation = Object.keys(singlePresentation).slice(
@@ -114,7 +119,7 @@ export default class PresentaionForms extends Component {
       );
     }
 
-    //If it's not editable mode, it works as a form for adding presentation (reusable code)
+    //If it's add type, it works as a form for adding presentation (reusable code)
     return (
       <div>
         <form onSubmit={this.handleInputsSubmit} method="POST">

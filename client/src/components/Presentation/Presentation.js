@@ -13,7 +13,7 @@ class Presentation extends Component {
       date,
       summary
     } = this.props.presentation;
-    console.log("render from presentation", this.props)
+
     return (
       <Fragment>
         <Link to={`/presentations/${_id}`} style={{ textDecoration: "none" }}>

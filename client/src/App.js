@@ -17,7 +17,6 @@ class App extends Component {
   };
 
   componentDidMount() {
-    console.log("App, I am mounted");
     this.loadPresentations();
   }
 
@@ -43,17 +42,18 @@ class App extends Component {
     });
   };
 
-  updateSinglePresentation = singlePresentation => {
-    this.setState({
-      presentations: this.state.presentations.map(existingPresentation => {
-        if (existingPresentation._id === singlePresentation._id) {
-          return singlePresentation;
-        } else {
-          return existingPresentation;
-        }
-      })
-    });
-  };
+  // Before finding the way to get updated data from db 
+  // updateSinglePresentation = singlePresentation => {
+  //   this.setState({
+  //     presentations: this.state.presentations.map(existingPresentation => {
+  //       if (existingPresentation._id === singlePresentation._id) {
+  //         return singlePresentation;
+  //       } else {
+  //         return existingPresentation;
+  //       }
+  //     })
+  //   });
+  // };
 
   render() {
     const editWithId = ({ match, history }) => {

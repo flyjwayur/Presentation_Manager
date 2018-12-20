@@ -1,8 +1,7 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 import Spinner from "../../components/UI/Spinner/Spinner";
-import PresentationForms from "../../components/PresentationForms/PresentationForms";
-import { Redirect, Link} from "react-router-dom";
+
 
 class PresentationDetail extends Component {
   state = {
@@ -10,11 +9,11 @@ class PresentationDetail extends Component {
     isLoading: false,
     error: false,
     errorMessage: "",
-    //editable: false
+    /*Before creating a edit route, use state change to render edit form */
+    //editable: false  
   };
 
   componentDidMount() {
-    console.log("detail mounted")
     this.loadSinglePresentation(this.props);
   }
 
@@ -107,7 +106,7 @@ class PresentationDetail extends Component {
           </div>       
         );
       } else {
-        return null;
+        return <h1>There is no presentation.</h1>;
       }
     };
 
