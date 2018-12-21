@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import axios from "axios";
 import PropTypes from "prop-types";
 
 export default class PresentaionForms extends Component {
@@ -22,83 +21,26 @@ export default class PresentaionForms extends Component {
   handleInputsSubmit = e => {
     e.preventDefault();
 
-    const newPresentation = {
-      presenter: this.state.presenter,
-      evaluator: this.state.evaluator,
-      topic: this.state.topic,
-      article: this.state.article,
-      date: this.state.date,
-      keywords: this.state.keywords,
-      summary: this.state.summary
-    };
-    //console.log("new Presentation? ", newPresentation);
-    //console.log("this.state :", this.state);
-    axios
-      .post("/presentations", newPresentation)
-      .then(response => {
-        console.log("post :",response);
-        /* When it was in app.js
-        However we fetch data from db, so we dont need to set state,
-        just need to fetch the data again after update*/ 
-        // this.setState({
-        //   presentations : this.state.presentations.concat(response.data)
-        // })
-      })
-      .catch(err => console.log(err));
-      //this.props.history.goBack();
-      this.props.history.push("/presentations");
+    const newPresentation = this.state;
+    this.props.postNewPresentation(newPresentation)
+    this.props.history.push("/presentations");
   };
 
 
   handleUpdate = (e, id) => {
     e.preventDefault();
-    console.log("test single _id", id);
-    //this.props.disableEdit();
-  
-    const edittedPresentation = {
-      presenter: this.state.presenter,
-      evaluator: this.state.evaluator,
-      topic: this.state.topic,
-      article: this.state.article,
-      date: this.state.date,
-      keywords: this.state.keywords,
-      summary: this.state.summary
-    };
 
-    //console.log("editted Presentation? ", edittedPresentation);
-    //console.log("this.state :", this.state);
-    axios
-      .put(`/presentations/${id}`, edittedPresentation)
-      .then(response => {
-        console.log("put :", response.data);
-        /* When it was in app.js*/ 
-        // this.setState({
-        //   presentations: this.state.presentations.map(presentation => {
-        //     if (presentation.id === id) {
-        //       return response.data;
-        //     } else {
-        //       return presentation;
-        //     }
-        //   })
-        // });
-        this.props.history.push(`/presentations/${id}`);
-      })
-      .catch(err => console.log(err));
-      
+    const edittedPresentation = this.state;
+    this.props.editPresentation(edittedPresentation, id);
+    this.props.history.push(`/presentations/${id}`);    
   };
-
-  /*Before it was needed to have existing contents in inputs */
-  // componentDidMount() {
-  //   if(this.props.singlePresentation){
-  //   this.props.onPresentationFormsLoad(this.props.singlePresentation);}
-  // }
 
   render() {
     const {
       singlePresentation,
       formType
     } = this.props;
-    console.log("render form", this.props);
+
     let keysOnSinglePresentation = null;
     //If it is edit type, give edit fields
     if (formType === 'editForm') {
@@ -165,8 +107,7 @@ const Edit = props => {
     keysOnSinglePresentation,
     singlePresentation,
     handleUpdate,
-    handleInputsChange,
-    allInputs
+    handleInputsChange
   } = props;
   return (
     <form onSubmit={e => handleUpdate(e, singlePresentation._id)} method="PUT">
@@ -179,8 +120,7 @@ const Edit = props => {
                 type="date"
                 id={`${inputKey}`}
                 name={`${inputKey}`}
-                //defaultValue={`${singlePresentation[inputKey]}`}
-                value={ `${allInputs[inputKey]}`}
+                defaultValue={`${singlePresentation[inputKey]}`}
                 onChange={handleInputsChange}
                 required
               />

@@ -12,8 +12,7 @@ class App extends Component {
   state = {
     presentations: [],
     isLoading: false,
-    error: false,
-    errorMessage: ""
+    error: false
   };
 
   componentDidMount() {
@@ -25,7 +24,6 @@ class App extends Component {
       axios
         .get("/presentations")
         .then(response => {
-          console.log("get all :", response.data);
           this.setState({
             isLoading: false,
             presentations: response.data
@@ -33,8 +31,7 @@ class App extends Component {
         })
         .catch(error => {
           this.setState({
-            error: true,
-            errorMessage: error.response.data.message
+            error: error.response.data.message
               ? error.response.data.message
               : error.response.data
           });
@@ -42,18 +39,34 @@ class App extends Component {
     });
   };
 
-  // Before finding the way to get updated data from db 
-  // updateSinglePresentation = singlePresentation => {
-  //   this.setState({
-  //     presentations: this.state.presentations.map(existingPresentation => {
-  //       if (existingPresentation._id === singlePresentation._id) {
-  //         return singlePresentation;
-  //       } else {
-  //         return existingPresentation;
-  //       }
-  //     })
-  //   });
-  // };
+  postNewPresentation = newPresentation => {
+    axios
+      .post("/presentations", newPresentation)
+      .then(response => {
+        const presentations = [...this.state.presentations, response.data];
+        this.setState({
+          presentations
+        });
+      })
+      .catch(err => console.log(err));
+  };
+
+  editPresentation = (selectedPresentation, id) => {
+    axios
+    .put(`/presentations/${id}`, selectedPresentation)
+    .then(response => {
+      this.setState({
+        presentations: this.state.presentations.map(presentation => {
+          if (presentation._id === id) {
+            return response.data;
+          } else {
+            return presentation;
+          }
+        })
+      });
+    })
+    .catch(err => console.log(err));
+  }
 
   render() {
     const editWithId = ({ match, history }) => {
@@ -61,11 +74,10 @@ class App extends Component {
         <PresentationForms
           formType="editForm"
           singlePresentation={this.state.presentations.find(presentation => {
-            console.log("presentation._id", presentation._id);
-            console.log("id from params", match.params.presentationId);
             return presentation._id === match.params.presentationId;
           })}
           history={history}
+          editPresentation={this.editPresentation}
         />
       );
     };
@@ -85,7 +97,6 @@ class App extends Component {
                 presentations={this.state.presentations}
                 isLoading={this.state.isLoading}
                 error={this.state.error}
-                errorMessage={this.state.errorMessage}
               />
             )}
           />
@@ -93,7 +104,11 @@ class App extends Component {
             exact
             path="/presentations/addPresentation"
             render={props => (
-              <PresentationForms formType="addForm" {...props} />
+              <PresentationForms
+                formType="addForm"
+                {...props}
+                postNewPresentation={this.postNewPresentation}
+              />
             )}
           />
           <Route
@@ -104,7 +119,14 @@ class App extends Component {
           <Route
             exact
             path="/presentations/:presentationId"
-            render={props => <PresentationDetail {...props} updateSinglePresentation={this.updateSinglePresentation}/>}
+            render={props => (
+              <PresentationDetail
+                {...props}
+                presentations={this.state.presentations}
+                isLoading={this.state.isLoading}
+                error={this.state.error}
+              />
+            )}
           />
           <Redirect to="/" />
         </Switch>
