@@ -20,52 +20,59 @@ class App extends Component {
   }
 
   loadPresentations = () => {
-    this.setState({ isLoading: true }, () => {
-      axios
-        .get("/presentations")
-        .then(response => {
-          this.setState({
-            isLoading: false,
-            presentations: response.data
-          });
-        })
-        .catch(error => {
-          this.setState({
-            error: error.response.data.message
-              ? error.response.data.message
-              : error.response.data
-          });
+    this.setState({ isLoading: true }, async () => {
+      try {
+        const response = await axios.get("/presentations");
+        const allPresentations = response.data;
+        const presentations = allPresentations;
+        this.setState({
+          isLoading: false,
+          presentations: presentations
         });
+      } catch (err) {
+        this.setState({
+          error: err.response.data.message
+            ? err.response.data.message
+            : err.response.data
+        });
+      }
     });
   };
 
-  postNewPresentation = newPresentation => {
-    axios
-      .post("/presentations", newPresentation)
-      .then(response => {
-        const presentations = [...this.state.presentations, response.data];
-        this.setState({
-          presentations
-        });
-      })
-      .catch(err => console.log(err));
+  postNewPresentation = async newPresentation => {
+    try {
+      const response = await axios.post("/presentations", newPresentation);
+      const addedPresentation = response.data;
+      const presentations = [...this.state.presentations, addedPresentation];
+
+      this.setState({
+        presentations
+      });
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  editPresentation = (selectedPresentation, id) => {
-    axios
-    .put(`/presentations/${id}`, selectedPresentation)
-    .then(response => {
-      this.setState({
-        presentations: this.state.presentations.map(presentation => {
-          if (presentation._id === id) {
-            return response.data;
-          } else {
-            return presentation;
-          }
-        })
+  editPresentation = async (selectedPresentation, id) => {
+    try {
+      const response = await axios.put(
+        `/presentations/${id}`,
+        selectedPresentation
+      );
+      const edittedPresentation = response.data;
+      const presentations = this.state.presentations.map(presentation => {
+        if (presentation._id === id) {
+          return edittedPresentation;
+        } else {
+          return presentation;
+        }
       });
-    })
-    .catch(err => console.log(err));
+      this.setState({
+        presentations
+      });
+    } catch(err){
+      console.log(err)
+    }
   }
 
   render() {
