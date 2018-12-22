@@ -4,12 +4,12 @@ import Presentation from "../../components/Presentation/Presentation";
 
 export default class Presentations extends Component {
 
-  renderPresentations = ({ match, presentations }) => {
+  renderPresentations = ({ match, history, presentations }) => {
     return presentations.length > 0 ? (
       presentations.map(presentation => {
         return (
           <ul key={presentation._id.toString()}>
-            <Presentation presentation={presentation} match={match} />
+            <Presentation presentation={presentation} match={match} history={history} deletePresentation={this.props.deletePresentation}/>
           </ul>
         );
       })

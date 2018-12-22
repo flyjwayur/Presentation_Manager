@@ -15,7 +15,8 @@ function showPresentations(req, res) {
       res.json(presentations);
     }else if(err){
       console.log("from err", err);
-      res.status(500).json({ title: "Internal server error", name: err.name, message: err.message });
+      next(err);
+      //res.status(500).json({ title: "Internal server error", name: err.name, message: err.message });
     }else if (presentations.length < 1) {
       console.log("A presentations is not found");
       res.status(404).json({ title: "Not found", message: _id + " does not exist" });
@@ -56,7 +57,7 @@ function editPresentation(req, res) {
   console.log("from put", req.body);
   const _id = req.params.id;
   Presentation.findOne({ _id }, (err, presentation) => {
-    // presentation = req.body;
+
     presentation.presenter = req.body.presenter;
     presentation.evaluator = req.body.evaluator;
     presentation.topic = req.body.topic;
@@ -81,9 +82,11 @@ function editPresentation(req, res) {
 function deletePresentation(req, res) {
   const _id = req.params.id;
   Presentation.findByIdAndDelete({ _id }, (err, presentation) => {
-    if (err) {
-      res.status(404).send("Unable to delete the presentation");
+    if(presentation){
+      res.json(presentation);
+      console.log(`A presentation with id ${_id} has been removed.`)
+    }else if(err) {
+      res.status(500).json({ title: "Unable to delete the presentation", name: err.name, message: err.message });
     }
-    res.send(`A presentation with id ${_id} has been removed.`);
   });
 }

@@ -2,18 +2,23 @@ import React, { Component, Fragment } from "react";
 import Spinner from "../../components/UI/Spinner/Spinner";
 
 class PresentationDetail extends Component {
-
   enableEdit = e => {
     this.props.history.push(
       `/presentations/${this.props.match.params.presentationId}/edit`
     );
   };
 
+  handleDelete = e => {
+    const selectedPresentation = this.props.singlePresentation;
+    this.props.deletePresentation(
+      selectedPresentation,
+      selectedPresentation._id
+    );
+    this.props.history.push("/presentations");
+  };
+
   renderPresentationDetail = () => {
-    const singlePresentation = this.props.presentations.find(presentation => {
-      return presentation._id === this.props.match.params.presentationId;
-    });
-    
+    const singlePresentation = this.props.singlePresentation;
     if (singlePresentation) {
       const {
         presenter,
@@ -54,8 +59,8 @@ class PresentationDetail extends Component {
             <span>Summary: </span>
             {summary}
           </p>
-          <button> Detail </button>
-          <button onClick={e => this.enableEdit(e)}>Edit</button>
+          <button onClick={this.handleDelete}>Delete</button>
+          <button onClick={this.enableEdit}>Edit</button>
         </div>
       );
     } else {
@@ -64,7 +69,6 @@ class PresentationDetail extends Component {
   };
 
   render() {
-    
     const { error, isLoading } = this.props;
 
     return (

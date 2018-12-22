@@ -76,7 +76,6 @@ export default class PresentaionForms extends Component {
                     name={`${inputKey}`}
                     value={`${this.state[inputKey]}`}
                     onChange={this.handleInputsChange}
-                    required
                   />
                 </div>
               );
@@ -122,7 +121,6 @@ const Edit = props => {
                 name={`${inputKey}`}
                 defaultValue={`${singlePresentation[inputKey]}`}
                 onChange={handleInputsChange}
-                required
               />
             </div>
           );

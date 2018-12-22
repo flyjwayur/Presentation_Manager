@@ -75,6 +75,26 @@ class App extends Component {
     }
   }
 
+  deletePresentation = async (selectedPresentation, id) => {
+    try{
+      const response = await axios.delete( `/presentations/${id}`,
+      selectedPresentation)
+      const deletedPresentation = response.data;
+      const presentations = this.state.presentations.filter(presentation => {
+        return presentation._id !== deletedPresentation._id;
+      });
+      this.setState({
+        presentations
+      })
+    } catch(err){
+      this.setState({
+        error: err.response.data.message
+          ? err.response.data.message
+          : err.response.data
+      });
+    }
+  }
+
   render() {
     const editWithId = ({ match, history }) => {
       return (
@@ -83,11 +103,27 @@ class App extends Component {
           singlePresentation={this.state.presentations.find(presentation => {
             return presentation._id === match.params.presentationId;
           })}
+          match={match}
           history={history}
           editPresentation={this.editPresentation}
         />
       );
     };
+
+    const detailWithId = ({ match, history }) => {
+      return (
+        <PresentationDetail
+        singlePresentation={this.state.presentations.find(presentation => {
+          return presentation._id === match.params.presentationId;
+        })}
+        match={match}
+        history={history}
+        isLoading={this.state.isLoading}
+        error={this.state.error}
+        deletePresentation={this.deletePresentation}
+      />
+      )
+    }
 
     return (
       <div className="App">
@@ -104,6 +140,7 @@ class App extends Component {
                 presentations={this.state.presentations}
                 isLoading={this.state.isLoading}
                 error={this.state.error}
+                deletePresentation={this.deletePresentation}
               />
             )}
           />
@@ -126,14 +163,7 @@ class App extends Component {
           <Route
             exact
             path="/presentations/:presentationId"
-            render={props => (
-              <PresentationDetail
-                {...props}
-                presentations={this.state.presentations}
-                isLoading={this.state.isLoading}
-                error={this.state.error}
-              />
-            )}
+            component={detailWithId}
           />
           <Redirect to="/" />
         </Switch>

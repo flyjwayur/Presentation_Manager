@@ -2,6 +2,12 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 
 class Presentation extends Component {
+
+  handleDelete = e => {
+    const selectedPresentation = this.props.presentation
+    this.props.deletePresentation( selectedPresentation, selectedPresentation._id);
+  }
+
   render() {
     const {
       _id,
@@ -13,6 +19,7 @@ class Presentation extends Component {
       date,
       summary
     } = this.props.presentation;
+
     return (
       <Fragment>
         <Link to={`/presentations/${_id}`} style={{ textDecoration: "none" }}>
@@ -48,6 +55,7 @@ class Presentation extends Component {
             <button> Detail </button>
           </div>
         </Link>
+        <button onClick={this.handleDelete}> Delete </button>
       </Fragment>
     );
   }
