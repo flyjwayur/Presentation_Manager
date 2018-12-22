@@ -4,19 +4,25 @@ import Presentation from "../../components/Presentation/Presentation";
 import { Link } from "react-router-dom";
 
 export default class Presentations extends Component {
-
   renderPresentations = ({ match, history, presentations }) => {
-    return presentations.length > 0 ? (
-      presentations.map(presentation => {
+    if (presentations.length > 0) {
+      return presentations.map(presentation => {
         return (
           <ul key={presentation._id.toString()}>
-            <Presentation presentation={presentation} match={match} history={history} deletePresentation={this.props.deletePresentation} />
+            <Presentation
+              presentation={presentation}
+              match={match}
+              history={history}
+              deletePresentation={this.props.deletePresentation}
+            />
           </ul>
         );
-      })
-    ) : (
-      <h1> There are no presentations</h1>
-    );
+      });
+    } else if (presentations.length === 0) {
+      return <h1> There are no presentations</h1>;
+    } else {
+      return null;
+    }
   };
 
   render() {
