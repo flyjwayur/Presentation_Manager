@@ -2,11 +2,21 @@ import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
 
 class Presentation extends Component {
-
   handleDelete = e => {
-    const selectedPresentation = this.props.presentation
-    this.props.deletePresentation( selectedPresentation, selectedPresentation._id);
-  }
+    const selectedPresentation = this.props.presentation;
+    this.props.deletePresentation(
+      selectedPresentation,
+      selectedPresentation._id
+    );
+  };
+
+  handleEdit = e => {
+    console.log(this.props);
+    const selectedPresentation = this.props.presentation;
+    this.props.history.push(
+      `/presentations/${selectedPresentation._id}/edit`
+    );
+  };
 
   render() {
     const {
@@ -55,6 +65,7 @@ class Presentation extends Component {
             <button> Detail </button>
           </div>
         </Link>
+        <button onClick={this.handleEdit}> Edit</button>
         <button onClick={this.handleDelete}> Delete </button>
       </Fragment>
     );
