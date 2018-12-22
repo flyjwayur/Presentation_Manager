@@ -59,8 +59,8 @@ class PresentationDetail extends Component {
             <span>Summary: </span>
             {summary}
           </p>
-          <button onClick={this.handleDelete}>Delete</button>
           <button onClick={this.enableEdit}>Edit</button>
+          <button onClick={this.handleDelete}>Delete</button>
         </div>
       );
     } else {
