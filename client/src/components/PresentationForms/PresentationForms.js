@@ -43,7 +43,7 @@ export default class PresentaionForms extends Component {
 
     let keysOnSinglePresentation = null;
     //If it is edit type, give edit fields
-    if (formType === 'editForm') {
+    if (formType === 'editForm' && singlePresentation) {
       //Get the all keys except _id and _V to create edit field with existing value
       keysOnSinglePresentation = Object.keys(singlePresentation).slice(
         1,
