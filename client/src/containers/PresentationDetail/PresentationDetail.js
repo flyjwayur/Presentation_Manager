@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import Spinner from "../../components/UI/Spinner/Spinner";
+import { Link } from "react-router-dom";
 
 class PresentationDetail extends Component {
   enableEdit = e => {
@@ -79,6 +80,7 @@ class PresentationDetail extends Component {
           </div>
         )}
         {isLoading && <Spinner />}
+        <Link to="/presentations"><button>Go back</button></Link>
         {this.renderPresentationDetail()}
       </Fragment>
     );

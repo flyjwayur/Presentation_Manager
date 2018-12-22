@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Presentation from "../../components/Presentation/Presentation";
+import { Link } from "react-router-dom";
 
 export default class Presentations extends Component {
 
@@ -22,6 +23,9 @@ export default class Presentations extends Component {
     const { isLoading, error, presentations } = this.props;
     return (
       <div>
+        <Link to="/">
+          <button>Go back</button>
+        </Link>
         <p>{presentations.length}</p>
         {/* Handle errors */}
         {error && (
