@@ -2,6 +2,7 @@ import React, { Component, Fragment } from "react";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import { Link } from "react-router-dom";
 
+
 class PresentationDetail extends Component {
   enableEdit = e => {
     this.props.history.push(

@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from "react";
 import { Link } from "react-router-dom";
+import moment from 'moment';
 
 class Presentation extends Component {
   handleDelete = e => {
@@ -56,7 +57,7 @@ class Presentation extends Component {
             </p>
             <p>
               <span>Date: </span>
-              {date}
+              {moment(date).format('YYYY-MM-DD')}
             </p>
             <p>
               <span>Summary: </span>

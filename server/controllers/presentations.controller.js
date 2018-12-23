@@ -10,17 +10,18 @@ module.exports = {
 
 function showPresentations(req, res) {
   Presentation.find({}, (err, presentations) => {
-
-    if(presentations){
+    if (presentations) {
       res.json(presentations);
-    }else if(err){
+    } else if (err) {
       console.log("from err", err);
-      next(err);
-      //res.status(500).json({ title: "Internal server error", name: err.name, message: err.message });
-    }else if (presentations.length < 1) {
+      //next(err);
+      res.status(500).json({ title: "Internal server error", name: err.name, message: err.message });
+    } else if (presentations.length < 1) {
       console.log("A presentations is not found");
-      res.status(404).json({ title: "Not found", message: _id + " does not exist" });
-    }   
+      res
+        .status(404)
+        .json({ title: "Not found", message: _id + " does not exist" });
+    }
   });
 }
 
@@ -33,16 +34,35 @@ function showDetailPresentation(req, res, next) {
       res.json(presentation);
     } else if (err) {
       console.log("from err", err);
-      res.status(500).json({ title: "Internal server error", name: err.name, message: err.message });
+      res
+        .status(500)
+        .json({
+          title: "Internal server error",
+          name: err.name,
+          message: err.message
+        });
     } else if (presentation === null) {
       console.log("A presentations is not found");
-      res.status(404).json({ title: "Not found", message: _id + " does not exist" });
+      res
+        .status(404)
+        .json({ title: "Not found", message: _id + " does not exist" });
     }
   });
 }
 
 function addPresentation(req, res) {
-  const newPresentation = new Presentation(req.body);
+
+  const newData = {
+    presenter: req.body.presenter,
+    evaluator: req.body.evaluator,
+    topic: req.body.topic,
+    article: req.body.article,
+    date: req.body.date,
+    keywords: req.body.keywords,
+    summary: req.body.summary
+  };
+
+  const newPresentation = new Presentation(newData);
   newPresentation
     .save()
     .then(() => {
@@ -57,7 +77,7 @@ function editPresentation(req, res) {
   console.log("from put", req.body);
   const _id = req.params.id;
   Presentation.findOne({ _id }, (err, presentation) => {
-
+    
     presentation.presenter = req.body.presenter;
     presentation.evaluator = req.body.evaluator;
     presentation.topic = req.body.topic;
@@ -66,6 +86,8 @@ function editPresentation(req, res) {
     presentation.keywords = req.body.keywords;
     presentation.summary = req.body.summary;
 
+    
+    presentation.markModified('date');
     presentation
       .save()
       .then(() => {
@@ -74,19 +96,25 @@ function editPresentation(req, res) {
       })
       .catch(err => {
         console.log(err);
-      });  
-      res.json(presentation); 
+      });
+    res.json(presentation);
   });
 }
 
 function deletePresentation(req, res) {
   const _id = req.params.id;
   Presentation.findByIdAndDelete({ _id }, (err, presentation) => {
-    if(presentation){
+    if (presentation) {
       res.json(presentation);
-      console.log(`A presentation with id ${_id} has been removed.`)
-    }else if(err) {
-      res.status(500).json({ title: "Unable to delete the presentation", name: err.name, message: err.message });
+      console.log(`A presentation with id ${_id} has been removed.`);
+    } else if (err) {
+      res
+        .status(500)
+        .json({
+          title: "Unable to delete the presentation",
+          name: err.name,
+          message: err.message
+        });
     }
   });
 }

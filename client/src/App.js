@@ -7,6 +7,7 @@ import PresentationForms from "./components/PresentationForms/PresentationForms"
 import Navigation from "./components/Navigation/Navigation";
 import PresentationDetail from "./containers/PresentationDetail/PresentationDetail";
 import { Route, Switch, Redirect } from "react-router-dom";
+import moment from 'moment';
 
 class App extends Component {
   state = {
@@ -54,6 +55,7 @@ class App extends Component {
   };
 
   editPresentation = async (selectedPresentation, id) => {
+
     try {
       const response = await axios.put(
         `/presentations/${id}`,
@@ -95,14 +97,24 @@ class App extends Component {
     }
   }
 
+  giveDataWithFormattedDate = ( match ) => {
+    const singlePresentation = this.state.presentations.find(presentation => {
+      return presentation._id === match.params.presentationId;
+    })
+
+    //Check the existence of singlePresentation to prevent app crush with date of undefined
+    if(singlePresentation){
+      singlePresentation.date = moment(singlePresentation.date).format('YYYY-MM-DD')
+      return singlePresentation;
+    }
+  }
+
   render() {
     const editWithId = ({ match, history }) => {
       return (
         <PresentationForms
           formType="editForm"
-          singlePresentation={this.state.presentations.find(presentation => {
-            return presentation._id === match.params.presentationId;
-          })}
+          singlePresentation={this.giveDataWithFormattedDate(match)}
           match={match}
           history={history}
           editPresentation={this.editPresentation}
@@ -113,9 +125,7 @@ class App extends Component {
     const detailWithId = ({ match, history }) => {
       return (
         <PresentationDetail
-        singlePresentation={this.state.presentations.find(presentation => {
-          return presentation._id === match.params.presentationId;
-        })}
+        singlePresentation={this.giveDataWithFormattedDate(match)}
         match={match}
         history={history}
         isLoading={this.state.isLoading}
