@@ -3,12 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.7.1",
+    "@material-ui/icons": "^3.0.1",
     "axios": "^0.18.0",
+    "install": "^0.12.2",
+    "material-ui-icons": "^1.0.0-beta.36",
     "moment": "^2.23.0",
     "react": "^16.6.3",
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1"
+    "react-scripts": "2.1.1",
+    "react-svg": "^7.2.2"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -16,7 +21,7 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
-  "proxy": "http://localhost:5002",
+  "proxy": "http://localhost:5003",
   "eslintConfig": {
     "extends": "react-app"
   },

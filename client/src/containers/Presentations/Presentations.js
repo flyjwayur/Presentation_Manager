@@ -1,50 +1,165 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import Spinner from "../../components/UI/Spinner/Spinner";
 import Presentation from "../../components/Presentation/Presentation";
 import { Link } from "react-router-dom";
+import { withStyles } from "@material-ui/core/styles";
+import {
+  Paper,
+  Table,
+  TableHead,
+  TableBody,
+  TableRow,
+  TableCell,
+  Typography,
+  Button,
+  Fab
+} from "@material-ui/core";
+import PropTypes from "prop-types";
+import AddCircle from "@material-ui/icons/AddCircle";
 
-export default class Presentations extends Component {
+
+const styles = theme => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
+    alignItems: "center",
+    margin: theme.spacing.unit * 5,
+    overFlowX: "auto"
+  },
+  table: {
+    minWidth: 700
+  },
+  tableHead: {
+    backgroundColor: theme.palette.secondary.main
+  },
+  hightlightText: {
+    color: theme.palette.secondary.dark,
+    fontWeight: 900
+  },
+  iconPosition: {
+    display: "flex",
+    justifyContent: "space-between",
+    margin: theme.spacing.unit * 5
+  },
+  goBackButton: {
+    flex: 2
+  },
+  fab: {
+    backgroundColor: theme.palette.secondary.light
+  },
+  addIcon: {
+    fontSize: 60,
+    flex : 1
+  }
+});
+
+const CustumTableCell = withStyles(theme => ({
+  head: {
+    backgroundColor: theme.palette.secondary.light,
+    color: theme.palette.third.dark,
+    fontSize: 14,
+    fontWeight: 800
+  }
+}))(TableCell);
+
+class Presentations extends Component {
   renderPresentations = ({ match, history, presentations }) => {
     if (presentations.length > 0) {
       return presentations.map(presentation => {
         return (
-          <ul key={presentation._id.toString()}>
+          <TableRow key={presentation._id.toString()}>
             <Presentation
               presentation={presentation}
               match={match}
               history={history}
               deletePresentation={this.props.deletePresentation}
             />
-          </ul>
+          </TableRow>
         );
       });
     } else if (presentations.length === 0) {
-      return <h1> There are no presentations</h1>;
+      return (
+        <TableRow>
+          <TableCell>There are no presentations</TableCell>
+        </TableRow>
+      );
     } else {
       return null;
     }
   };
 
   render() {
-    const { isLoading, error, presentations } = this.props;
+    const { isLoading, error, presentations, classes } = this.props;
+
     return (
-      <div>
-        <Link to="/">
-          <button>Go back</button>
-        </Link>
-        <p>{presentations.length}</p>
+      <Fragment>
+        <div className={classes.iconPosition}>
+          <Link
+            to="/"
+            style={{
+              textDecoration: "none"
+            }}
+          >
+            <Button variant="outlined" color="primary" className={classes.goBackButton}>
+              Go Back
+            </Button>
+          </Link>
+          <Link
+            to="presentations/addPresentation"
+            style={{
+              textDecoration: "none"
+            }}
+          >
+            <Fab className={classes.fab}>
+              <AddCircle
+                color="secondary"
+                arial-label="Add"
+                className={classes.addIcon}
+              />
+            </Fab>
+          </Link>
+        </div>
+      <div className={classes.root}>
+        <Typography variant="h6" color="primary">
+          Upcoming presentations :{" "}
+          <span className={classes.hightlightText}>{presentations.length}</span>
+        </Typography>
         {/* Handle errors */}
         {error && (
-          <div style={{ color: "#900" }}>
-            <div>{error}</div>
+          <Typography color="secondary">
+            <span>{error}</span>
             <div> Could you refresh the page?</div>
-          </div>
+          </Typography>
         )}
         {/* Handle loading presentation data */}
         {isLoading && <Spinner />}
         {/* Render presentations */}
-        {this.renderPresentations(this.props)}
+        <div>
+          <Paper className={classes.root}>
+            <Table className={classes.table}>
+              <TableHead>
+                <TableRow>
+                  <CustumTableCell>Presentor</CustumTableCell>
+                  <CustumTableCell align="right">Evaluator</CustumTableCell>
+                  <CustumTableCell align="right">Topic</CustumTableCell>
+                  <CustumTableCell align="right">Article</CustumTableCell>
+                  <CustumTableCell align="center">Date</CustumTableCell>
+                  <CustumTableCell align="center">Monitor</CustumTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{this.renderPresentations(this.props)}</TableBody>
+            </Table>
+          </Paper>
+        </div>
       </div>
+      </Fragment>
     );
   }
 }
+
+Presentations.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+
+export default withStyles(styles)(Presentations);

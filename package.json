@@ -20,6 +20,7 @@
     "mongodb": "^3.1.10",
     "mongoose": "^5.3.15",
     "morgan": "^1.9.1",
-    "nodemon": "^1.18.8"
+    "nodemon": "^1.18.8",
+    "package.json": "^2.0.1"
   }
 }

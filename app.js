@@ -6,7 +6,7 @@ const morgan = require("morgan");
 const { MONGODB_URI } = require("./server/database/db");
 const presentationRouter = require("./server/routes/presentationRoute");
 
-const PORT = process.env.PORT || 5002;
+const PORT = process.env.PORT || 5003;
 const hostname = "localhost";
 
 const app = express();

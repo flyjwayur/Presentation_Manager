@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import "./App.css";
 import HomePage from "./components/HomePage/HomePage";
 import axios from "axios";
 import Presentations from "./containers/Presentations/Presentations";
@@ -7,7 +6,20 @@ import PresentationForms from "./components/PresentationForms/PresentationForms"
 import Navigation from "./components/Navigation/Navigation";
 import PresentationDetail from "./containers/PresentationDetail/PresentationDetail";
 import { Route, Switch, Redirect } from "react-router-dom";
-import moment from 'moment';
+import moment from "moment";
+import { withStyles } from "@material-ui/core/styles";
+import withRoot from "./withRoot";
+
+const styles = theme => ({
+  root: {
+    textAlign: "center",
+    backgroundColor : theme.palette.third.dark
+  },
+  wrapper : {
+    padding: theme.spacing.unit * 10,
+    backgroundColor : theme.palette.third.dark
+  }
+});
 
 class App extends Component {
   state = {
@@ -55,7 +67,6 @@ class App extends Component {
   };
 
   editPresentation = async (selectedPresentation, id) => {
-
     try {
       const response = await axios.put(
         `/presentations/${id}`,
@@ -72,42 +83,46 @@ class App extends Component {
       this.setState({
         presentations
       });
-    } catch(err){
-      console.log(err)
+    } catch (err) {
+      console.log(err);
     }
-  }
+  };
 
   deletePresentation = async (selectedPresentation, id) => {
-    try{
-      const response = await axios.delete( `/presentations/${id}`,
-      selectedPresentation)
+    try {
+      const response = await axios.delete(
+        `/presentations/${id}`,
+        selectedPresentation
+      );
       const deletedPresentation = response.data;
       const presentations = this.state.presentations.filter(presentation => {
         return presentation._id !== deletedPresentation._id;
       });
       this.setState({
         presentations
-      })
-    } catch(err){
+      });
+    } catch (err) {
       this.setState({
         error: err.response.data.message
           ? err.response.data.message
           : err.response.data
       });
     }
-  }
+  };
 
-  giveDataWithFormattedDate = ( match ) => {
+  giveDataWithFormattedDate = match => {
     const singlePresentation = this.state.presentations.find(presentation => {
       return presentation._id === match.params.presentationId;
-    })
+    });
 
     //Check the existence of singlePresentation to prevent app crush with date of undefined
-    if(singlePresentation){
-      singlePresentation.date = moment(singlePresentation.date).format('YYYY-MM-DD')
+    if (singlePresentation) {
+      singlePresentation.date = moment(singlePresentation.date).format(
+        "YYYY-MM-DD"
+      );
       return singlePresentation;
     }
-  }
+  };
 
   render() {
     const editWithId = ({ match, history }) => {
@@ -125,61 +140,65 @@ class App extends Component {
     const detailWithId = ({ match, history }) => {
       return (
         <PresentationDetail
-        singlePresentation={this.giveDataWithFormattedDate(match)}
-        match={match}
-        history={history}
-        isLoading={this.state.isLoading}
-        error={this.state.error}
-        deletePresentation={this.deletePresentation}
-      />
-      )
-    }
+          singlePresentation={this.giveDataWithFormattedDate(match)}
+          match={match}
+          history={history}
+          isLoading={this.state.isLoading}
+          error={this.state.error}
+          deletePresentation={this.deletePresentation}
+        />
+      );
+    };
+
+    const { classes } = this.props;
 
     return (
-      <div className="App">
+      <div className={classes.root}>
         <Navigation />
-        <Switch>
-          <Route exact path="/" component={() => <HomePage />} />
-          <Route
-            exact
-            path="/presentations"
-            render={props => (
-              <Presentations
-                {...props}
-                loadPresentations={this.loadPresentations}
-                presentations={this.state.presentations}
-                isLoading={this.state.isLoading}
-                error={this.state.error}
-                deletePresentation={this.deletePresentation}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/presentations/addPresentation"
-            render={props => (
-              <PresentationForms
-                formType="addForm"
-                {...props}
-                postNewPresentation={this.postNewPresentation}
-              />
-            )}
-          />
-          <Route
-            exact
-            path="/presentations/:presentationId/edit"
-            component={editWithId}
-          />
-          <Route
-            exact
-            path="/presentations/:presentationId"
-            component={detailWithId}
-          />
-          <Redirect to="/" />
-        </Switch>
+        <div className={classes.wrapper}>
+          <Switch>
+            <Route exact path="/" component={() => <HomePage />} />
+            <Route
+              exact
+              path="/presentations"
+              render={props => (
+                <Presentations
+                  {...props}
+                  loadPresentations={this.loadPresentations}
+                  presentations={this.state.presentations}
+                  isLoading={this.state.isLoading}
+                  error={this.state.error}
+                  deletePresentation={this.deletePresentation}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/presentations/addPresentation"
+              render={props => (
+                <PresentationForms
+                  formType="addForm"
+                  {...props}
+                  postNewPresentation={this.postNewPresentation}
+                />
+              )}
+            />
+            <Route
+              exact
+              path="/presentations/:presentationId/edit"
+              component={editWithId}
+            />
+            <Route
+              exact
+              path="/presentations/:presentationId"
+              component={detailWithId}
+            />
+            <Redirect to="/" />
+          </Switch>
+        </div>
       </div>
     );
   }
 }
 
-export default App;
+export default withRoot(withStyles(styles)(App));
