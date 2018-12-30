@@ -111,29 +111,6 @@ class Navigation extends Component {
               </IconButton>
             </NavLink>
             <Button color="inherit">Login</Button>
-            {/* 
-              <NavLink
-                to="/presentations"
-                activeStyle={{
-                  fontWeight: "bold",
-                  color: "primary",
-                  textDecoration: "none"
-                }}
-              >
-                Presentations
-              </NavLink>
-            </Typography>
-            <Typography variant="h6" color="inherit" className={classes.grow}>
-              <NavLink
-                to="/presentations/addPresentation"
-                activeStyle={{
-                  fontWeight: "bold",
-                  color: "brown",
-                  textDecoration: "none"
-                }}
-              >
-                Add Presentations
-              </NavLink> */}
           </Toolbar>
         </AppBar>
       </div>

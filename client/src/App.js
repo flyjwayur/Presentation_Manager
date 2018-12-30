@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import HomePage from "./components/HomePage/HomePage";
 import axios from "axios";
-import Presentations from "./containers/Presentations/Presentations";
-import PresentationForms from "./components/PresentationForms/PresentationForms";
+import Presentations from "./components/Presentations/Presentations";
+import PresentationForms from "./containers/PresentationForms/PresentationForms";
 import Navigation from "./components/Navigation/Navigation";
-import PresentationDetail from "./containers/PresentationDetail/PresentationDetail";
+import PresentationDetail from "./components/PresentationDetail/PresentationDetail";
 import { Route, Switch, Redirect } from "react-router-dom";
 import moment from "moment";
 import { withStyles } from "@material-ui/core/styles";
