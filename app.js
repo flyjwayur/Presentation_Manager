@@ -10,6 +10,8 @@ const PORT = process.env.PORT || 5003;
 const hostname = "localhost";
 
 const app = express();
+// app.use (express.static (__dirname + '/client/public'));
+// console.log('dirname', __dirname + '/client/public');
 
 app.use(morgan("dev"));
 
@@ -32,7 +34,7 @@ mongoose
     console.log("there is err", err);
   });
 
-app.use(express.static(path.join(__dirname, "/client/build")));
+//app.use(express.static(path.join(__dirname, "/client/build")));
 app.use(bodyParser.json());
 app.use("/", presentationRouter);
 app.get("*", (req, res) => {

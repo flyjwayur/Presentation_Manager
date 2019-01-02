@@ -1,12 +1,10 @@
-import React from "react";
-import { MuiThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
 import cyan from "@material-ui/core/colors/cyan";
 import deepOrange from "@material-ui/core/colors/deepOrange";
 import grey from "@material-ui/core/colors/grey";
-import CssBaseLine from "@material-ui/core/CssBaseline";
 
 //Theme for custom primary and secondary color.
-const theme = createMuiTheme({
+export const theme = createMuiTheme({
   palette: {
     //Cyan
     primary: {
@@ -35,17 +33,17 @@ const theme = createMuiTheme({
   }
 });
 
-function withRoot(Component) {
-  function withRoot(props) {
-    //MuiThemeProvider passes the theme down the React tree with React context
-    return (
-      <MuiThemeProvider theme={theme}>
-        <CssBaseLine />
-        <Component {...props} />
-      </MuiThemeProvider>
-    );
-  }
-  return withRoot;
-}
+// function withRoot(Component) {
+//   function withRoot(props) {
+//     //MuiThemeProvider passes the theme down the React tree with React context
+//     return (
+//       <MuiThemeProvider theme={theme}>
+//         <CssBaseLine />
+//         <Component {...props} />
+//       </MuiThemeProvider>
+//     );
+//   }
+//   return withRoot;
+// }
 
-export default withRoot;
+// export default withRoot;

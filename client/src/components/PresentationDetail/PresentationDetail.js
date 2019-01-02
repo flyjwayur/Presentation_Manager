@@ -75,7 +75,7 @@ class PresentationDetail extends Component {
       selectedPresentation,
       selectedPresentation._id
     );
-    this.props.history.push("/");
+    this.props.history.push("/presentations");
   };
 
   renderPresentationDetail = () => {

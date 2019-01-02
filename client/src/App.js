@@ -1,14 +1,17 @@
 import React, { Component } from "react";
 import HomePage from "./components/HomePage/HomePage";
-import axios from "axios";
 import Presentations from "./components/Presentations/Presentations";
 import PresentationForms from "./containers/PresentationForms/PresentationForms";
 import Navigation from "./components/Navigation/Navigation";
 import PresentationDetail from "./components/PresentationDetail/PresentationDetail";
-import { Route, Switch, Redirect } from "react-router-dom";
+import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import moment from "moment";
 import { withStyles } from "@material-ui/core/styles";
-import withRoot from "./withRoot";
+import { connect } from "react-redux";
+import { fetchFromDB } from "./store/actions/fetchFromDBAction";
+import { addPresentation } from "./store/actions/addPresentationAction";
+import { editPresentation } from "./store/actions/editPresentationAction";
+import { deletePresentation } from "./store/actions/deletePresentationAction";
 
 const styles = theme => ({
   root: {
@@ -22,96 +25,13 @@ const styles = theme => ({
 });
 
 class App extends Component {
-  state = {
-    presentations: [],
-    isLoading: false,
-    error: false
-  };
 
   componentDidMount() {
-    this.loadPresentations();
+    this.props.onFetchDataFromDB();
   }
 
-  loadPresentations = () => {
-    this.setState({ isLoading: true }, async () => {
-      try {
-        const response = await axios.get("/presentations");
-        const allPresentations = response.data;
-        const presentations = allPresentations;
-        this.setState({
-          isLoading: false,
-          presentations: presentations
-        });
-      } catch (err) {
-        this.setState({
-          error: err.response.data.message
-            ? err.response.data.message
-            : err.response.data
-        });
-      }
-    });
-  };
-
-  postNewPresentation = async newPresentation => {
-    try {
-      const response = await axios.post("/presentations", newPresentation);
-      const addedPresentation = response.data;
-      const presentations = [...this.state.presentations, addedPresentation];
-
-      this.setState({
-        presentations
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  editPresentation = async (selectedPresentation, id) => {
-    try {
-      const response = await axios.put(
-        `/presentations/${id}`,
-        selectedPresentation
-      );
-      const edittedPresentation = response.data;
-      const presentations = this.state.presentations.map(presentation => {
-        if (presentation._id === id) {
-          return edittedPresentation;
-        } else {
-          return presentation;
-        }
-      });
-      this.setState({
-        presentations
-      });
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
-  deletePresentation = async (selectedPresentation, id) => {
-    try {
-      const response = await axios.delete(
-        `/presentations/${id}`,
-        selectedPresentation
-      );
-      const deletedPresentation = response.data;
-      const presentations = this.state.presentations.filter(presentation => {
-        return presentation._id !== deletedPresentation._id;
-      });
-      this.setState({
-        presentations
-      });
-    } catch (err) {
-      this.setState({
-        error: err.response.data.message
-          ? err.response.data.message
-          : err.response.data
-      });
-    }
-  };
-
   giveDataWithFormattedDate = match => {
-    const singlePresentation = this.state.presentations.find(presentation => {
+    const singlePresentation = this.props.presentations.find(presentation => {
       return presentation._id === match.params.presentationId;
     });
 
@@ -125,6 +45,10 @@ class App extends Component {
   };
 
   render() {
+
+    // classes for material UI
+    const { classes, presentations, error, isLoading, onAddPresentation, onEditPresentation, onDeletePresentation } = this.props;
+
     const editWithId = ({ match, history }) => {
       return (
         <PresentationForms
@@ -132,7 +56,7 @@ class App extends Component {
           singlePresentation={this.giveDataWithFormattedDate(match)}
           match={match}
           history={history}
-          editPresentation={this.editPresentation}
+          editPresentation={onEditPresentation}
         />
       );
     };
@@ -143,14 +67,12 @@ class App extends Component {
           singlePresentation={this.giveDataWithFormattedDate(match)}
           match={match}
           history={history}
-          isLoading={this.state.isLoading}
-          error={this.state.error}
-          deletePresentation={this.deletePresentation}
+          isLoading={isLoading}
+          error={error}
+          deletePresentation={onDeletePresentation}
         />
       );
     };
-
-    const { classes } = this.props;
 
     return (
       <div className={classes.root}>
@@ -164,11 +86,10 @@ class App extends Component {
               render={props => (
                 <Presentations
                   {...props}
-                  loadPresentations={this.loadPresentations}
-                  presentations={this.state.presentations}
-                  isLoading={this.state.isLoading}
-                  error={this.state.error}
-                  deletePresentation={this.deletePresentation}
+                  presentations={presentations}
+                  isLoading={isLoading}
+                  error={error}
+                  deletePresentation={onDeletePresentation}
                 />
               )}
             />
@@ -179,7 +100,7 @@ class App extends Component {
                 <PresentationForms
                   formType="addForm"
                   {...props}
-                  postNewPresentation={this.postNewPresentation}
+                  postNewPresentation={onAddPresentation}
                 />
               )}
             />
@@ -201,4 +122,21 @@ class App extends Component {
   }
 }
 
-export default withRoot(withStyles(styles)(App));
+const mapStateToProps = state => {
+  return {
+    presentations: state.presentations,
+    error : state.error,
+    isLoading : state.isLoading
+  }
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onFetchDataFromDB: () => dispatch(fetchFromDB()),
+    onAddPresentation : newPresentation => dispatch(addPresentation(newPresentation)),
+    onEditPresentation : (selectedPresentation, id) => dispatch(editPresentation(selectedPresentation, id)),
+    onDeletePresentation : (selectedPresentation, id) => dispatch(deletePresentation(selectedPresentation, id))
+  }
+}
+
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App)));

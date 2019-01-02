@@ -122,6 +122,7 @@ class PresentaionForms extends Component {
     e.preventDefault();
 
     const edittedPresentation = this.state;
+
     this.props.editPresentation(edittedPresentation, id);
     this.props.history.push(`/presentations/${id}`);
   };
