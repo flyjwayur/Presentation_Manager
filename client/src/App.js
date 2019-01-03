@@ -40,6 +40,7 @@ class App extends Component {
       singlePresentation.date = moment(singlePresentation.date).format(
         "YYYY-MM-DD"
       );
+
       return singlePresentation;
     }
   };
