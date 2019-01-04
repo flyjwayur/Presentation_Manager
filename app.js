@@ -10,8 +10,6 @@ const PORT = process.env.PORT || 5003;
 const hostname = "localhost";
 
 const app = express();
-// app.use (express.static (__dirname + '/client/public'));
-// console.log('dirname', __dirname + '/client/public');
 
 app.use(morgan("dev"));
 
@@ -45,6 +43,4 @@ if(process.env.node_env ==='production') {
   });
 }
 
-app.listen(PORT, hostname, () => {
-  console.log(`Server running at http://${hostname}:${PORT}`);
-});
+app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
