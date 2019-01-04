@@ -34,7 +34,7 @@ mongoose
     console.log("there is err", err);
   });
 
-//app.use(express.static(path.join(__dirname, "/client/build")));
+app.use(express.static(path.join(__dirname, "/client/build")));
 app.use(bodyParser.json());
 app.use("/", presentationRouter);
 app.get("*", (req, res) => {
