@@ -78,15 +78,17 @@ const styles = theme => ({
     top: 150,
     left: 100
   },
-  hintText : {
-    color : theme.palette.secondary.main,
-    fontSize : 15
+  hintText: {
+    color: theme.palette.secondary.main,
+    fontSize: 15
   }
 });
 
 const FeedbackWithHints = ({ validity, uiClasses }) => {
-  return (validity) ? (
-    <FormHelperText className={uiClasses}>{validity}</FormHelperText>) : null; }
+  return validity ? (
+    <FormHelperText className={uiClasses}>{validity}</FormHelperText>
+  ) : null;
+};
 
 class PresentaionForms extends Component {
   state = {
@@ -150,22 +152,28 @@ class PresentaionForms extends Component {
       evaluator: /^([\w+\s]){2,20}$/,
       topic: /^([\w+\s-']){2,100}$/,
       article: /^((http(s)?(:\/\/))+(www\.)?([\w\-./])*(\.[a-zA-Z]{2,3}\/?))[^\s\b\n|]*[^.,;:?!@^$ -]$/,
-      date: /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])*$/,
+      date: /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])*$/
       //keywords: /^\w+(?:(?:\w)|(?:\s*,\s*\w+)+|(?:\s*,\w+)+)$/
     };
 
-    const trimInputs = (input) => {
-      if(input){
+    const trimInputs = input => {
+      if (input) {
         return input.trim();
       }
-    }
-    
-    if (this.state.touched.presenter && !regex.presenter.test(trimInputs(presenter))) {
+    };
+
+    if (
+      this.state.touched.presenter &&
+      !regex.presenter.test(trimInputs(presenter))
+    ) {
       hintMessage.presenter =
         "Presenter should be more than 2 characters, including space.";
     }
 
-    if (this.state.touched.evaluator && !regex.evaluator.test(trimInputs(evaluator))) {
+    if (
+      this.state.touched.evaluator &&
+      !regex.evaluator.test(trimInputs(evaluator))
+    ) {
       hintMessage.evaluator =
         "Evaluator should be more than 2 characters, including space.";
     }
@@ -175,12 +183,15 @@ class PresentaionForms extends Component {
         "Topic should be more than 2 in characters, numbers or _  - or ' ";
     }
 
-    if (this.state.touched.article && !regex.article.test(trimInputs(article))) {
+    if (
+      this.state.touched.article &&
+      !regex.article.test(trimInputs(article))
+    ) {
       hintMessage.article =
         "article should have URL format ex)https://www.example.io";
     }
 
-    //Check whether date exist or not 
+    //Check whether date exist or not
     if (this.state.touched.date && !regex.date.test(date) && !date) {
       hintMessage.date = "Date, Month, Year should be selected";
     }
@@ -211,15 +222,24 @@ class PresentaionForms extends Component {
   };
 
   ableSubmitButton = (presenter, evaluator, topic, article, date) => {
-    const hintMessages = this.validateInputs( presenter, evaluator, topic, article, date);
+    const hintMessages = this.validateInputs(
+      presenter,
+      evaluator,
+      topic,
+      article,
+      date
+    );
     const inputValues = [presenter, evaluator, topic, article, date];
 
     //check whetehr hintMessage is empty("") or input values exist to able/disable submit button
-    if(Object.values(hintMessages).every(message => message === "" ) && inputValues.every(input => input !== "")){
-      return false //disable false
+    if (
+      Object.values(hintMessages).every(message => message === "") &&
+      inputValues.every(input => input !== "")
+    ) {
+      return false; //disable false
     }
     return true; //disable true
-  }
+  };
 
   render() {
     // For creating input fields
@@ -234,7 +254,7 @@ class PresentaionForms extends Component {
       "summary"
     ];
     // For validating given inputs
-    const { presenter, evaluator, topic, article, date} = this.state;
+    const { presenter, evaluator, topic, article, date } = this.state;
 
     const hintMessages = this.validateInputs(
       presenter,
@@ -244,7 +264,22 @@ class PresentaionForms extends Component {
       date
     );
 
-    const activateButton = this.ableSubmitButton(presenter, evaluator, topic, article, date);
+    const activateButton = this.ableSubmitButton(
+      presenter,
+      evaluator,
+      topic,
+      article,
+      date
+    );
+
+    //Controll inputs values for edit
+    const inputValuesForEdit = {
+      presenter,
+      evaluator,
+      topic,
+      article,
+      date
+    };
 
     let keysOnSinglePresentation = null;
     //If it is edit type, give edit fields
@@ -268,6 +303,7 @@ class PresentaionForms extends Component {
           <Edit
             keysOnSinglePresentation={keysOnSinglePresentation}
             singlePresentation={singlePresentation}
+            inputValuesForEdit={inputValuesForEdit}
             handleInputsChange={this.handleInputsChange}
             handleUpdate={this.handleUpdate}
             handleBlur={this.handleBlur}
@@ -315,11 +351,15 @@ class PresentaionForms extends Component {
                       onBlur={this.handleBlur}
                       className={classes.textField}
                     />
-                    <FeedbackWithHints validity={hintMessages[inputKey]} uiClasses={classes.hintText}/>
+                    <FeedbackWithHints
+                      validity={hintMessages[inputKey]}
+                      uiClasses={classes.hintText}
+                    />
                   </Fragment>
-                )}else if(inputKey === "article"){
-                  return (
-                    <Fragment key={`${inputKey + index}`}>
+                );
+              } else if (inputKey === "article") {
+                return (
+                  <Fragment key={`${inputKey + index}`}>
                     <TextField
                       required
                       InputLabelProps={{
@@ -339,39 +379,49 @@ class PresentaionForms extends Component {
                       onBlur={this.handleBlur}
                       className={classes.textField}
                     />
-                    <FeedbackWithHints validity={hintMessages[inputKey]} uiClasses={classes.hintText}/>
+                    <FeedbackWithHints
+                      validity={hintMessages[inputKey]}
+                      uiClasses={classes.hintText}
+                    />
                   </Fragment>
-                  )
-                }else if(inputKey === "presenter" || inputKey === "evaluator" || inputKey === "topic"){
-                  return (
-                    <Fragment key={`${inputKey + index}`}>
-                      <TextField
-                        required
-                        InputLabelProps={{
-                          classes: {
-                            root: classes.cssLabel
-                          }
-                        }}
-                        InputProps={{
-                          classes: {
-                            root: classes.cssOutlinedInput
-                          }
-                        }}
-                        label={`${inputKey}`}
-                        variant="filled"
-                        type="text"
-                        id={`${inputKey}`}
-                        name={`${inputKey}`}
-                        value={`${this.state[inputKey]}`}
-                        onChange={this.handleInputsChange}
-                        onBlur={this.handleBlur}
-                        className={classes.textField}
-                      />
-                      <FeedbackWithHints validity={hintMessages[inputKey]} uiClasses={classes.hintText}/>
-                    </Fragment>
-                  );
-                };
-              
+                );
+              } else if (
+                inputKey === "presenter" ||
+                inputKey === "evaluator" ||
+                inputKey === "topic"
+              ) {
+                return (
+                  <Fragment key={`${inputKey + index}`}>
+                    <TextField
+                      required
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.cssLabel
+                        }
+                      }}
+                      InputProps={{
+                        classes: {
+                          root: classes.cssOutlinedInput
+                        }
+                      }}
+                      label={`${inputKey}`}
+                      variant="filled"
+                      type="text"
+                      id={`${inputKey}`}
+                      name={`${inputKey}`}
+                      value={`${this.state[inputKey]}`}
+                      onChange={this.handleInputsChange}
+                      onBlur={this.handleBlur}
+                      className={classes.textField}
+                    />
+                    <FeedbackWithHints
+                      validity={hintMessages[inputKey]}
+                      uiClasses={classes.hintText}
+                    />
+                  </Fragment>
+                );
+              }
+
               return (
                 <Fragment key={`${inputKey + index}`}>
                   <TextField
@@ -395,7 +445,10 @@ class PresentaionForms extends Component {
                     onBlur={this.handleBlur}
                     className={classes.textField}
                   />
-                  <FeedbackWithHints validity={hintMessages[inputKey]} uiClasses={classes.hintText}/>
+                  <FeedbackWithHints
+                    validity={hintMessages[inputKey]}
+                    uiClasses={classes.hintText}
+                  />
                 </Fragment>
               );
             })}
@@ -420,6 +473,7 @@ const Edit = props => {
   const {
     keysOnSinglePresentation,
     singlePresentation,
+    inputValuesForEdit,
     handleUpdate,
     handleBlur,
     handleInputsChange,
@@ -462,7 +516,7 @@ const Edit = props => {
                       type="date"
                       id={`${inputKey}`}
                       name={`${inputKey}`}
-                      defaultValue={`${singlePresentation[inputKey]}`}
+                      value={inputValuesForEdit.date}
                       onChange={handleInputsChange}
                       onBlur={handleBlur}
                       className={classes.textField}
@@ -485,7 +539,7 @@ const Edit = props => {
                     type="text"
                     id={`${inputKey}`}
                     name={`${inputKey}`}
-                    defaultValue={`${singlePresentation[inputKey]}`}
+                    value={inputValuesForEdit[`${inputKey}`]}
                     onChange={handleInputsChange}
                     onBlur={handleBlur}
                     className={classes.textField}
