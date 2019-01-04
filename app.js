@@ -25,22 +25,26 @@ const options = {
 
 mongoose
   .connect(
-    MONGODB_URI, options
+    MONGODB_URI,
+    options
   )
   .then(console.log("Databese is connected"))
   .catch(err => {
     console.log("there is err", err);
   });
 
-
+// Serve static files from the React app
+app.use(express.static(path.join(__dirname, "/client/build")));
 app.use(bodyParser.json());
+
+// REST API end points under '/'
 app.use("/", presentationRouter);
 
-if(process.env.node_env ==='production') {
-  app.use(express.static(path.join(__dirname, "/client/build")));
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build/index.html"));
-  });
-}
+// if(process.env.node_env ==='production') {
+// The catchall handler : if some request that does not match, send back React's index.html file
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/build/index.html"));
+});
+//}
 
-app.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+app.listen(PORT, () => console.log(`Listening on ${PORT}`));

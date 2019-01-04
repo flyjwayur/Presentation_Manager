@@ -8,7 +8,7 @@ const {
 } = require('../controllers/presentations.controller');
 const presentationRouter = express.Router();
 
-presentationRouter.get('/', (req, res) => res.send('We are at home, check /presentations to check presentaions'));
+// presentationRouter.get('/', (req, res) => res.send('We are at home, check /presentations to check presentaions'));
 presentationRouter.get('/presentations', showPresentations);
 presentationRouter.get('/presentations/:id', showDetailPresentation);
 presentationRouter.post('/presentations', addPresentation);
