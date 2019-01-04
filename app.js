@@ -34,12 +34,16 @@ mongoose
     console.log("there is err", err);
   });
 
-app.use(express.static(path.join(__dirname, "/client/build")));
+
 app.use(bodyParser.json());
 app.use("/", presentationRouter);
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build/index.html"));
-});
+
+if(process.env.node_env ==='production') {
+  app.use(express.static(path.join(__dirname, "/client/build")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build/index.html"));
+  });
+}
 
 app.listen(PORT, hostname, () => {
   console.log(`Server running at http://${hostname}:${PORT}`);
