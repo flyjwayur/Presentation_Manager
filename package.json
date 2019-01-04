@@ -6,10 +6,13 @@
   "scripts": {
     "client-install": "cd client && yarn",
     "start":"node app.js",
-    "start-watch": "nodemon server.js",
+    "start-watch": "nodemon app.js",
     "client": "yarn start --prefix client",
     "heroku-postbuild": "cd client && yarn && yarn run build",
     "dev": "concurrently \"yarn && yarn run start-watch\" \"cd  client  && yarn start\" "
+  },
+  "engines": {
+    "node":"10.9.0"
   },
   "author": "",
   "license": "ISC",
