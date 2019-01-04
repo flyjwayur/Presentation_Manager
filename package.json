@@ -5,7 +5,7 @@
   "main": "app.js",
   "scripts": {
     "client-install": "cd client && yarn",
-    "start": "nodemon app.js",
+    "start":"node app.js",
     "start-watch": "nodemon server.js",
     "client": "yarn start --prefix client",
     "heroku-postbuild": "cd client && yarn && yarn run build",
