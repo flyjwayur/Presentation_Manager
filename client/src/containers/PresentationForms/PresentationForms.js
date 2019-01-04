@@ -132,10 +132,6 @@ class PresentaionForms extends Component {
     this.setState({
       touched: { ...this.state.touched, [e.target.name]: true }
     });
-
-    console.log({
-      touched: { ...this.state.touched, [e.target.name]: true }
-    });
   };
 
   validateInputs = (presenter, evaluator, topic, article, date) => {
@@ -309,6 +305,8 @@ class PresentaionForms extends Component {
             handleBlur={this.handleBlur}
             allInputs={this.state}
             classes={classes}
+            hintMessages={hintMessages}
+            activateButton={activateButton}
           />
         </div>
       );
@@ -477,6 +475,8 @@ const Edit = props => {
     handleUpdate,
     handleBlur,
     handleInputsChange,
+    hintMessages,
+    activateButton,
     classes
   } = props;
   const { presenter, topic } = singlePresentation;
@@ -499,57 +499,130 @@ const Edit = props => {
               {keysOnSinglePresentation.map((inputKey, index) => {
                 if (inputKey === "date") {
                   return (
-                    <TextField
-                      required
-                      key={`${inputKey + index}`}
-                      InputLabelProps={{
-                        shrink: true,
-                        classes: {
+                    <Fragment key={`${inputKey + index}`}>
+                      <TextField
+                        required
+                        InputLabelProps={{
+                          shrink: true,
                           root: classes.cssLabel
-                        }
-                      }}
-                      InputProps={{
-                        root: classes.cssOutlinedInput
-                      }}
-                      label={`${inputKey}`}
-                      variant="filled"
-                      type="date"
-                      id={`${inputKey}`}
-                      name={`${inputKey}`}
-                      value={inputValuesForEdit.date}
-                      onChange={handleInputsChange}
-                      onBlur={handleBlur}
-                      className={classes.textField}
-                    />
+                        }}
+                        InputProps={{
+                          root: classes.cssOutlinedInput
+                        }}
+                        label={`${inputKey}`}
+                        variant="filled"
+                        type="date"
+                        id={`${inputKey}`}
+                        name={`${inputKey}`}
+                        value={inputValuesForEdit.date}
+                        onChange={handleInputsChange}
+                        onBlur={handleBlur}
+                        className={classes.textField}
+                      />
+                      <FeedbackWithHints
+                        validity={hintMessages[inputKey]}
+                        uiClasses={classes.hintText}
+                      />
+                    </Fragment>
                   );
-                }
-
-                return (
-                  <TextField
-                    key={`${inputKey + index}`}
-                    InputLabelProps={{
-                      shrink: true,
-                      root: classes.cssLabel
-                    }}
-                    InputProps={{
-                      root: classes.cssOutlinedInput
-                    }}
-                    label={`${inputKey}`}
-                    variant="filled"
-                    type="text"
-                    id={`${inputKey}`}
-                    name={`${inputKey}`}
-                    value={inputValuesForEdit[`${inputKey}`]}
-                    onChange={handleInputsChange}
-                    onBlur={handleBlur}
-                    className={classes.textField}
-                  />
-                );
+                } else if (inputKey === "article") {
+                  return (
+                    <Fragment key={`${inputKey + index}`}>
+                      <TextField
+                        required
+                        InputLabelProps={{
+                          shrink: true,
+                          root: classes.cssLabel
+                        }}
+                        InputProps={{
+                          root: classes.cssOutlinedInput
+                        }}
+                        label={`${inputKey}`}
+                        variant="filled"
+                        type="url"
+                        id={`${inputKey}`}
+                        name={`${inputKey}`}
+                        value={inputValuesForEdit[`${inputKey}`]}
+                        onChange={handleInputsChange}
+                        onBlur={handleBlur}
+                        className={classes.textField}
+                      />
+                      <FeedbackWithHints
+                        validity={hintMessages[inputKey]}
+                        uiClasses={classes.hintText}
+                      />
+                    </Fragment>
+                  );
+                } else if (
+                  inputKey === "presenter" ||
+                  inputKey === "evaluator" ||
+                  inputKey === "topic"
+                ) {
+                  return (
+                    <Fragment key={`${inputKey + index}`}>
+                      <TextField
+                        required
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.cssLabel
+                          }
+                        }}
+                        InputProps={{
+                          classes: {
+                            root: classes.cssOutlinedInput
+                          }
+                        }}
+                        label={`${inputKey}`}
+                        variant="filled"
+                        type="text"
+                        id={`${inputKey}`}
+                        name={`${inputKey}`}
+                        value={inputValuesForEdit[`${inputKey}`]}
+                        onChange={handleInputsChange}
+                        onBlur={handleBlur}
+                        className={classes.textField}
+                      />
+                      <FeedbackWithHints
+                        validity={hintMessages[inputKey]}
+                        uiClasses={classes.hintText}
+                      />
+                    </Fragment>
+                  )};
+                  return (
+                    <Fragment key={`${inputKey + index}`}>
+                      <TextField
+                        InputLabelProps={{
+                          classes: {
+                            root: classes.cssLabel
+                          }
+                        }}
+                        InputProps={{
+                          classes: {
+                            root: classes.cssOutlinedInput
+                          }
+                        }}
+                        label={`${inputKey}`}
+                        variant="filled"
+                        type="text"
+                        id={`${inputKey}`}
+                        name={`${inputKey}`}
+                        value={inputValuesForEdit[`${inputKey}`]}
+                        onChange={handleInputsChange}
+                        onBlur={handleBlur}
+                        className={classes.textField}
+                      />
+                      <FeedbackWithHints
+                        validity={hintMessages[inputKey]}
+                        uiClasses={classes.hintText}
+                      />
+                    </Fragment>
+                  );
               })}
               <Button
                 onClick={e => handleUpdate(e, singlePresentation._id)}
                 variant="contained"
                 color="secondary"
+                disabled={activateButton}
               >
                 Update
               </Button>
