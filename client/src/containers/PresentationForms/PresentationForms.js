@@ -119,7 +119,7 @@ class PresentaionForms extends Component {
       topic: false,
       article: false,
       date: false
-    }
+    } 
   };
 
   handleInputsChange = e => {
@@ -201,11 +201,20 @@ class PresentaionForms extends Component {
   };
 
   handleInputsSubmit = e => {
+
     e.preventDefault();
 
+    // When 'onAddPresentation' gets called, 
+    // if there is error, clients gets error from 'SERVER' in addPresentation action
+    // And it displays the all error messages for input fields hints
     const newPresentation = this.state;
-    this.props.postNewPresentation(newPresentation);
-    this.props.history.push("/presentations");
+
+    console.log('before : validFromServer', this.props.validFromServer);
+    this.props.onAddPresentation(newPresentation, this.props.history).then(()=>
+    {if(this.props.validFromServer){this.props.history.push('/presentations')}}).catch(err => console.log(err));
+
+    console.log('after : validFromServer', this.props.validFromServer);
+ 
   };
 
   handleUpdate = (e, id) => {
@@ -324,6 +333,7 @@ class PresentaionForms extends Component {
             Go back
           </Button>
         </Link>
+    <div>{Object.values(this.props.validationErrorMessage).map( ( error, index)  => {return <div key={index}>{error}</div>})}</div>
         <div className={classes.container}>
           <FormControl className={classes.margin}>
             {inputsArr.map((inputKey, index) => {
@@ -639,3 +649,4 @@ PresentaionForms.propTypes = {
 };
 
 export default withStyles(styles)(PresentaionForms);
+//export default withStyles(styles)(withRouter(PresentaionForms));

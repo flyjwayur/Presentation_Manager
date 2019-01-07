@@ -1,25 +1,36 @@
-import axios from 'axios';
-import { ADD_PRESENTATION, ERROR_MESSAGE } from './actionTypes';
+import axios from "axios";
+import {
+  ADD_PRESENTATION,
+  VALIDATION_ERROR_MESSAGE,
+  VALIDATION_FROM_SERVER
+} from "./actionTypes";
 
-export const addPresentation = newPresentation => {
-  return async(dispatch) => {
+export const addPresentation = (newPresentation, history) => {
+  return async dispatch => {
     try {
       const response = await axios.post("/presentations", newPresentation);
-      const addedPresentation = response.data.newPresentation;
 
       dispatch({
-        type: ADD_PRESENTATION,
-        payload : addedPresentation
-      })
-    }catch(err){
-      console.log('err from BE', err.response);
-      const error = err.response.data.title
-        ? err.response.data.title
-        : err.response.data;
+        type: VALIDATION_FROM_SERVER,
+        valid: true
+      });
+
+      const addedPresentation = response.data.newPresentation;
       dispatch({
-        type: ERROR_MESSAGE,
-        payload: error
+        type: ADD_PRESENTATION,
+        payload: addedPresentation
+      });
+
+      console.log('success');
+    } catch (error) {
+      console.log("lets handle error");
+
+      const validErrors = error.response ? error.response.data.errors : {};
+
+      dispatch({
+        type: VALIDATION_ERROR_MESSAGE,
+        payload: validErrors
       });
     }
-  } 
-}
+  };
+};
