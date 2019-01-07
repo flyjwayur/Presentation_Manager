@@ -13,6 +13,37 @@ const app = express();
 
 app.use(morgan("dev"));
 
+const auth = (req, res, next) => {
+  console.log(req.headers);
+  const authHeader = req.headers.authorization;
+  
+  if(!authHeader){
+    const err= new Error('You are not authenticated!');
+
+    res.setHeader('WWW-Authenticate', 'Basic');
+    err.status = 401;
+    return next(err);
+  }
+  const auth = new Buffer.alloc(100, authHeader.split(' ')[1], 'base64').toString().split(':');
+
+  const username = auth[0];
+  const password = auth[1];
+
+  if(username === 'admin' && password=== 'password' ){
+    next();
+  }
+  else{
+    const err= new Error('You are not authenticated!');
+
+    res.setHeader('WWW-Authenticate', 'Basic');
+    err.status = 401;
+    return next(err);
+  }
+
+}
+
+app.use(auth);
+
 const options = {
   useNewUrlParser: true,
   autoIndex: false, // Don't build indexes
@@ -42,9 +73,14 @@ app.use("/", presentationRouter);
 
 // if(process.env.node_env ==='production') {
 // The catchall handler : if some request that does not match, send back React's index.html file
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "client/build/index.html"));
-});
+// app.get("*", (req, res) => {
+//   res.sendFile(path.join(__dirname, "client/build/index.html"));
+// });
 //}
+
+//For development
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client/public/index.html"));
+});
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`));
