@@ -259,7 +259,7 @@ class PresentaionForms extends Component {
       "summary"
     ];
     // For validating given inputs
-    const { presenter, evaluator, topic, article, date } = this.state;
+    const { presenter, evaluator, topic, article, date, keywords, summary } = this.state;
 
     const hintMessages = this.validateInputs(
       presenter,
@@ -283,7 +283,9 @@ class PresentaionForms extends Component {
       evaluator,
       topic,
       article,
-      date
+      date,
+      keywords,
+      summary
     };
 
     let keysOnSinglePresentation = null;

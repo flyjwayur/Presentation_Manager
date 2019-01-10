@@ -14,15 +14,15 @@ function showPresentations(req, res) {
     if (presentations) {
       res.json(presentations);
     } else if (err) {
-      console.log("from err", err);
-      //next(err);
-      res.status(500).json({
-        title: "Internal server error",
-        name: err.name,
-        message: err.message
-      });
+      res
+        .status(500)
+        .json({
+          title: "Internal server error",
+          name: err.name,
+          message: err.message
+        });
     } else if (presentations.length < 1) {
-      console.log("A presentations is not found");
+      console.log("Presentations are not found");
       res
         .status(404)
         .json({ title: "Not found", message: _id + " does not exist" });
@@ -45,7 +45,7 @@ function showDetailPresentation(req, res, next) {
         message: err.message
       });
     } else if (presentation === null) {
-      console.log("A presentations is not found");
+      console.log("A presentation is not found");
       res
         .status(404)
         .json({ title: "Not found", message: _id + " does not exist" });

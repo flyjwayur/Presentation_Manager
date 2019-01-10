@@ -1,5 +1,11 @@
-//const MongoClient = require('mongodb').MongoClient;
+// const MongoClient = require('mongodb').MongoClient;
 
+// const client = new MongoClient(uri, { useNewUrlParser: true });
+// client.connect(err => {
+//   const collection = client.db("test").collection("devices");
+// // perform actions on the collection object
+//   client.close();
+// });
 
 module.exports = {
   // 1) URL from mlab

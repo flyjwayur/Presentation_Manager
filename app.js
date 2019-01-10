@@ -5,6 +5,8 @@ const path = require("path");
 const morgan = require("morgan");
 const { MONGODB_URI } = require("./server/database/db");
 const presentationRouter = require("./server/routes/presentationRoute");
+const MongoClient = require('mongodb').MongoClient;
+
 
 const PORT = process.env.PORT || 5003;
 const hostname = "localhost";
@@ -31,6 +33,13 @@ mongoose
   .then(console.log("Databese is connected"))
   .catch(err => {
     console.log("there is err", err);
+  });
+  
+  const client = new MongoClient(MONGODB_URI, { useNewUrlParser: true });
+  client.connect(err => {
+    const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+    client.close();
   });
 
 // Serve static files from the React app

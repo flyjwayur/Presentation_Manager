@@ -51,11 +51,14 @@ const CustumTableCell = withStyles(theme => ({
 
 class Presentation extends Component {
   handleDelete = e => {
-    const selectedPresentation = this.props.presentation;
-    this.props.deletePresentation(
-      selectedPresentation,
-      selectedPresentation._id
-    );
+    const answer = window.confirm("Do you really want to delete the presentation?");
+    if(answer){
+      const selectedPresentation = this.props.presentation;
+      this.props.deletePresentation(
+        selectedPresentation,
+        selectedPresentation._id
+      );
+    }
   };
 
   handleEdit = e => {

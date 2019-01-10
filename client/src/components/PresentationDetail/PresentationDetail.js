@@ -22,14 +22,14 @@ const styles = theme => ({
     paddingBottom: theme.spacing.unit * 2,
     backgroundColor: theme.palette.third.light,
     color: theme.palette.third.dark,
-    margin : theme.spacing.unit * 5
+    margin: theme.spacing.unit * 5
   },
   CardHeader: {
     backgroundColor: theme.palette.secondary.main
   },
-  topicText : {
+  topicText: {
     color: theme.palette.secondary.darker,
-    fontWeight : 900
+    fontWeight: 900
   },
   icons: {
     marginTop: 30,
@@ -54,8 +54,8 @@ const styles = theme => ({
       color: theme.palette.secondary.dark
     }
   },
-  goBackButton : {
-    flex : 1,
+  goBackButton: {
+    flex: 1,
     position: "absolute",
     top: 150,
     left: 100
@@ -70,12 +70,17 @@ class PresentationDetail extends Component {
   };
 
   handleDelete = e => {
-    const selectedPresentation = this.props.singlePresentation;
-    this.props.deletePresentation(
-      selectedPresentation,
-      selectedPresentation._id
+    const answer = window.confirm(
+      "Do you really want to delete the presentation?"
     );
-    this.props.history.push("/presentations");
+    if (answer) {
+      const selectedPresentation = this.props.singlePresentation;
+      this.props.deletePresentation(
+        selectedPresentation,
+        selectedPresentation._id
+      );
+      this.props.history.push("/presentations");
+    }
   };
 
   renderPresentationDetail = () => {
@@ -167,7 +172,11 @@ class PresentationDetail extends Component {
         )}
         {isLoading && <Spinner />}
         <Link to="/presentations">
-        <Button variant="outlined" color="primary" className={classes.goBackButton}>
+          <Button
+            variant="outlined"
+            color="primary"
+            className={classes.goBackButton}
+          >
             Go Back
           </Button>
         </Link>
