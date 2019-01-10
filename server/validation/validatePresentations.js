@@ -70,14 +70,6 @@ const validateAddPresentationInput = (data) => {
     errors.date = "The date field is required";
   }
 
-  if (isEmpty(data.keywords)) {
-    errors.keywords = "The keyword field is required";
-  }
-
-  if (isEmpty(data.summary)) {
-    errors.summary = "The summary field is required";
-  }
-
   return {
     errors,
     isValid: isEmpty(errors)
