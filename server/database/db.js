@@ -7,7 +7,8 @@ module.exports = {
   // 2) URL from mongodb based on terminal & Robo 3T
   //MONGODB_URI : 'mongodb://localhost:27017/presentationsDB'
   // 3) URL from mongodb atlas 
-  MONGODB_URI: 'mongodb+srv://presentationUser:presentation123@presentations-fcivo.gcp.mongodb.net/test?retryWrites=true'
+  MONGODB_URI: 'mongodb+srv://chicken-soup_098:chicken-soup_098@presentations-fcivo.gcp.mongodb.net/test?retryWrites=true'
+  // MONGODB_URI: 'mongodb+srv://presentationUser:presentation123@presentations-fcivo.gcp.mongodb.net/test?retryWrites=true'
   // const client = new MongoClient(uri, { useNewUrlParser: true });
   // client.connect(err => {
   //   const collection = client.db("test").collection("devices");

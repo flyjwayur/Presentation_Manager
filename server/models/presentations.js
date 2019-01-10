@@ -4,19 +4,27 @@ const Schema = mongoose.Schema;
 
 const PresentationSchema = new Schema({
   presenter : {
-    type : String
+    type : String,
+    required: true,
+    minlength : 2
   },
   evaluator : {
-    type : String
+    type : String,
+    required: true,
+    minlength : 2
   },
   topic : {
-    type : String
+    type : String,
+    required: true,
+    minlength : 2
   },
   article : {
-    type : String
+    type : String,
+    required: true
   },
   date : {
-    type : Date
+    type : Date,
+    required: true
   },
   keywords : {
     type : String
