@@ -5,14 +5,14 @@
   "main": "app.js",
   "scripts": {
     "client-install": "cd client && yarn",
-    "start":"node app.js",
+    "start": "node app.js",
     "start-watch": "nodemon app.js",
     "client": "yarn start --prefix client",
     "heroku-postbuild": "cd client && yarn && yarn run build",
     "dev": "concurrently \"yarn && yarn run start-watch\" \"cd  client  && yarn start\" "
   },
   "engines": {
-    "node":"10.9.0"
+    "node": "10.9.0"
   },
   "author": "",
   "license": "ISC",
@@ -25,6 +25,7 @@
     "morgan": "^1.9.1",
     "nodemon": "^1.18.8",
     "package.json": "^2.0.1",
-    "redux-thunk": "^2.3.0"
+    "redux-thunk": "^2.3.0",
+    "validator": "^10.10.0"
   }
 }

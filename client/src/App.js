@@ -48,7 +48,7 @@ class App extends Component {
   render() {
 
     // classes for material UI
-    const { classes, presentations, error, isLoading, onAddPresentation, onEditPresentation, onDeletePresentation } = this.props;
+    const { classes, presentations, error, isLoading, onAddPresentation, onEditPresentation, onDeletePresentation, validationErrorMessage,validFromServer } = this.props;
 
     const editWithId = ({ match, history }) => {
       return (
@@ -101,7 +101,9 @@ class App extends Component {
                 <PresentationForms
                   formType="addForm"
                   {...props}
-                  postNewPresentation={onAddPresentation}
+                  onAddPresentation={onAddPresentation}
+                  validationErrorMessage={validationErrorMessage}
+                  validFromServer={validFromServer}
                 />
               )}
             />
@@ -127,7 +129,9 @@ const mapStateToProps = state => {
   return {
     presentations: state.presentations,
     error : state.error,
-    isLoading : state.isLoading
+    isLoading : state.isLoading,
+    validationErrorMessage : state.validationErrorMessage,
+    validFromServer : state.validFromServer
   }
 };
 
