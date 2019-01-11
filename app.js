@@ -3,7 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
 const morgan = require("morgan");
-const { MONGODB_URI } = require("./server/database/db");
+const { MONGODB_URI } = require("./config/config");
 const presentationRouter = require("./server/routes/presentationRoute");
 const MongoClient = require('mongodb').MongoClient;
 
