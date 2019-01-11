@@ -25,7 +25,6 @@
     "morgan": "^1.9.1",
     "nodemon": "^1.18.8",
     "package.json": "^2.0.1",
-    "redux-thunk": "^2.3.0",
     "validator": "^10.10.0"
   }
 }
