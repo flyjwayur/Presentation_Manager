@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -8,6 +8,8 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 
 function FormDialog() {
+  //Hook - use state and other React features without writing class
+  //useState hook: let us add React state to function components
   const [open, setOpen] = React.useState(false);
 
   function handleClickOpen() {
@@ -20,7 +22,7 @@ function FormDialog() {
 
   return (
     <div>
-      <Button onClick={handleClickOpen}>Open form dialog</Button>
+      <Button onClick={handleClickOpen} color="secondary" variant="contained">Sign Up</Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
         <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
         <DialogContent>

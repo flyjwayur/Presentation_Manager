@@ -24,9 +24,7 @@ class SignUp extends Component {
     email: '',
     password: '',
     password2: '',
-    errors: {},
-    open : false,
-    setOpen : false
+    errors: {}
   };
 
   handleChange = e => {

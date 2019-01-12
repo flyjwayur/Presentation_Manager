@@ -13,6 +13,7 @@ import FeaturedPlayList from "@material-ui/icons/FeaturedPlayList";
 import GridOn from "@material-ui/icons/GridOn";
 import classes from "./navigation.module.css";
 import classNames from "classnames";
+import SignUp from '../../containers/Auth/SignUp';
 
 const styles = theme => ({
   homeIcon: {
@@ -111,6 +112,7 @@ class Navigation extends Component {
                 <GridOn />
               </IconButton>
             </NavLink>
+            <SignUp/>
             <NavLink
               to="/signUp"
               activeStyle={{
