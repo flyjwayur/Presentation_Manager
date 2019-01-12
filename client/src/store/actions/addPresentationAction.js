@@ -8,7 +8,7 @@ import {
 export const addPresentation = (newPresentation, history) => {
   return async dispatch => {
     try {
-      const response = await axios.post("/presentations", newPresentation);
+      const response = await axios.post("/api/presentations", newPresentation);
 
       dispatch({
         type: VALIDATION_FROM_SERVER,

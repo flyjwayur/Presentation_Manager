@@ -13,7 +13,7 @@ export const fetchFromDB = () => {
     });
 
     try {
-      const url = "/presentations";
+      const url = "/api/presentations";
       const response = await axios.get(url);
       const presentations = response.data;
       dispatch({

@@ -1,5 +1,5 @@
 const validator = require("validator");
-const { isEmpty } = require("./isEmpty");
+const isEmpty = require("./isEmpty");
 
 const validateAddPresentationInput = (data) => {
   const errors = {};

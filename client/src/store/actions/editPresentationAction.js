@@ -7,7 +7,7 @@ export const editPresentation = (selectedPresentation, id) => {
   return async(dispatch) => {
     try{
       const response = await axios.put(
-        `/presentations/${id}`,
+        `/api/presentations/${id}`,
         selectedPresentation
       );
       const edittedPresentation = response.data.edittedPresentation;

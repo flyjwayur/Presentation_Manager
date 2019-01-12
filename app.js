@@ -5,6 +5,7 @@ const path = require("path");
 const morgan = require("morgan");
 const { MONGODB_URI } = require("./config/config");
 const presentationRouter = require("./server/routes/presentationRoute");
+const userRouter = require("./server/routes/userRoute");
 const MongoClient = require('mongodb').MongoClient;
 
 
@@ -47,7 +48,8 @@ app.use(express.static(path.join(__dirname, "/client/build")));
 app.use(bodyParser.json());
 
 // REST API end points under '/'
-app.use("/", presentationRouter);
+app.use("/api/presentations", presentationRouter);
+app.use('/api/users', userRouter);
 
 // if(process.env.node_env ==='production') {
 // The catchall handler : if some request that does not match, send back React's index.html file
@@ -56,4 +58,4 @@ app.get("*", (req, res) => {
 });
 //}
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+app.listen(PORT, () => console.log(`Listening on ${hostname}/${PORT}`));
