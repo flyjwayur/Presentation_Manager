@@ -17,7 +17,6 @@ import {
 import PropTypes from "prop-types";
 import AddCircle from "@material-ui/icons/AddCircle";
 
-
 const styles = theme => ({
   root: {
     display: "flex",
@@ -50,7 +49,7 @@ const styles = theme => ({
   },
   addIcon: {
     fontSize: 60,
-    flex : 1
+    flex: 1
   }
 });
 
@@ -101,7 +100,11 @@ class Presentations extends Component {
               textDecoration: "none"
             }}
           >
-            <Button variant="outlined" color="primary" className={classes.goBackButton}>
+            <Button
+              variant="outlined"
+              color="primary"
+              className={classes.goBackButton}
+            >
               Go Back
             </Button>
           </Link>
@@ -120,39 +123,43 @@ class Presentations extends Component {
             </Fab>
           </Link>
         </div>
-      <div className={classes.root}>
-        <Typography variant="h6" color="primary">
-          Upcoming presentations :{" "}
-          <span className={classes.hightlightText}>{presentations.length}</span>
-        </Typography>
-        {/* Handle errors */}
-        {error && (
-          <Typography color="secondary">
-            <span>{error}</span>
-            <div> Could you refresh the page?</div>
+        <div className={classes.root}>
+          <Typography variant="h6" color="primary">
+            Upcoming presentations :{" "}
+            <span className={classes.hightlightText}>
+              {presentations.length}
+            </span>
           </Typography>
-        )}
-        {/* Handle loading presentation data */}
-        {isLoading && <Spinner />}
-        {/* Render presentations */}
-        <div>
-          <Paper className={classes.root}>
-            <Table className={classes.table}>
-              <TableHead>
-                <TableRow>
-                  <CustumTableCell>Presentor</CustumTableCell>
-                  <CustumTableCell align="right">Evaluator</CustumTableCell>
-                  <CustumTableCell align="right">Topic</CustumTableCell>
-                  <CustumTableCell align="right">Article</CustumTableCell>
-                  <CustumTableCell align="center">Date</CustumTableCell>
-                  <CustumTableCell align="center">Monitor</CustumTableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>{this.renderPresentations(this.props)}</TableBody>
-            </Table>
-          </Paper>
+          {/* Handle errors */}
+          {error && (
+            <div>
+              <Typography color="secondary">{error}</Typography>
+              <Typography color="secondary">
+                Could you refresh the page?
+              </Typography>
+            </div>
+          )}
+          {/* Handle loading presentation data */}
+          {isLoading && <Spinner />}
+          {/* Render presentations */}
+          <div>
+            <Paper className={classes.root}>
+              <Table className={classes.table}>
+                <TableHead>
+                  <TableRow>
+                    <CustumTableCell>Presentor</CustumTableCell>
+                    <CustumTableCell align="right">Evaluator</CustumTableCell>
+                    <CustumTableCell align="right">Topic</CustumTableCell>
+                    <CustumTableCell align="right">Article</CustumTableCell>
+                    <CustumTableCell align="center">Date</CustumTableCell>
+                    <CustumTableCell align="center">Monitor</CustumTableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>{this.renderPresentations(this.props)}</TableBody>
+              </Table>
+            </Paper>
+          </div>
         </div>
-      </div>
       </Fragment>
     );
   }

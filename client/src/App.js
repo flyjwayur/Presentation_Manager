@@ -4,6 +4,7 @@ import Presentations from "./components/Presentations/Presentations";
 import PresentationForms from "./containers/PresentationForms/PresentationForms";
 import Navigation from "./components/Navigation/Navigation";
 import PresentationDetail from "./components/PresentationDetail/PresentationDetail";
+import SignUp from "./containers/Auth/SignUp";
 import { Route, Switch, Redirect, withRouter } from "react-router-dom";
 import moment from "moment";
 import { withStyles } from "@material-ui/core/styles";
@@ -117,6 +118,10 @@ class App extends Component {
               path="/presentations/:presentationId"
               component={detailWithId}
             />
+            <Route 
+            exact
+            path="/signUp"
+            component={SignUp} />
             <Redirect to="/" />
           </Switch>
         </div>

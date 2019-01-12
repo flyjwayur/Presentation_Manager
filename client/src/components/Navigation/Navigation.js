@@ -18,7 +18,6 @@ const styles = theme => ({
   homeIcon: {
     width: theme.spacing.unit * 9,
     color: theme.palette.third.dark,
-    position: "relative",
     margin: theme.spacing.unit * 5
   },
   homeIconHover: {
@@ -26,6 +25,9 @@ const styles = theme => ({
       color: theme.palette.third.light,
       border: "1px solid #fff"
     }
+  },
+  button: {
+    margin: theme.spacing.unit * 5
   }
 });
 
@@ -61,7 +63,7 @@ class Navigation extends Component {
               align="left"
             >
               <NavLink
-                to="/"
+                to="/presentations"
                 className={classes.titleColor}
                 activeStyle={{
                   textDecoration: "none"
@@ -99,7 +101,6 @@ class Navigation extends Component {
                 />
               </IconButton>
             </NavLink>
-
             <NavLink
               to="/presentations"
               activeStyle={{
@@ -110,7 +111,27 @@ class Navigation extends Component {
                 <GridOn />
               </IconButton>
             </NavLink>
-            <Button color="inherit">Login</Button>
+            <NavLink
+              to="/signUp"
+              activeStyle={{
+                textDecoration: "none"
+              }}
+            >
+              <Button
+                variant="outlined"
+                color="default"
+                style={{ marginRight: "1em" }}
+              >
+                Sign Up
+              </Button>
+            </NavLink>
+            <Button
+              variant="outlined"
+              color="default"
+              className={classes.button}
+            >
+              Sign In
+            </Button>
           </Toolbar>
         </AppBar>
       </div>
