@@ -112,7 +112,6 @@ class Navigation extends Component {
                 <GridOn />
               </IconButton>
             </NavLink>
-            <SignUp/>
             <NavLink
               to="/signUp"
               activeStyle={{

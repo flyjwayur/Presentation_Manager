@@ -92,6 +92,8 @@ class App extends Component {
                   isLoading={isLoading}
                   error={error}
                   deletePresentation={onDeletePresentation}
+                  onAddPresentation={onAddPresentation}
+                  validFromServer={validFromServer}
                 />
               )}
             />

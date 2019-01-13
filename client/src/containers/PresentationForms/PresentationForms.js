@@ -16,6 +16,7 @@ import {
 import { DetailImage } from "../../components/UI/Icon/Icon";
 import deepOrange from "@material-ui/core/colors/deepOrange";
 
+
 const styles = theme => ({
   container: {
     display: "flex",
@@ -335,6 +336,7 @@ class PresentaionForms extends Component {
             Go back
           </Button>
         </Link>
+   
     <div>{Object.values(this.props.validationErrorMessage).map( ( error, index)  => {return <div key={index}>{error}</div>})}</div>
         <div className={classes.container}>
           <FormControl className={classes.margin}>

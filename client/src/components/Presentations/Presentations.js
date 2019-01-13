@@ -11,11 +11,10 @@ import {
   TableRow,
   TableCell,
   Typography,
-  Button,
-  Fab
+  Button
 } from "@material-ui/core";
 import PropTypes from "prop-types";
-import AddCircle from "@material-ui/icons/AddCircle";
+import FormDialog from "../UI/Dialogs/Dialogs"
 
 const styles = theme => ({
   root: {
@@ -108,20 +107,14 @@ class Presentations extends Component {
               Go Back
             </Button>
           </Link>
-          <Link
+          {/* <Link
             to="presentations/addPresentation"
             style={{
               textDecoration: "none"
             }}
-          >
-            <Fab className={classes.fab}>
-              <AddCircle
-                color="secondary"
-                arial-label="Add"
-                className={classes.addIcon}
-              />
-            </Fab>
-          </Link>
+          > */}
+            <FormDialog onAddPresentation={this.props.onAddPresentation} validFromServer={this.props.validFromServer} classes={this.props.classes}/>
+          {/* </Link> */}
         </div>
         <div className={classes.root}>
           <Typography variant="h6" color="primary">
