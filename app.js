@@ -5,7 +5,6 @@ const path = require("path");
 const morgan = require("morgan");
 const { MONGODB_URI } = require("./config/config");
 const presentationRouter = require("./server/routes/presentationRoute");
-const MongoClient = require('mongodb').MongoClient;
 
 
 const PORT = process.env.PORT || 5003;
@@ -35,12 +34,6 @@ mongoose
     console.log("there is err", err);
   });
   
-  const client = new MongoClient(MONGODB_URI, { useNewUrlParser: true });
-  client.connect(err => {
-    const collection = client.db("test").collection("devices");
-  // perform actions on the collection object
-    client.close();
-  });
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, "/client/build")));
@@ -56,4 +49,4 @@ app.get("*", (req, res) => {
 });
 //}
 
-app.listen(PORT, () => console.log(`Listening on ${PORT}`));
+app.listen(PORT, () => console.log(`Listening on ${hostname}:${PORT}`));
