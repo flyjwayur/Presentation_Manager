@@ -2,6 +2,7 @@ const validator = require("validator");
 const isEmpty = require("./isEmpty");
 
 const validateAddPresentationInput = (data) => {
+
   const errors = {};
 
   data.presenter = !isEmpty(data.presenter) ? data.presenter : "";
@@ -9,18 +10,8 @@ const validateAddPresentationInput = (data) => {
   data.topic = !isEmpty(data.topic) ? data.topic : "";
   data.article = !isEmpty(data.article) ? data.article : "";
   data.date = !isEmpty(data.date) ? data.date : "";
-  data.keywords = !isEmpty(data.keywords) ? data.keywords : "";
-  data.summary = !isEmpty(data.summary) ? data.summary : "";
 
-  // if(isEmpty(data.email)){
-  //   errors.email = "Email field is required";
-  // }else{
-  //   if(!validator.isEmail(data.email)){
-  //     errors.email = "It should be a valid email";
-  //   }
-  // }
-
-  /* General not empty in these fields : presenter, evaluator, topic, articel, date*/
+  /* In general not empty in these fields : presenter, evaluator, topic, articel, date*/
 
   /* Specific requirements*/
 
@@ -43,11 +34,11 @@ const validateAddPresentationInput = (data) => {
   }
 
   if (!validator.isURL(data.article)) {
-    erorrs.article = "Article should have URL format with http/https/ftp";
+    errors.article = "Article should have URL format with http/https/ftp";
   }
 
   if (!validator.isISO8601(data.date)) {
-    erorrs.date = "It should be a valid date";
+    errors.date = "It should be a valid date";
   }
 
   if (isEmpty(data.presenter)) {

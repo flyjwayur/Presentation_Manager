@@ -1,22 +1,16 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 //import TextInputField from '../shared/TextInputField';
 import axios from 'axios';
-import { withStyles } from "@material-ui/core/styles";
-import {
-  Grid,
-  Button
-} from "@material-ui/core";
-import FormDialog from '../../components/UI/Dialogs/Dialogs';
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   container: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    flexGrow: 1
-  }
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    flexGrow: 1,
+  },
 });
-
 
 class SignUp extends Component {
   state = {
@@ -24,7 +18,7 @@ class SignUp extends Component {
     email: '',
     password: '',
     password2: '',
-    errors: {}
+    errors: {},
   };
 
   handleChange = e => {
@@ -35,8 +29,8 @@ class SignUp extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    const {name, email, password, password2} = this.state;
-    const data = {name, email, password, password2};
+    const { name, email, password, password2 } = this.state;
+    const data = { name, email, password, password2 };
     axios
       .post('/api/users/signup', data)
       .then(res => {
@@ -55,10 +49,8 @@ class SignUp extends Component {
   //For UI : Dialog
 
   render() {
-    const {errors} = this.state;
-    return (
-    <FormDialog/>
-    );
+    const { errors } = this.state;
+    return <div />;
   }
 }
 

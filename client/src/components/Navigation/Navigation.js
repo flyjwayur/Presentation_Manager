@@ -1,41 +1,41 @@
-import React, { Component } from "react";
-import { NavLink } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
+import React, { Component } from 'react';
+import { NavLink } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
 import {
   AppBar,
   Toolbar,
   IconButton,
   Typography,
   Button,
-  SvgIcon
-} from "@material-ui/core";
-import FeaturedPlayList from "@material-ui/icons/FeaturedPlayList";
-import GridOn from "@material-ui/icons/GridOn";
-import classes from "./navigation.module.css";
-import classNames from "classnames";
-import SignUp from '../../containers/Auth/SignUp';
+  SvgIcon,
+} from '@material-ui/core';
+import FeaturedPlayList from '@material-ui/icons/FeaturedPlayList';
+import GridOn from '@material-ui/icons/GridOn';
+import classes from './navigation.module.css';
+import classNames from 'classnames';
+import SubscribeDialog from '../UI/Dialogs/Dialogs';
 
 const styles = theme => ({
   homeIcon: {
     width: theme.spacing.unit * 9,
     color: theme.palette.third.dark,
-    margin: theme.spacing.unit * 5
+    margin: theme.spacing.unit * 5,
   },
   homeIconHover: {
-    "&:hover": {
+    '&:hover': {
       color: theme.palette.third.light,
-      border: "1px solid #fff"
-    }
+      border: '1px solid #fff',
+    },
   },
   button: {
-    margin: theme.spacing.unit * 5
-  }
+    margin: theme.spacing.unit * 5,
+  },
 });
 
 function HomeIcon(props) {
   return (
     <SvgIcon {...props}>
-      <path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+      <path d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z' />
     </SvgIcon>
   );
 }
@@ -44,58 +44,58 @@ class Navigation extends Component {
   render() {
     return (
       <div className={classes.root}>
-        <AppBar position="static">
-          <Toolbar color="inherit">
-            <IconButton color="inherit" aria-label="menu icon">
+        <AppBar position='static'>
+          <Toolbar color='inherit'>
+            <IconButton color='inherit' aria-label='menu icon'>
               <NavLink
-                to="/"
+                to='/'
                 className={classes.logoColor}
                 activeStyle={{
-                  textDecoration: "none"
+                  textDecoration: 'none',
                 }}
               >
                 <FeaturedPlayList />
               </NavLink>
             </IconButton>
             <Typography
-              variant="h6"
-              color="inherit"
+              variant='h6'
+              color='inherit'
               className={classes.typoFlex}
-              align="left"
+              align='left'
             >
               <NavLink
-                to="/presentations"
+                to='/presentations'
                 className={classes.titleColor}
                 activeStyle={{
-                  textDecoration: "none"
+                  textDecoration: 'none',
                 }}
               >
                 Presentations
               </NavLink>
             </Typography>
             <NavLink
-              to="/"
+              to='/'
               activeStyle={{
-                textDecoration: "none"
+                textDecoration: 'none',
               }}
             >
               <IconButton>
                 <HomeIcon
                   className={classNames(
                     classes.homeIcon,
-                    classes.homeIconHover
+                    classes.homeIconHover,
                   )}
-                  color="primary"
+                  color='primary'
                   component={svgProps => (
                     <svg {...svgProps}>
                       <defs>
-                        <linearGradient id="gradient1">
-                          <stop offset="30%" stopColor="#FBE8A6" />
-                          <stop offset="40%" stopColor="#303C6C" />
+                        <linearGradient id='gradient1'>
+                          <stop offset='30%' stopColor='#FBE8A6' />
+                          <stop offset='40%' stopColor='#303C6C' />
                         </linearGradient>
                       </defs>
                       {React.cloneElement(svgProps.children[0], {
-                        fill: "url(#gradient1)"
+                        fill: 'url(#gradient1)',
                       })}
                     </svg>
                   )}
@@ -103,32 +103,33 @@ class Navigation extends Component {
               </IconButton>
             </NavLink>
             <NavLink
-              to="/presentations"
+              to='/presentations'
               activeStyle={{
-                textDecoration: "none"
+                textDecoration: 'none',
               }}
             >
               <IconButton>
                 <GridOn />
               </IconButton>
             </NavLink>
+            <SubscribeDialog />
             <NavLink
-              to="/signUp"
+              to='/signUp'
               activeStyle={{
-                textDecoration: "none"
+                textDecoration: 'none',
               }}
             >
               <Button
-                variant="outlined"
-                color="default"
-                style={{ marginRight: "1em" }}
+                variant='outlined'
+                color='default'
+                style={{ marginRight: '1em' }}
               >
                 Sign Up
               </Button>
             </NavLink>
             <Button
-              variant="outlined"
-              color="default"
+              variant='outlined'
+              color='default'
               className={classes.button}
             >
               Sign In

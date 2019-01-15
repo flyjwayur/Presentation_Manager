@@ -7,15 +7,13 @@ import {
   DELETE_PRESENTATION,
   ERROR_MESSAGE,
   VALIDATION_ERROR_MESSAGE,
-  VALIDATION_FROM_SERVER
 } from "../actions/actionTypes";
 
 const initialState = {
   presentations: [],
   error: false,
   isLoading: false,
-  validationErrorMessage : {},
-  validFromServer: false
+  validationErrorMessage : {}
 };
 
 const presentationReducer = (state = initialState, action) => {
@@ -75,10 +73,9 @@ const presentationReducer = (state = initialState, action) => {
     case ERROR_MESSAGE:
       return { ...state, error: action.payload };
     case VALIDATION_ERROR_MESSAGE:
+      console.log('state in reducer', { ...state,  validationErrorMessage : action.payload});
+      console.log('validation msg from server', action.payload)
       return { ...state,  validationErrorMessage : action.payload};
-    case VALIDATION_FROM_SERVER:
-    console.log('reducer validation from server', action.valid);
-      return { ...state, validFromServer : action.valid }
     default:
       return state;
   }

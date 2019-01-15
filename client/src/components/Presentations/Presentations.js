@@ -1,8 +1,8 @@
-import React, { Component, Fragment } from "react";
-import Spinner from "../../components/UI/Spinner/Spinner";
-import Presentation from "../../components/Presentation/Presentation";
-import { Link } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
+import React, { Component, Fragment } from 'react';
+import Spinner from '../../components/UI/Spinner/Spinner';
+import Presentation from '../../components/Presentation/Presentation';
+import { Link } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
 import {
   Paper,
   Table,
@@ -11,45 +11,46 @@ import {
   TableRow,
   TableCell,
   Typography,
-  Button
-} from "@material-ui/core";
-import PropTypes from "prop-types";
-import FormDialog from "../UI/Dialogs/Dialogs"
+  Button,
+  Fab,
+} from '@material-ui/core';
+import PropTypes from 'prop-types';
+import AddCircle from '@material-ui/icons/AddCircle';
 
 const styles = theme => ({
   root: {
-    display: "flex",
-    flexDirection: "column",
+    display: 'flex',
+    flexDirection: 'column',
     flex: 1,
-    alignItems: "center",
+    alignItems: 'center',
     margin: theme.spacing.unit * 5,
-    overFlowX: "auto"
+    overFlowX: 'auto',
   },
   table: {
-    minWidth: 700
+    minWidth: 700,
   },
   tableHead: {
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   hightlightText: {
     color: theme.palette.secondary.dark,
-    fontWeight: 900
+    fontWeight: 900,
   },
   iconPosition: {
-    display: "flex",
-    justifyContent: "space-between",
-    margin: theme.spacing.unit * 5
+    display: 'flex',
+    justifyContent: 'space-between',
+    margin: theme.spacing.unit * 5,
   },
   goBackButton: {
-    flex: 2
+    flex: 2,
   },
   fab: {
-    backgroundColor: theme.palette.secondary.light
+    backgroundColor: theme.palette.secondary.light,
   },
   addIcon: {
     fontSize: 60,
-    flex: 1
-  }
+    flex: 1,
+  },
 });
 
 const CustumTableCell = withStyles(theme => ({
@@ -57,8 +58,8 @@ const CustumTableCell = withStyles(theme => ({
     backgroundColor: theme.palette.secondary.light,
     color: theme.palette.third.dark,
     fontSize: 14,
-    fontWeight: 800
-  }
+    fontWeight: 800,
+  },
 }))(TableCell);
 
 class Presentations extends Component {
@@ -94,31 +95,37 @@ class Presentations extends Component {
       <Fragment>
         <div className={classes.iconPosition}>
           <Link
-            to="/"
+            to='/'
             style={{
-              textDecoration: "none"
+              textDecoration: 'none',
             }}
           >
             <Button
-              variant="outlined"
-              color="primary"
+              variant='outlined'
+              color='primary'
               className={classes.goBackButton}
             >
               Go Back
             </Button>
           </Link>
-          {/* <Link
-            to="presentations/addPresentation"
+          <Link
+            to='presentations/addPresentation'
             style={{
-              textDecoration: "none"
+              textDecoration: 'none',
             }}
-          > */}
-            <FormDialog onAddPresentation={this.props.onAddPresentation} validFromServer={this.props.validFromServer} classes={this.props.classes}/>
-          {/* </Link> */}
+          >
+            <Fab className={classes.fab}>
+              <AddCircle
+                color='secondary'
+                arial-label='Add'
+                className={classes.addIcon}
+              />
+            </Fab>
+          </Link>
         </div>
         <div className={classes.root}>
-          <Typography variant="h6" color="primary">
-            Upcoming presentations :{" "}
+          <Typography variant='h6' color='primary'>
+            Upcoming presentations :{' '}
             <span className={classes.hightlightText}>
               {presentations.length}
             </span>
@@ -126,8 +133,8 @@ class Presentations extends Component {
           {/* Handle errors */}
           {error && (
             <div>
-              <Typography color="secondary">{error}</Typography>
-              <Typography color="secondary">
+              <Typography color='secondary'>{error}</Typography>
+              <Typography color='secondary'>
                 Could you refresh the page?
               </Typography>
             </div>
@@ -141,11 +148,11 @@ class Presentations extends Component {
                 <TableHead>
                   <TableRow>
                     <CustumTableCell>Presentor</CustumTableCell>
-                    <CustumTableCell align="right">Evaluator</CustumTableCell>
-                    <CustumTableCell align="right">Topic</CustumTableCell>
-                    <CustumTableCell align="right">Article</CustumTableCell>
-                    <CustumTableCell align="center">Date</CustumTableCell>
-                    <CustumTableCell align="center">Monitor</CustumTableCell>
+                    <CustumTableCell align='right'>Evaluator</CustumTableCell>
+                    <CustumTableCell align='right'>Topic</CustumTableCell>
+                    <CustumTableCell align='right'>Article</CustumTableCell>
+                    <CustumTableCell align='center'>Date</CustumTableCell>
+                    <CustumTableCell align='center'>Monitor</CustumTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>{this.renderPresentations(this.props)}</TableBody>
@@ -159,7 +166,7 @@ class Presentations extends Component {
 }
 
 Presentations.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(Presentations);

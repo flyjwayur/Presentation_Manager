@@ -210,11 +210,11 @@ class PresentaionForms extends Component {
     // And it displays the all error messages for input fields hints
     const newPresentation = this.state;
 
-    console.log('before : validFromServer', this.props.validFromServer);
+    console.log('before : validationErrorMessage', this.props.validationErrorMessage);
     this.props.onAddPresentation(newPresentation, this.props.history).then(()=>
-    {if(this.props.validFromServer){this.props.history.push('/presentations')}}).catch(err => console.log(err));
+    {if(this.props.validationErrorMessage){this.props.history.push('/presentations')}}).catch(err => console.log(err));
 
-    console.log('after : validFromServer', this.props.validFromServer);
+    console.log('after : validationErrorMessage', this.props.validationErrorMessage);
  
   };
 
