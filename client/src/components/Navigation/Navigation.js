@@ -49,10 +49,7 @@ class Navigation extends Component {
             <IconButton color='inherit' aria-label='menu icon'>
               <NavLink
                 to='/'
-                className={classes.logoColor}
-                activeStyle={{
-                  textDecoration: 'none',
-                }}
+                className={classNames(classes.nav__logo, classes.nav_links)}
               >
                 <FeaturedPlayList />
               </NavLink>
@@ -60,15 +57,15 @@ class Navigation extends Component {
             <Typography
               variant='h6'
               color='inherit'
-              className={classes.typoFlex}
+              className={classes.nav__title}
               align='left'
             >
               <NavLink
                 to='/presentations'
-                className={classes.titleColor}
-                activeStyle={{
-                  textDecoration: 'none',
-                }}
+                className={classNames(
+                  classes.nav__linkTitle,
+                  classes.nav_links,
+                )}
               >
                 Presentations
               </NavLink>
@@ -102,23 +99,13 @@ class Navigation extends Component {
                 />
               </IconButton>
             </NavLink>
-            <NavLink
-              to='/presentations'
-              activeStyle={{
-                textDecoration: 'none',
-              }}
-            >
+            <NavLink to='/presentations' className={classes.nav_links}>
               <IconButton>
                 <GridOn />
               </IconButton>
             </NavLink>
             <SubscribeDialog />
-            <NavLink
-              to='/signUp'
-              activeStyle={{
-                textDecoration: 'none',
-              }}
-            >
+            <NavLink to='/signUp' className={classes.nav_links}>
               <Button
                 variant='outlined'
                 color='default'

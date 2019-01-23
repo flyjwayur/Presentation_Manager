@@ -12,7 +12,7 @@
     "dev": "concurrently \"yarn && yarn run start-watch\" \"cd  client  && yarn start\" "
   },
   "engines": {
-    "node": "10.9.0"
+    "node": "11.9.0"
   },
   "author": "",
   "license": "ISC",

@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
-import { TextField } from "@material-ui/core";
+import React, { Fragment } from 'react';
+import { TextField } from '@material-ui/core';
 
-export const InputInDialogs = ({
+const TextInputField = ({
   name,
   label,
   placeholder,
@@ -13,8 +13,11 @@ export const InputInDialogs = ({
   onBlur,
   required,
   info,
-  errors
+  feedbackMessages,
+  errors,
+  style,
 }) => {
+  console.log('feedbackMessages', feedbackMessages);
   return (
     <Fragment>
       {required ? (
@@ -30,6 +33,7 @@ export const InputInDialogs = ({
           onChange={onChange}
           onBlur={onBlur}
           fullWidth
+          className={style}
         />
       ) : (
         <TextField
@@ -42,12 +46,17 @@ export const InputInDialogs = ({
           onChange={onChange}
           onBlur={onBlur}
           fullWidth
+          className={style}
         />
       )}
-      {info && <small>{info}</small>}
-      {errors && (
-        <small style={{ color: "red" }}> {errors[name]} </small>
-      )}
+      {feedbackMessages || errors ? null : info && <small>{info}</small>}
+      {errors
+        ? errors && <small style={{ color: 'red' }}>{errors}</small>
+        : feedbackMessages && (
+            <small style={{ color: 'red' }}>{feedbackMessages}</small>
+          )}
     </Fragment>
   );
 };
+
+export default TextInputField;

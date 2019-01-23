@@ -1,7 +1,7 @@
 import validator from 'validator';
 import { isEmpty } from './isEmpty';
 
-const validateInputs = (values, touched) => {
+const validateAddForm = (values, touched) => {
   const errors = {};
 
   values.presenter = !isEmpty(values.presenter) ? values.presenter : '';
@@ -58,4 +58,4 @@ const validateInputs = (values, touched) => {
   };
 };
 
-export default validateInputs;
+export default validateAddForm;

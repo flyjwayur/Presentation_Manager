@@ -1,13 +1,17 @@
-const User = require("../models/user");
-const bcrypt = require("bcryptjs");
-const jwt = require("jsonwebtoken");
-const gravatar = require("gravatar");
+const User = require('../models/user');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const gravatar = require('gravatar');
 const { secretOrKey } = require('../../config/config');
-const validateSignUpInput = require("../validation/validateSignUp");
-const validateSignInInput = require("../validation/validateSignIn");
+const validateSignUpInput = require('../validation/validateSignUp');
+const validateSignInInput = require('../validation/validateSignIn');
 
 const signUp = (req, res) => {
+  console.log(req.body);
   const { errors, isValid } = validateSignUpInput(req.body);
+
+  console.log('errors', errors);
+  console.log('isValid', isValid);
   if (!isValid) {
     return res.status(400).json(errors);
   }
@@ -16,11 +20,11 @@ const signUp = (req, res) => {
 
   User.findOne({ email }).then(user => {
     if (user) {
-      errors.email = "A email already exist";
+      errors.email = 'A email already exist';
       return res.status(400).json(errors);
     }
 
-    const avatar = gravatar.url(email, { s: "100", r: "x", d: "retro" }, true);
+    const avatar = gravatar.url(email, { s: '100', r: 'x', d: 'retro' }, true);
     const newUser = new User({ username, email, password, avatar });
 
     bcrypt.genSalt(10, function(err, salt) {
@@ -31,7 +35,7 @@ const signUp = (req, res) => {
         newUser
           .save()
           .then(user => {
-            res.json({ success: true, message: "A user is created" });
+            res.json({ success: true, message: 'A user is created' });
           })
           .catch(err => console.log(err));
       });
@@ -49,7 +53,7 @@ const signIn = (req, res) => {
 
   User.findOne({ email }).then(user => {
     if (!user) {
-      errors.email = "A user doesnt exist";
+      errors.email = 'A user doesnt exist';
       return res.status(400).json(errors);
     }
     //Check password from user and password in DB
@@ -61,22 +65,17 @@ const signIn = (req, res) => {
           id: user._id,
           name: user.name,
           email: user.email,
-          avatar: user.avatar
+          avatar: user.avatar,
         };
 
-        console.log("payload at user route:", payload);
+        console.log('payload at user route:', payload);
         //Create Token
-        jwt.sign(
-          payload,
-          secretOrKey,
-          { expiresIn: 3600 },
-          (err, token) => {
-            res.json({ success: true, token: `Bearer ${token}` });
-          }
-        );
+        jwt.sign(payload, secretOrKey, { expiresIn: 3600 }, (err, token) => {
+          res.json({ success: true, token: `Bearer ${token}` });
+        });
       } else {
         //For security reason, give error like below than indicating 'password is incorrect'
-        errors.password = "Incorrect email or password.";
+        errors.password = 'Incorrect email or password.';
         return res.status(400).json(errors);
       }
     });
@@ -85,5 +84,5 @@ const signIn = (req, res) => {
 
 module.exports = {
   signUp,
-  signIn
+  signIn,
 };
