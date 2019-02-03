@@ -90,7 +90,7 @@ const FeedbackWithHints = ({ validity, uiClasses }) => {
   ) : null;
 };
 
-class PresentaionForms extends Component {
+class PresentationForms extends Component {
   state = {
     presenter: this.props.singlePresentation
       ? this.props.singlePresentation.presenter
@@ -194,7 +194,7 @@ class PresentaionForms extends Component {
 
     //Instead of checking regex for keywords, trims them for users
     // if (this.state.touched.keywords && !regex.keywords.test(keywords)) {
-    //   hintMessage.keywords = "Comma needs to seperate keywords";
+    //   hintMessage.keywords = "Comma needs to separate keywords";
     // }
 
     return hintMessage;
@@ -246,7 +246,7 @@ class PresentaionForms extends Component {
     );
     const inputValues = [presenter, evaluator, topic, article, date];
 
-    //check whetehr hintMessage is empty("") or input values exist to able/disable submit button
+    //check whether hintMessage is empty("") or input values exist to able/disable submit button
     if (
       Object.values(hintMessages).every(message => message === '') &&
       inputValues.every(input => input !== '')
@@ -295,7 +295,7 @@ class PresentaionForms extends Component {
       date,
     );
 
-    //Controll inputs values for edit
+    //Control inputs values for edit
     const inputValuesForEdit = {
       presenter,
       evaluator,
@@ -362,7 +362,7 @@ class PresentaionForms extends Component {
           )}
         </div>
         <div className={classes.container}>
-          <FormControl className={classes.margin}>
+          <FormControl>
             {inputsArr.map((inputKey, index) => {
               if (inputKey === 'date') {
                 return (
@@ -672,9 +672,8 @@ const Edit = props => {
   );
 };
 
-PresentaionForms.propTypes = {
+PresentationForms.propTypes = {
   editable: PropTypes.bool,
 };
 
-export default withStyles(styles)(PresentaionForms);
-//export default withStyles(styles)(withRouter(PresentaionForms));
+export default withStyles(styles)(PresentationForms);
