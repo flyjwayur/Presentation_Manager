@@ -1,9 +1,14 @@
 import React, { Component } from 'react';
-import { Typography, Grid, Paper, Button } from '@material-ui/core';
+import axios from 'axios';
+import {
+  FormControl,
+  Typography,
+  Grid,
+  Paper,
+  Button,
+} from '@material-ui/core';
 import TextInputField from '../../components/UI/TextInputField/TextInputField';
 import validateSignUpForm from '../../Validation/validateSignUpForm';
-
-import axios from 'axios';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -13,15 +18,18 @@ const styles = theme => ({
     justifyContent: 'center',
     flexGrow: 1,
   },
-  SingUp__title: {
-    backgroundColor: theme.palette.secondary.main,
-    borderRadius: 3,
+  signUp__form_container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+  },
+  signUp__form_title: {
+    backgroundColor: theme.palette.primary.darker,
+    borderRadius: 4,
     padding: theme.spacing.unit * 2,
   },
-  textField: {
-    marginLeft: theme.spacing.unit * 2,
-    marginRight: theme.spacing.unit * 2,
-    padding: theme.spacing.unit * 2,
+  signUp_form_button: {
+    margin: theme.spacing.unit * 3,
   },
 });
 
@@ -39,7 +47,6 @@ class SignUp extends Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
-    this.validateInputs();
   };
 
   handleBlur = e => {
@@ -88,65 +95,74 @@ class SignUp extends Component {
 
     return (
       <Grid container className={classes.container}>
-        <Grid item xs={6}>
+        <Grid item xs={12} sm={6}>
           <Paper>
-            <div className={classes.SingUp__title}>
-              <Typography variant='h5' component='h3'>
+            <div className={classes.signUp__form_title}>
+              <Typography variant='h5' color='textSecondary' gutterBottom>
                 Sign Up
               </Typography>
-              <Typography component='p'>Create your account</Typography>
+              <Typography variant='subtitle1' color='textSecondary'>
+                Create your account
+              </Typography>
             </div>
-            <form className={classes.container} onSubmit={this.handleSubmit}>
+            <FormControl
+              onSubmit={this.handleSubmit}
+              className={classes.signUp__form_container}
+            >
               <TextInputField
                 required
                 name='username'
-                placeholder='User Name'
+                type='text'
+                placeholder='User Name*'
                 value={this.state.username}
                 onChange={this.handleChange}
                 feedbackMessages={feedbackMessages.hints.username}
                 errors={errors.username}
-                style={classes.textField}
                 onBlur={this.handleBlur}
               />
               <TextInputField
                 required
                 name='email'
                 type='email'
-                placeholder='Email'
+                placeholder='Email*'
                 value={this.state.email}
                 onChange={this.handleChange}
                 info='Use an email connected with a gravatar image.'
                 feedbackMessages={feedbackMessages.hints.email}
                 errors={errors.email}
-                style={classes.textField}
                 onBlur={this.handleBlur}
               />
               <TextInputField
                 required
                 name='password'
                 type='password'
-                placeholder='Password'
+                placeholder='Password*'
                 value={this.state.password}
                 onChange={this.handleChange}
                 feedbackMessages={feedbackMessages.hints.password}
                 errors={errors.password}
-                style={classes.textField}
                 onBlur={this.handleBlur}
               />
               <TextInputField
                 required
                 name='password2'
                 type='password'
-                placeholder='Confirm password'
+                placeholder='Confirm password*'
                 value={this.state.password2}
                 onChange={this.handleChange}
                 errors={errors.password2}
                 feedbackMessages={feedbackMessages.hints.password2}
-                style={classes.textField}
                 onBlur={this.handleBlur}
               />
-              <Button type='submit'>Create</Button>
-            </form>
+              <Button
+                type='submit'
+                variant='contained'
+                color='primary'
+                className={classes.signUp_form_button}
+              >
+                Create
+              </Button>
+            </FormControl>
           </Paper>
         </Grid>
       </Grid>

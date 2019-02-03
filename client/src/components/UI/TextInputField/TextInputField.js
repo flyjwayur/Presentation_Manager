@@ -1,28 +1,47 @@
 import React, { Fragment } from 'react';
 import { TextField } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+import deepOrange from '@material-ui/core/colors/deepOrange';
 
-const TextInputField = ({
-  name,
-  label,
-  placeholder,
-  value,
-  type,
-  onChange,
-  variant,
-  id,
-  onBlur,
-  required,
-  info,
-  feedbackMessages,
-  errors,
-  style,
-}) => {
-  console.log('feedbackMessages', feedbackMessages);
+const styles = theme => ({
+  textField: {
+    marginTop: theme.spacing.unit * 2,
+    marginRight: theme.spacing.unit * 2,
+    marginLeft: theme.spacing.unit * 2,
+    padding: theme.spacing.unit * 2,
+  },
+});
+
+const TextInputField = props => {
+  const {
+    name,
+    label,
+    placeholder,
+    value,
+    type,
+    onChange,
+    variant,
+    id,
+    onBlur,
+    required,
+    info,
+    feedbackMessages,
+    errors,
+    classes,
+  } = props;
+  console.log(props);
   return (
     <Fragment>
       {required ? (
         <TextField
           required
+          InputLabelProps={{
+            shrink: true,
+            root: classes.cssLabel,
+          }}
+          InputProps={{
+            root: classes.cssOutlinedInput,
+          }}
           label={label}
           type={type}
           name={name}
@@ -32,11 +51,17 @@ const TextInputField = ({
           id={id}
           onChange={onChange}
           onBlur={onBlur}
-          fullWidth
-          className={style}
+          className={classes.textField}
         />
       ) : (
         <TextField
+          InputLabelProps={{
+            shrink: true,
+            root: classes.cssLabel,
+          }}
+          InputProps={{
+            root: classes.cssOutlinedInput,
+          }}
           type={type}
           name={name}
           value={value}
@@ -45,8 +70,7 @@ const TextInputField = ({
           id={id}
           onChange={onChange}
           onBlur={onBlur}
-          fullWidth
-          className={style}
+          className={classes.textField}
         />
       )}
       {feedbackMessages || errors ? null : info && <small>{info}</small>}
@@ -59,4 +83,4 @@ const TextInputField = ({
   );
 };
 
-export default TextInputField;
+export default withStyles(styles)(TextInputField);

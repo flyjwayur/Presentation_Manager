@@ -27,7 +27,12 @@ export const theme = createMuiTheme({
       medium: grey[600],
       dark: grey[800],
     },
+    text: {
+      primary: grey[800],
+      secondary: grey[200],
+    },
   },
+
   typography: {
     useNextVariants: true,
     htmlFontSize: 13,

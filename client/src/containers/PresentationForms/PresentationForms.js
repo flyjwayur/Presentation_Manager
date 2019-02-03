@@ -1,7 +1,7 @@
-import React, { Component, Fragment } from "react";
-import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { withStyles } from "@material-ui/core/styles";
+import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
 import {
   Grid,
   Card,
@@ -11,78 +11,77 @@ import {
   TextField,
   FormControl,
   FormHelperText,
-  Button
-} from "@material-ui/core";
-import { DetailImage } from "../../components/UI/Icon/Icon";
-import deepOrange from "@material-ui/core/colors/deepOrange";
-
+  Button,
+} from '@material-ui/core';
+import { DetailImage } from '../../components/UI/Icon/Icon';
+import deepOrange from '@material-ui/core/colors/deepOrange';
 
 const styles = theme => ({
   container: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    flexGrow: 1
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    flexGrow: 1,
   },
   textField: {
     margin: theme.spacing.unit,
     borderRadius: 4,
     backgroundColor: theme.palette.third.medium,
-    width: "20rem"
+    width: '20rem',
   },
   cssLabel: {
     color: deepOrange[200],
-    "&$cssFocused": {
-      color: deepOrange[500]
-    }
+    '&$cssFocused': {
+      color: deepOrange[500],
+    },
   },
   cssFocused: {},
   cssOutlinedInput: {
-    "&$cssFocused": {
-      borderColor: deepOrange[500]
-    }
+    '&$cssFocused': {
+      borderColor: deepOrange[500],
+    },
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
   },
   card: {
     maxWidth: 500,
     paddingBottom: theme.spacing.unit * 2,
     backgroundColor: theme.palette.third.light,
     color: theme.palette.third.dark,
-    margin: theme.spacing.unit * 5
+    margin: theme.spacing.unit * 5,
   },
   CardHeader: {
-    backgroundColor: theme.palette.secondary.main
+    backgroundColor: theme.palette.secondary.main,
   },
   topicText: {
     color: theme.palette.secondary.darker,
-    fontWeight: 900
+    fontWeight: 900,
   },
   icons: {
     marginTop: 30,
     marginBottom: 10,
-    marginRight: 10
+    marginRight: 10,
   },
   updateIcon: {
     fontSize: 32,
-    color: theme.palette.primary.dark
+    color: theme.palette.primary.dark,
   },
   updateIconHover: {
-    "&:hover": {
-      color: theme.palette.primary.darker
-    }
+    '&:hover': {
+      color: theme.palette.primary.darker,
+    },
   },
   goBackButton: {
     flex: 1,
-    position: "absolute",
+    position: 'absolute',
     top: 150,
-    left: 100
+    left: 100,
   },
   hintText: {
     color: theme.palette.secondary.main,
-    fontSize: 15
-  }
+    fontSize: 15,
+  },
 });
 
 const FeedbackWithHints = ({ validity, uiClasses }) => {
@@ -95,53 +94,53 @@ class PresentaionForms extends Component {
   state = {
     presenter: this.props.singlePresentation
       ? this.props.singlePresentation.presenter
-      : "",
+      : '',
     evaluator: this.props.singlePresentation
       ? this.props.singlePresentation.evaluator
-      : "",
+      : '',
     topic: this.props.singlePresentation
       ? this.props.singlePresentation.topic
-      : "",
+      : '',
     article: this.props.singlePresentation
       ? this.props.singlePresentation.article
-      : "",
+      : '',
     date: this.props.singlePresentation
       ? this.props.singlePresentation.date
-      : "",
+      : '',
     keywords: this.props.singlePresentation
       ? this.props.singlePresentation.keywords
-      : "",
+      : '',
     summary: this.props.singlePresentation
       ? this.props.singlePresentation.summary
-      : "",
+      : '',
     touched: {
       presenter: false,
       evaluator: false,
       topic: false,
       article: false,
-      date: false
-    } 
+      date: false,
+    },
   };
 
   handleInputsChange = e => {
     this.setState({
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   handleBlur = e => {
     this.setState({
-      touched: { ...this.state.touched, [e.target.name]: true }
+      touched: { ...this.state.touched, [e.target.name]: true },
     });
   };
 
   validateInputs = (presenter, evaluator, topic, article, date) => {
     const hintMessage = {
-      presenter: "",
-      evaluator: "",
-      topic: "",
-      article: "",
-      date: ""
+      presenter: '',
+      evaluator: '',
+      topic: '',
+      article: '',
+      date: '',
     };
 
     const regex = {
@@ -149,7 +148,7 @@ class PresentaionForms extends Component {
       evaluator: /^([\w+\s]){2,20}$/,
       topic: /^([\w+\s-']){2,100}$/,
       article: /^((http(s)?(:\/\/))+(www\.)?([\w\-./])*(\.[a-zA-Z]{2,3}\/?))[^\s\b\n|]*[^.,;:?!@^$ -]$/,
-      date: /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])*$/
+      date: /^\d{4}-(0?[1-9]|1[012])-(0?[1-9]|[12][0-9]|3[01])*$/,
       //keywords: /^\w+(?:(?:\w)|(?:\s*,\s*\w+)+|(?:\s*,\w+)+)$/
     };
 
@@ -164,7 +163,7 @@ class PresentaionForms extends Component {
       !regex.presenter.test(trimInputs(presenter))
     ) {
       hintMessage.presenter =
-        "Presenter should be more than 2 characters, including space.";
+        'Presenter should be more than 2 characters, including space.';
     }
 
     if (
@@ -172,7 +171,7 @@ class PresentaionForms extends Component {
       !regex.evaluator.test(trimInputs(evaluator))
     ) {
       hintMessage.evaluator =
-        "Evaluator should be more than 2 characters, including space.";
+        'Evaluator should be more than 2 characters, including space.';
     }
 
     if (this.state.touched.topic && !regex.topic.test(trimInputs(topic))) {
@@ -185,12 +184,12 @@ class PresentaionForms extends Component {
       !regex.article.test(trimInputs(article))
     ) {
       hintMessage.article =
-        "article should have URL format ex)https://www.example.io";
+        'article should have URL format ex)https://www.example.io';
     }
 
     //Check whether date exist or not
     if (this.state.touched.date && !regex.date.test(date) && !date) {
-      hintMessage.date = "Date, Month, Year should be selected";
+      hintMessage.date = 'Date, Month, Year should be selected';
     }
 
     //Instead of checking regex for keywords, trims them for users
@@ -202,20 +201,30 @@ class PresentaionForms extends Component {
   };
 
   handleInputsSubmit = e => {
-
     e.preventDefault();
 
-    // When 'onAddPresentation' gets called, 
+    // When 'onAddPresentation' gets called,
     // if there is error, clients gets error from 'SERVER' in addPresentation action
     // And it displays the all error messages for input fields hints
     const newPresentation = this.state;
 
-    console.log('before : validationErrorMessage', this.props.validationErrorMessage);
-    this.props.onAddPresentation(newPresentation, this.props.history).then(()=>
-    {if(this.props.validationErrorMessage){this.props.history.push('/presentations')}}).catch(err => console.log(err));
+    console.log(
+      'before : validationErrorMessage',
+      this.props.validationErrorMessage,
+    );
+    this.props
+      .onAddPresentation(newPresentation, this.props.history)
+      .then(() => {
+        if (this.props.validationErrorMessage) {
+          this.props.history.push('/presentations');
+        }
+      })
+      .catch(err => console.log(err));
 
-    console.log('after : validationErrorMessage', this.props.validationErrorMessage);
- 
+    console.log(
+      'after : validationErrorMessage',
+      this.props.validationErrorMessage,
+    );
   };
 
   handleUpdate = (e, id) => {
@@ -233,14 +242,14 @@ class PresentaionForms extends Component {
       evaluator,
       topic,
       article,
-      date
+      date,
     );
     const inputValues = [presenter, evaluator, topic, article, date];
 
     //check whetehr hintMessage is empty("") or input values exist to able/disable submit button
     if (
-      Object.values(hintMessages).every(message => message === "") &&
-      inputValues.every(input => input !== "")
+      Object.values(hintMessages).every(message => message === '') &&
+      inputValues.every(input => input !== '')
     ) {
       return false; //disable false
     }
@@ -251,23 +260,31 @@ class PresentaionForms extends Component {
     // For creating input fields
     const { singlePresentation, formType, classes } = this.props;
     const inputsArr = [
-      "presenter",
-      "evaluator",
-      "topic",
-      "article",
-      "date",
-      "keywords",
-      "summary"
+      'presenter',
+      'evaluator',
+      'topic',
+      'article',
+      'date',
+      'keywords',
+      'summary',
     ];
     // For validating given inputs
-    const { presenter, evaluator, topic, article, date, keywords, summary } = this.state;
+    const {
+      presenter,
+      evaluator,
+      topic,
+      article,
+      date,
+      keywords,
+      summary,
+    } = this.state;
 
     const hintMessages = this.validateInputs(
       presenter,
       evaluator,
       topic,
       article,
-      date
+      date,
     );
 
     const activateButton = this.ableSubmitButton(
@@ -275,7 +292,7 @@ class PresentaionForms extends Component {
       evaluator,
       topic,
       article,
-      date
+      date,
     );
 
     //Controll inputs values for edit
@@ -286,23 +303,23 @@ class PresentaionForms extends Component {
       article,
       date,
       keywords,
-      summary
+      summary,
     };
 
     let keysOnSinglePresentation = null;
     //If it is edit type, give edit fields
-    if (formType === "editForm" && singlePresentation) {
+    if (formType === 'editForm' && singlePresentation) {
       //Get the all keys except _id and _V to create edit field with existing value
       keysOnSinglePresentation = Object.keys(singlePresentation).filter(
-        key => key !== "_id" && key !== "__v"
+        key => key !== '_id' && key !== '__v',
       );
 
       return (
         <div>
           <Link to={`/presentations/${singlePresentation._id}`}>
             <Button
-              variant="outlined"
-              color="primary"
+              variant='outlined'
+              color='primary'
               className={classes.goBackButton}
             >
               Go Back
@@ -327,35 +344,41 @@ class PresentaionForms extends Component {
     //If it's add type, it works as a form for adding presentation (reusable code)
     return (
       <div>
-        <Link to="/presentations">
+        <Link to='/presentations'>
           <Button
-            color="primary"
-            variant="outlined"
+            color='primary'
+            variant='outlined'
             className={classes.goBackButton}
           >
             Go back
           </Button>
         </Link>
-   
-    <div>{Object.values(this.props.validationErrorMessage).map( ( error, index)  => {return <div key={index}>{error}</div>})}</div>
+
+        <div>
+          {Object.values(this.props.validationErrorMessage).map(
+            (error, index) => {
+              return <div key={index}>{error}</div>;
+            },
+          )}
+        </div>
         <div className={classes.container}>
           <FormControl className={classes.margin}>
             {inputsArr.map((inputKey, index) => {
-              if (inputKey === "date") {
+              if (inputKey === 'date') {
                 return (
                   <Fragment key={`${inputKey + index}`}>
                     <TextField
                       required
                       InputLabelProps={{
                         shrink: true,
-                        root: classes.cssLabel
+                        root: classes.cssLabel,
                       }}
                       InputProps={{
-                        root: classes.cssOutlinedInput
+                        root: classes.cssOutlinedInput,
                       }}
                       label={`${inputKey}`}
-                      variant="filled"
-                      type="date"
+                      variant='filled'
+                      type='date'
                       id={`${inputKey}`}
                       name={`${inputKey}`}
                       value={`${this.state[inputKey]}`}
@@ -369,21 +392,21 @@ class PresentaionForms extends Component {
                     />
                   </Fragment>
                 );
-              } else if (inputKey === "article") {
+              } else if (inputKey === 'article') {
                 return (
                   <Fragment key={`${inputKey + index}`}>
                     <TextField
                       required
                       InputLabelProps={{
                         shrink: true,
-                        root: classes.cssLabel
+                        root: classes.cssLabel,
                       }}
                       InputProps={{
-                        root: classes.cssOutlinedInput
+                        root: classes.cssOutlinedInput,
                       }}
                       label={`${inputKey}`}
-                      variant="filled"
-                      type="url"
+                      variant='filled'
+                      type='url'
                       id={`${inputKey}`}
                       name={`${inputKey}`}
                       value={`${this.state[inputKey]}`}
@@ -398,9 +421,9 @@ class PresentaionForms extends Component {
                   </Fragment>
                 );
               } else if (
-                inputKey === "presenter" ||
-                inputKey === "evaluator" ||
-                inputKey === "topic"
+                inputKey === 'presenter' ||
+                inputKey === 'evaluator' ||
+                inputKey === 'topic'
               ) {
                 return (
                   <Fragment key={`${inputKey + index}`}>
@@ -408,17 +431,17 @@ class PresentaionForms extends Component {
                       required
                       InputLabelProps={{
                         classes: {
-                          root: classes.cssLabel
-                        }
+                          root: classes.cssLabel,
+                        },
                       }}
                       InputProps={{
                         classes: {
-                          root: classes.cssOutlinedInput
-                        }
+                          root: classes.cssOutlinedInput,
+                        },
                       }}
                       label={`${inputKey}`}
-                      variant="filled"
-                      type="text"
+                      variant='filled'
+                      type='text'
                       id={`${inputKey}`}
                       name={`${inputKey}`}
                       value={`${this.state[inputKey]}`}
@@ -439,17 +462,17 @@ class PresentaionForms extends Component {
                   <TextField
                     InputLabelProps={{
                       classes: {
-                        root: classes.cssLabel
-                      }
+                        root: classes.cssLabel,
+                      },
                     }}
                     InputProps={{
                       classes: {
-                        root: classes.cssOutlinedInput
-                      }
+                        root: classes.cssOutlinedInput,
+                      },
                     }}
                     label={`${inputKey}`}
-                    variant="filled"
-                    type="text"
+                    variant='filled'
+                    type='text'
                     id={`${inputKey}`}
                     name={`${inputKey}`}
                     value={`${this.state[inputKey]}`}
@@ -466,9 +489,9 @@ class PresentaionForms extends Component {
             })}
             <Button
               className={classes.button}
-              color="secondary"
-              variant="contained"
-              type="submit"
+              color='secondary'
+              variant='contained'
+              type='submit'
               onClick={this.handleInputsSubmit}
               disabled={activateButton}
             >
@@ -491,17 +514,17 @@ const Edit = props => {
     handleInputsChange,
     hintMessages,
     activateButton,
-    classes
+    classes,
   } = props;
   const { presenter, topic } = singlePresentation;
 
   return (
-    <Grid container align="center">
+    <Grid container align='center'>
       <Grid item xs={12}>
         <Card className={classes.card}>
           <CardHeader
             avatar={
-              <Avatar aria-label="Presentor">{presenter.charAt(0)}</Avatar>
+              <Avatar aria-label='Presentor'>{presenter.charAt(0)}</Avatar>
             }
             className={classes.CardHeader}
             title={presenter}
@@ -511,21 +534,21 @@ const Edit = props => {
           <CardContent>
             <FormControl>
               {keysOnSinglePresentation.map((inputKey, index) => {
-                if (inputKey === "date") {
+                if (inputKey === 'date') {
                   return (
                     <Fragment key={`${inputKey + index}`}>
                       <TextField
                         required
                         InputLabelProps={{
                           shrink: true,
-                          root: classes.cssLabel
+                          root: classes.cssLabel,
                         }}
                         InputProps={{
-                          root: classes.cssOutlinedInput
+                          root: classes.cssOutlinedInput,
                         }}
                         label={`${inputKey}`}
-                        variant="filled"
-                        type="date"
+                        variant='filled'
+                        type='date'
                         id={`${inputKey}`}
                         name={`${inputKey}`}
                         value={inputValuesForEdit.date}
@@ -539,21 +562,21 @@ const Edit = props => {
                       />
                     </Fragment>
                   );
-                } else if (inputKey === "article") {
+                } else if (inputKey === 'article') {
                   return (
                     <Fragment key={`${inputKey + index}`}>
                       <TextField
                         required
                         InputLabelProps={{
                           shrink: true,
-                          root: classes.cssLabel
+                          root: classes.cssLabel,
                         }}
                         InputProps={{
-                          root: classes.cssOutlinedInput
+                          root: classes.cssOutlinedInput,
                         }}
                         label={`${inputKey}`}
-                        variant="filled"
-                        type="url"
+                        variant='filled'
+                        type='url'
                         id={`${inputKey}`}
                         name={`${inputKey}`}
                         value={inputValuesForEdit[`${inputKey}`]}
@@ -568,9 +591,9 @@ const Edit = props => {
                     </Fragment>
                   );
                 } else if (
-                  inputKey === "presenter" ||
-                  inputKey === "evaluator" ||
-                  inputKey === "topic"
+                  inputKey === 'presenter' ||
+                  inputKey === 'evaluator' ||
+                  inputKey === 'topic'
                 ) {
                   return (
                     <Fragment key={`${inputKey + index}`}>
@@ -578,46 +601,17 @@ const Edit = props => {
                         required
                         InputLabelProps={{
                           classes: {
-                            root: classes.cssLabel
-                          }
+                            root: classes.cssLabel,
+                          },
                         }}
                         InputProps={{
                           classes: {
-                            root: classes.cssOutlinedInput
-                          }
+                            root: classes.cssOutlinedInput,
+                          },
                         }}
                         label={`${inputKey}`}
-                        variant="filled"
-                        type="text"
-                        id={`${inputKey}`}
-                        name={`${inputKey}`}
-                        value={inputValuesForEdit[`${inputKey}`]}
-                        onChange={handleInputsChange}
-                        onBlur={handleBlur}
-                        className={classes.textField}
-                      />
-                      <FeedbackWithHints
-                        validity={hintMessages[inputKey]}
-                        uiClasses={classes.hintText}
-                      />
-                    </Fragment>
-                  )};
-                  return (
-                    <Fragment key={`${inputKey + index}`}>
-                      <TextField
-                        InputLabelProps={{
-                          classes: {
-                            root: classes.cssLabel
-                          }
-                        }}
-                        InputProps={{
-                          classes: {
-                            root: classes.cssOutlinedInput
-                          }
-                        }}
-                        label={`${inputKey}`}
-                        variant="filled"
-                        type="text"
+                        variant='filled'
+                        type='text'
                         id={`${inputKey}`}
                         name={`${inputKey}`}
                         value={inputValuesForEdit[`${inputKey}`]}
@@ -631,11 +625,41 @@ const Edit = props => {
                       />
                     </Fragment>
                   );
+                }
+                return (
+                  <Fragment key={`${inputKey + index}`}>
+                    <TextField
+                      InputLabelProps={{
+                        classes: {
+                          root: classes.cssLabel,
+                        },
+                      }}
+                      InputProps={{
+                        classes: {
+                          root: classes.cssOutlinedInput,
+                        },
+                      }}
+                      label={`${inputKey}`}
+                      variant='filled'
+                      type='text'
+                      id={`${inputKey}`}
+                      name={`${inputKey}`}
+                      value={inputValuesForEdit[`${inputKey}`]}
+                      onChange={handleInputsChange}
+                      onBlur={handleBlur}
+                      className={classes.textField}
+                    />
+                    <FeedbackWithHints
+                      validity={hintMessages[inputKey]}
+                      uiClasses={classes.hintText}
+                    />
+                  </Fragment>
+                );
               })}
               <Button
                 onClick={e => handleUpdate(e, singlePresentation._id)}
-                variant="contained"
-                color="secondary"
+                variant='contained'
+                color='secondary'
                 disabled={activateButton}
               >
                 Update
@@ -649,7 +673,7 @@ const Edit = props => {
 };
 
 PresentaionForms.propTypes = {
-  editable: PropTypes.bool
+  editable: PropTypes.bool,
 };
 
 export default withStyles(styles)(PresentaionForms);
