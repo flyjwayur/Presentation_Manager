@@ -44,6 +44,7 @@ const signUp = (req, res) => {
 };
 
 const signIn = (req, res) => {
+  console.log('signIn', req);
   const { errors, isValid } = validateSignInInput(req.body);
 
   if (!isValid) {
@@ -53,7 +54,7 @@ const signIn = (req, res) => {
 
   User.findOne({ email }).then(user => {
     if (!user) {
-      errors.email = 'A user doesnt exist';
+      errors.email = 'Incorrect email or password';
       return res.status(400).json(errors);
     }
     //Check password from user and password in DB
@@ -75,7 +76,7 @@ const signIn = (req, res) => {
         });
       } else {
         //For security reason, give error like below than indicating 'password is incorrect'
-        errors.password = 'Incorrect email or password.';
+        errors.password = 'Incorrect email or password';
         return res.status(400).json(errors);
       }
     });

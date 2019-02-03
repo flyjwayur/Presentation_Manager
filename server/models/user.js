@@ -5,6 +5,7 @@ const UserSchema = new Schema({
   username: {
     type: String,
     required: true,
+    minlength: 2,
   },
   email: {
     type: String,
@@ -13,6 +14,7 @@ const UserSchema = new Schema({
   password: {
     type: String,
     required: true,
+    minlength: 8,
   },
   avatar: {
     type: String,
@@ -20,7 +22,7 @@ const UserSchema = new Schema({
   date: {
     type: Date,
     default: Date.now,
-  }
-})
+  },
+});
 
-module.exports = User = mongoose.model('User', UserSchema);
+module.exports = User = mongoose.model('UsersDB', UserSchema);

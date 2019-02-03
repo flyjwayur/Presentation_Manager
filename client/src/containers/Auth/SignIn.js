@@ -8,7 +8,7 @@ import {
   Button,
 } from '@material-ui/core';
 import TextInputField from '../../components/UI/TextInputField/TextInputField';
-import validateSignUpForm from '../../Validation/validateSignUpForm';
+import validateSignInForm from '../../Validation/validateSignInForm';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -18,29 +18,32 @@ const styles = theme => ({
     justifyContent: 'center',
     flexGrow: 1,
   },
-  signUp__form_container: {
+  signIn__form_container: {
     display: 'flex',
     flexWrap: 'wrap',
     justifyContent: 'center',
   },
-  signUp__form_title: {
+  signIn__form_title: {
     backgroundColor: theme.palette.primary.darker,
     borderRadius: 4,
     padding: theme.spacing.unit * 2,
   },
-  signUp_form_button: {
+  signIn__form_hintMessages: {
+    backgroundColor: theme.palette.secondary.main,
+    margin: theme.spacing.unit * 3,
+    padding: theme.spacing.unit * 2,
+    borderRadius: 4,
+  },
+  signIn_form_button: {
     margin: theme.spacing.unit * 3,
   },
 });
 
-class SignUp extends Component {
+class SignIn extends Component {
   state = {
-    username: '',
     email: '',
     password: '',
-    password2: '',
     errors: {},
-    touched: {},
   };
 
   handleChange = e => {
@@ -56,18 +59,17 @@ class SignUp extends Component {
   };
 
   handleSubmit = e => {
-    console.log('submit', e);
     e.preventDefault();
-    const { username, email, password, password2 } = this.state;
-    const data = { username, email, password, password2 };
+    const { email, password } = this.state;
+    const data = { email, password };
 
     axios
-      .post('/api/users/signup', data)
+      .post('/api/users/signIn', data)
       .then(res => {
         this.setState({
           errors: {},
         });
-        this.props.history.push('/signIn');
+        this.props.history.push('/presentations');
       })
       .catch(err => {
         console.log('error from server', err.response);
@@ -78,42 +80,58 @@ class SignUp extends Component {
   };
 
   validateInputs = () => {
-    const { username, email, password, password2 } = this.state;
+    const { email, password } = this.state;
 
-    const inputs = { username, email, password, password2 };
-    const validationMessage = validateSignUpForm(inputs, this.state.touched);
+    const inputs = { email, password };
+    const validationMessage = validateSignInForm(inputs, this.state.touched);
     return validationMessage;
+  };
+
+  ableSubmitButton = () => {
+    const feedbackMessages = this.validateInputs();
+    const { email, password } = this.state;
+    const inputs = { email, password };
+
+    //check whether feedbackMessage is empty("") or input values exist to able/disable submit button
+    if (
+      feedbackMessages.isValid &&
+      Object.values(inputs).every(input => input !== '')
+    ) {
+      return false; //disable false
+    }
+    return true; //disable true
   };
 
   render() {
     const { errors } = this.state;
     const { classes } = this.props;
     const feedbackMessages = this.validateInputs();
+    const activateButton = this.ableSubmitButton();
 
     return (
       <Grid container className={classes.container}>
         <Grid item xs={12} sm={6}>
           <Paper>
-            <div className={classes.signUp__form_title}>
+            <div className={classes.signIn__form_title}>
               <Typography variant='h5' color='textSecondary' gutterBottom>
-                Sign Up
-              </Typography>
-              <Typography variant='subtitle1' color='textSecondary'>
-                Create your account
+                Sign In
               </Typography>
             </div>
-            <FormControl className={classes.signUp__form_container}>
-              <TextInputField
-                required
-                name='username'
-                type='text'
-                placeholder='User Name*'
-                value={this.state.username}
-                onChange={this.handleChange}
-                feedbackMessages={feedbackMessages.hints.username}
-                errors={errors.username}
-                onBlur={this.handleBlur}
-              />
+            <div>
+              <Typography
+                variant='overline'
+                color='textPrimary'
+                gutterBottom
+                className={
+                  errors.email || errors.password
+                    ? classes.signIn__form_hintMessages
+                    : ''
+                }
+              >
+                {errors ? errors.email || errors.password : null}
+              </Typography>
+            </div>
+            <FormControl className={classes.signIn__form_container}>
               <TextInputField
                 required
                 name='email'
@@ -123,7 +141,6 @@ class SignUp extends Component {
                 onChange={this.handleChange}
                 info='Use an email connected with a gravatar image.'
                 feedbackMessages={feedbackMessages.hints.email}
-                errors={errors.email}
                 onBlur={this.handleBlur}
               />
               <TextInputField
@@ -134,28 +151,17 @@ class SignUp extends Component {
                 value={this.state.password}
                 onChange={this.handleChange}
                 feedbackMessages={feedbackMessages.hints.password}
-                errors={errors.password}
-                onBlur={this.handleBlur}
-              />
-              <TextInputField
-                required
-                name='password2'
-                type='password'
-                placeholder='Confirm password*'
-                value={this.state.password2}
-                onChange={this.handleChange}
-                errors={errors.password2}
-                feedbackMessages={feedbackMessages.hints.password2}
                 onBlur={this.handleBlur}
               />
               <Button
                 type='submit'
-                onClick={this.handleSubmit}
                 variant='contained'
                 color='primary'
-                className={classes.signUp_form_button}
+                className={classes.signIn_form_button}
+                disabled={activateButton}
+                onClick={this.handleSubmit}
               >
-                Create
+                Login In
               </Button>
             </FormControl>
           </Paper>
@@ -165,6 +171,6 @@ class SignUp extends Component {
   }
 }
 
-SignUp.propTypes = {};
+SignIn.propTypes = {};
 
-export default withStyles(styles)(SignUp);
+export default withStyles(styles)(SignIn);

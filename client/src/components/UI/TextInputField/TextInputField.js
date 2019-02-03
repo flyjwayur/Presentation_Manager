@@ -1,7 +1,6 @@
 import React, { Fragment } from 'react';
 import { TextField } from '@material-ui/core';
 import { withStyles } from '@material-ui/core/styles';
-import deepOrange from '@material-ui/core/colors/deepOrange';
 
 const styles = theme => ({
   textField: {
@@ -29,7 +28,7 @@ const TextInputField = props => {
     errors,
     classes,
   } = props;
-  console.log(props);
+
   return (
     <Fragment>
       {required ? (

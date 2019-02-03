@@ -114,13 +114,15 @@ class Navigation extends Component {
                 Sign Up
               </Button>
             </NavLink>
-            <Button
-              variant='outlined'
-              color='default'
-              className={classes.button}
-            >
-              Sign In
-            </Button>
+            <NavLink to='/signIn' className={classes.nav_links}>
+              <Button
+                variant='outlined'
+                color='default'
+                className={classes.button}
+              >
+                Sign In
+              </Button>
+            </NavLink>
           </Toolbar>
         </AppBar>
       </div>
