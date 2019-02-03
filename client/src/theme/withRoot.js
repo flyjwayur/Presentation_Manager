@@ -28,7 +28,7 @@ export const theme = createMuiTheme({
       dark: grey[800],
     },
     text: {
-      primary: grey[800],
+      primary: '#191919',
       secondary: grey[200],
     },
   },
