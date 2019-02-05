@@ -10,6 +10,8 @@ import {
 import TextInputField from '../../components/UI/TextInputField/TextInputField';
 import validateSignInForm from '../../Validation/validateSignInForm';
 import { withStyles } from '@material-ui/core/styles';
+import auth from '../../authentication/auth';
+import { Redirect } from 'react-router-dom';
 
 const styles = theme => ({
   container: {
@@ -44,6 +46,7 @@ class SignIn extends Component {
     email: '',
     password: '',
     errors: {},
+    redirectToReferrer: false,
   };
 
   handleChange = e => {
@@ -66,10 +69,18 @@ class SignIn extends Component {
     axios
       .post('/api/users/signIn', data)
       .then(res => {
+        const { token } = res.data;
+        localStorage.setItem('jwtToken', token);
         this.setState({
           errors: {},
         });
-        this.props.history.push('/presentations');
+        if (localStorage.getItem('jwtToken')) {
+          auth.authenticate(() => {
+            this.setState({
+              redirectToReferrer: true,
+            });
+          });
+        }
       })
       .catch(err => {
         console.log('error from server', err.response);
@@ -103,10 +114,15 @@ class SignIn extends Component {
   };
 
   render() {
-    const { errors } = this.state;
+    const { errors, redirectToReferrer } = this.state;
+    const { from } = this.props.location.state || { from: { pathname: '/' } };
     const { classes } = this.props;
     const feedbackMessages = this.validateInputs();
     const activateButton = this.ableSubmitButton();
+
+    if (redirectToReferrer === true) {
+      return <Redirect to={from} />;
+    }
 
     return (
       <Grid container className={classes.container}>
@@ -161,7 +177,7 @@ class SignIn extends Component {
                 disabled={activateButton}
                 onClick={this.handleSubmit}
               >
-                Login In
+                Log In
               </Button>
             </FormControl>
           </Paper>

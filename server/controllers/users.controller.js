@@ -7,7 +7,6 @@ const validateSignUpInput = require('../validation/validateSignUp');
 const validateSignInInput = require('../validation/validateSignIn');
 
 const signUp = (req, res) => {
-  console.log(req.body);
   const { errors, isValid } = validateSignUpInput(req.body);
 
   console.log('errors', errors);
@@ -44,7 +43,6 @@ const signUp = (req, res) => {
 };
 
 const signIn = (req, res) => {
-  console.log('signIn', req);
   const { errors, isValid } = validateSignInInput(req.body);
 
   if (!isValid) {
@@ -64,7 +62,7 @@ const signIn = (req, res) => {
         //create JWT payload
         const payload = {
           id: user._id,
-          name: user.name,
+          username: user.username,
           email: user.email,
           avatar: user.avatar,
         };

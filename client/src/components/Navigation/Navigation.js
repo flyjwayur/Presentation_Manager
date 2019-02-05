@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect, withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import {
   AppBar,
@@ -14,6 +14,8 @@ import GridOn from '@material-ui/icons/GridOn';
 import classes from './navigation.module.css';
 import classNames from 'classnames';
 import SubscribeDialog from '../UI/Dialogs/Dialogs';
+import auth from '../../authentication/auth';
+import setAuthToken from '../../authentication/setAuthToken';
 
 const styles = theme => ({
   homeIcon: {
@@ -41,6 +43,13 @@ function HomeIcon(props) {
 }
 
 class Navigation extends Component {
+  signOut = () => {
+    if (localStorage.getItem('jwtToken')) {
+      localStorage.removeItem('jwtToken');
+      auth.signout(() => this.props.history.push('/'));
+      setAuthToken(false);
+    }
+  };
   render() {
     return (
       <div className={classes.root}>
@@ -105,24 +114,37 @@ class Navigation extends Component {
               </IconButton>
             </NavLink>
             <SubscribeDialog />
-            <NavLink to='/signUp' className={classes.nav_links}>
+            {auth.isAuthenticated ? (
               <Button
                 variant='outlined'
                 color='default'
                 style={{ marginRight: '1em' }}
+                onClick={this.signOut}
               >
-                Sign Up
+                Sign Out
               </Button>
-            </NavLink>
-            <NavLink to='/signIn' className={classes.nav_links}>
-              <Button
-                variant='outlined'
-                color='default'
-                className={classes.button}
-              >
-                Sign In
-              </Button>
-            </NavLink>
+            ) : (
+              <>
+                <NavLink to='/signUp' className={classes.nav_links}>
+                  <Button
+                    variant='outlined'
+                    color='default'
+                    style={{ marginRight: '1em' }}
+                  >
+                    Sign Up
+                  </Button>
+                </NavLink>
+                <NavLink to='/signIn' className={classes.nav_links}>
+                  <Button
+                    variant='outlined'
+                    color='default'
+                    className={classes.button}
+                  >
+                    Sign In
+                  </Button>
+                </NavLink>
+              </>
+            )}
           </Toolbar>
         </AppBar>
       </div>
@@ -130,4 +152,4 @@ class Navigation extends Component {
   }
 }
 
-export default withStyles(styles)(Navigation);
+export default withRouter(withStyles(styles)(Navigation));

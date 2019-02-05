@@ -14,6 +14,10 @@ import { fetchFromDB } from './store/actions/fetchFromDBAction';
 import { addPresentation } from './store/actions/addPresentationAction';
 import { editPresentation } from './store/actions/editPresentationAction';
 import { deletePresentation } from './store/actions/deletePresentationAction';
+import jwt_decode from 'jwt-decode';
+import setAuthToken from './authentication/setAuthToken';
+import auth from './authentication/auth';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 const styles = theme => ({
   root: {
@@ -29,6 +33,12 @@ const styles = theme => ({
 class App extends Component {
   componentDidMount() {
     this.props.onFetchDataFromDB();
+    if (localStorage.getItem('jwtToken')) {
+      setAuthToken(localStorage.getItem('jwtToken'));
+      auth.isAuthenticated = true;
+      auth.user = jwt_decode(localStorage.getItem('jwtToken'));
+      console.log('inside jwtToken in localStorage');
+    }
   }
 
   giveDataWithFormattedDate = match => {
@@ -90,10 +100,10 @@ class App extends Component {
         <div className={classes.wrapper}>
           <Switch>
             <Route exact path='/' component={() => <HomePage />} />
-            <Route
+            <PrivateRoute
               exact
               path='/presentations'
-              render={props => (
+              componentRender={props => (
                 <Presentations
                   {...props}
                   presentations={presentations}
@@ -103,10 +113,10 @@ class App extends Component {
                 />
               )}
             />
-            <Route
+            <PrivateRoute
               exact
               path='/presentations/addPresentation'
-              render={props => (
+              componentRender={props => (
                 <PresentationForms
                   formType='addForm'
                   {...props}
@@ -115,15 +125,15 @@ class App extends Component {
                 />
               )}
             />
-            <Route
+            <PrivateRoute
               exact
               path='/presentations/:presentationId/edit'
-              component={editWithId}
+              componentRender={editWithId}
             />
-            <Route
+            <PrivateRoute
               exact
               path='/presentations/:presentationId'
-              component={detailWithId}
+              componentRender={detailWithId}
             />
             <Route exact path='/signUp' component={SignUp} />
             <Route exact path='/signIn' component={SignIn} />
