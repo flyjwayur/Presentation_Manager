@@ -2,18 +2,25 @@
   flex: 1;
 }
 
-.typoFlex {
-  flex : 1;
+.nav__title {
+  flex: 1;
 }
 
-.logoColor, .titleColor {
+.nav__logo,
+.nav__linkTitle {
   color: #424242;
+  padding: 0 0.4rem;
 }
 
-.titleColor:hover{
-  padding : 0.4rem;
-  background-color: rgba(66,66,66, 0.1);
-  border-radius : 5px;
+.nav_links,
+.nav_links:active {
+  text-decoration: none;
+}
+
+.nav__linkTitle:hover {
+  padding: 0.4rem;
+  background-color: rgba(66, 66, 66, 0.1);
+  border-radius: 5px;
 }
 /* 
 .appBar: {

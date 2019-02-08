@@ -5,7 +5,7 @@ export const deletePresentation = (selectedPresentation, id) => {
   return async dispatch => {
     try {
       const response = await axios.delete(
-        `/presentations/${id}`,
+        `/api/presentations/${id}`,
         selectedPresentation
       );
       const deletedPresentation = response.data;

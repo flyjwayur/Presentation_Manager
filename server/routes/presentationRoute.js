@@ -9,10 +9,10 @@ const {
 const presentationRouter = express.Router();
 
 // presentationRouter.get('/', (req, res) => res.send('We are at home, check /presentations to check presentaions'));
-presentationRouter.get('/presentations', showPresentations);
-presentationRouter.get('/presentations/:id', showDetailPresentation);
-presentationRouter.post('/presentations', addPresentation);
-presentationRouter.put('/presentations/:id' , editPresentation);
-presentationRouter.delete('/presentations/:id', deletePresentation);
+presentationRouter.get('/', showPresentations);
+presentationRouter.get('/:id', showDetailPresentation);
+presentationRouter.post('/', addPresentation);
+presentationRouter.put('/:id' , editPresentation);
+presentationRouter.delete('/:id', deletePresentation);
 
 module.exports = presentationRouter;

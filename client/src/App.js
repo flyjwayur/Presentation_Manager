@@ -1,33 +1,44 @@
-import React, { Component } from "react";
-import HomePage from "./components/HomePage/HomePage";
-import Presentations from "./components/Presentations/Presentations";
-import PresentationForms from "./containers/PresentationForms/PresentationForms";
-import Navigation from "./components/Navigation/Navigation";
-import PresentationDetail from "./components/PresentationDetail/PresentationDetail";
-import { Route, Switch, Redirect, withRouter } from "react-router-dom";
-import moment from "moment";
-import { withStyles } from "@material-ui/core/styles";
-import { connect } from "react-redux";
-import { fetchFromDB } from "./store/actions/fetchFromDBAction";
-import { addPresentation } from "./store/actions/addPresentationAction";
-import { editPresentation } from "./store/actions/editPresentationAction";
-import { deletePresentation } from "./store/actions/deletePresentationAction";
+import React, { Component } from 'react';
+import HomePage from './components/HomePage/HomePage';
+import Presentations from './components/Presentations/Presentations';
+import PresentationForms from './containers/PresentationForms/PresentationForms';
+import Navigation from './components/Navigation/Navigation';
+import PresentationDetail from './components/PresentationDetail/PresentationDetail';
+import SignUp from './containers/Auth/SignUp';
+import SignIn from './containers/Auth/SignIn';
+import { Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import moment from 'moment';
+import { withStyles } from '@material-ui/core/styles';
+import { connect } from 'react-redux';
+import { fetchFromDB } from './store/actions/fetchFromDBAction';
+import { addPresentation } from './store/actions/addPresentationAction';
+import { editPresentation } from './store/actions/editPresentationAction';
+import { deletePresentation } from './store/actions/deletePresentationAction';
+import jwt_decode from 'jwt-decode';
+import setAuthToken from './authentication/setAuthToken';
+import auth from './authentication/auth';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 const styles = theme => ({
   root: {
-    textAlign: "center",
-    backgroundColor : theme.palette.third.dark
+    textAlign: 'center',
+    backgroundColor: theme.palette.third.dark,
   },
-  wrapper : {
+  wrapper: {
     padding: theme.spacing.unit * 10,
-    backgroundColor : theme.palette.third.dark
-  }
+    backgroundColor: theme.palette.third.dark,
+  },
 });
 
 class App extends Component {
-
   componentDidMount() {
     this.props.onFetchDataFromDB();
+    if (localStorage.getItem('jwtToken')) {
+      setAuthToken(localStorage.getItem('jwtToken'));
+      auth.isAuthenticated = true;
+      auth.user = jwt_decode(localStorage.getItem('jwtToken'));
+      console.log('inside jwtToken in localStorage');
+    }
   }
 
   giveDataWithFormattedDate = match => {
@@ -38,7 +49,7 @@ class App extends Component {
     //Check the existence of singlePresentation to prevent app crush with date of undefined
     if (singlePresentation) {
       singlePresentation.date = moment(singlePresentation.date).format(
-        "YYYY-MM-DD"
+        'YYYY-MM-DD',
       );
 
       return singlePresentation;
@@ -46,14 +57,22 @@ class App extends Component {
   };
 
   render() {
-
     // classes for material UI
-    const { classes, presentations, error, isLoading, onAddPresentation, onEditPresentation, onDeletePresentation, validationErrorMessage,validFromServer } = this.props;
+    const {
+      classes,
+      presentations,
+      error,
+      isLoading,
+      onAddPresentation,
+      onEditPresentation,
+      onDeletePresentation,
+      validationErrorMessage,
+    } = this.props;
 
     const editWithId = ({ match, history }) => {
       return (
         <PresentationForms
-          formType="editForm"
+          formType='editForm'
           singlePresentation={this.giveDataWithFormattedDate(match)}
           match={match}
           history={history}
@@ -80,11 +99,11 @@ class App extends Component {
         <Navigation />
         <div className={classes.wrapper}>
           <Switch>
-            <Route exact path="/" component={() => <HomePage />} />
-            <Route
+            <Route exact path='/' component={() => <HomePage />} />
+            <PrivateRoute
               exact
-              path="/presentations"
-              render={props => (
+              path='/presentations'
+              componentRender={props => (
                 <Presentations
                   {...props}
                   presentations={presentations}
@@ -94,30 +113,31 @@ class App extends Component {
                 />
               )}
             />
-            <Route
+            <PrivateRoute
               exact
-              path="/presentations/addPresentation"
-              render={props => (
+              path='/presentations/addPresentation'
+              componentRender={props => (
                 <PresentationForms
-                  formType="addForm"
+                  formType='addForm'
                   {...props}
                   onAddPresentation={onAddPresentation}
                   validationErrorMessage={validationErrorMessage}
-                  validFromServer={validFromServer}
                 />
               )}
             />
-            <Route
+            <PrivateRoute
               exact
-              path="/presentations/:presentationId/edit"
-              component={editWithId}
+              path='/presentations/:presentationId/edit'
+              componentRender={editWithId}
             />
-            <Route
+            <PrivateRoute
               exact
-              path="/presentations/:presentationId"
-              component={detailWithId}
+              path='/presentations/:presentationId'
+              componentRender={detailWithId}
             />
-            <Redirect to="/" />
+            <Route exact path='/signUp' component={SignUp} />
+            <Route exact path='/signIn' component={SignIn} />
+            <Redirect to='/' />
           </Switch>
         </div>
       </div>
@@ -128,20 +148,27 @@ class App extends Component {
 const mapStateToProps = state => {
   return {
     presentations: state.presentations,
-    error : state.error,
-    isLoading : state.isLoading,
-    validationErrorMessage : state.validationErrorMessage,
-    validFromServer : state.validFromServer
-  }
+    error: state.error,
+    isLoading: state.isLoading,
+    validationErrorMessage: state.validationErrorMessage,
+  };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
     onFetchDataFromDB: () => dispatch(fetchFromDB()),
-    onAddPresentation : newPresentation => dispatch(addPresentation(newPresentation)),
-    onEditPresentation : (selectedPresentation, id) => dispatch(editPresentation(selectedPresentation, id)),
-    onDeletePresentation : (selectedPresentation, id) => dispatch(deletePresentation(selectedPresentation, id))
-  }
-}
+    onAddPresentation: newPresentation =>
+      dispatch(addPresentation(newPresentation)),
+    onEditPresentation: (selectedPresentation, id) =>
+      dispatch(editPresentation(selectedPresentation, id)),
+    onDeletePresentation: (selectedPresentation, id) =>
+      dispatch(deletePresentation(selectedPresentation, id)),
+  };
+};
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(App)));
+export default withRouter(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps,
+  )(withStyles(styles)(App)),
+);

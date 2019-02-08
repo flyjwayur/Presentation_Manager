@@ -1,36 +1,42 @@
-import { createMuiTheme } from "@material-ui/core/styles";
-import cyan from "@material-ui/core/colors/cyan";
-import deepOrange from "@material-ui/core/colors/deepOrange";
-import grey from "@material-ui/core/colors/grey";
+import { createMuiTheme } from '@material-ui/core/styles';
+import cyan from '@material-ui/core/colors/cyan';
+import deepOrange from '@material-ui/core/colors/deepOrange';
+import grey from '@material-ui/core/colors/grey';
 
 //Theme for custom primary and secondary color.
 export const theme = createMuiTheme({
   palette: {
     //Cyan
     primary: {
-      light: "#D2FDFF",
-      main: "#B4DFE5",
+      light: '#D2FDFF',
+      main: '#B4DFE5',
       dark: cyan[500],
-      darker: cyan[800]
+      darker: cyan[800],
     },
     //deepOrange
     secondary: {
-      light: "#FBE8A6",
-      main: "#F4976C",
+      light: '#FBE8A6',
+      main: '#F4976C',
       medium: deepOrange[700],
       dark: deepOrange[800],
-      darker: "#731212"
+      darker: '#731212',
     },
     third: {
       light: grey[300],
       main: grey[400],
-      medium : grey[600],
-      dark: grey[800]
-    }
+      medium: grey[600],
+      dark: grey[800],
+    },
+    text: {
+      primary: '#191919',
+      secondary: grey[200],
+    },
   },
+
   typography: {
-    useNextVariants: true
-  }
+    useNextVariants: true,
+    htmlFontSize: 13,
+  },
 });
 
 // function withRoot(Component) {
