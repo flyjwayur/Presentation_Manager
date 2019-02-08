@@ -23,6 +23,7 @@ const styles = theme => ({
   root: {
     textAlign: 'center',
     backgroundColor: theme.palette.third.dark,
+    height: '100vh',
   },
   wrapper: {
     padding: theme.spacing.unit * 10,

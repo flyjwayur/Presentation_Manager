@@ -57,7 +57,7 @@ const CustumTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.secondary.light,
     color: theme.palette.third.dark,
-    fontSize: 14,
+    fontSize: 17,
     fontWeight: 800,
   },
 }))(TableCell);

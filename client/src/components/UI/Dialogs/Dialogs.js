@@ -13,12 +13,12 @@ import Email from '@material-ui/icons/Email';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
-  emailIcon: {
-    backgroundColor: theme.palette.secondary.light,
+  dialogContentText: {
+    color: theme.palette.secondary.main,
   },
 });
 
-function FormDialog() {
+const FormDialog = props => {
   //Hook - use state and other React features without writing class
   //useState hook: let us add React state to function components
   const [open, setOpen] = useState(false);
@@ -36,7 +36,7 @@ function FormDialog() {
   const handleClose = e => {
     setOpen(false);
   };
-
+  console.log(props);
   return (
     <div>
       {/* Email icon to open subscribe this website*/}
@@ -50,7 +50,7 @@ function FormDialog() {
       >
         <DialogTitle id='form-dialog-title'>Subscribe</DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          <DialogContentText className={props.dialogContentText}>
             To subscribe to this website, please enter your email address here.
             We will send updates occasionally.
           </DialogContentText>
@@ -74,6 +74,6 @@ function FormDialog() {
       </Dialog>
     </div>
   );
-}
+};
 
 export default withStyles(styles)(FormDialog);

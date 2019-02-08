@@ -69,15 +69,7 @@ class Navigation extends Component {
               className={classes.nav__title}
               align='left'
             >
-              <NavLink
-                to='/presentations'
-                className={classNames(
-                  classes.nav__linkTitle,
-                  classes.nav_links,
-                )}
-              >
-                Presentations
-              </NavLink>
+              Presentation Manager
             </Typography>
             <NavLink
               to='/'
