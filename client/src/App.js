@@ -26,7 +26,9 @@ const styles = theme => ({
     height: '100vh',
   },
   wrapper: {
-    padding: theme.spacing.unit * 10,
+    paddingTop: theme.spacing.unit * 10,
+    paddingRight: theme.spacing.unit * 2,
+    paddingLeft: theme.spacing.unit * 2,
     backgroundColor: theme.palette.third.dark,
   },
 });

@@ -32,11 +32,17 @@ export const theme = createMuiTheme({
       secondary: grey[200],
     },
   },
-
   typography: {
     useNextVariants: true,
     fontSize: 16, //default : 14
     htmlFontSize: 16,
+  },
+  props: {
+    // withWidth component ⚛️
+    MuiWithWidth: {
+      // Initial width property
+      initialWidth: 'lg', // Breakpoint being globally set 🌎!
+    },
   },
 });
 

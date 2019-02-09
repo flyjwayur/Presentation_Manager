@@ -2,7 +2,9 @@ import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 import { TableCell } from '@material-ui/core';
+
 import { withStyles } from '@material-ui/core/styles';
+
 import classNames from 'classnames';
 import Pageview from '@material-ui/icons/Pageview';
 import BorderColor from '@material-ui/icons/BorderColor';
@@ -80,6 +82,7 @@ class Presentation extends Component {
 
     //Classes for style
     const { classes } = this.props;
+
     return (
       <Fragment>
         <CustumTableCell
