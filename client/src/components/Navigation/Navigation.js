@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink, Redirect, withRouter } from 'react-router-dom';
+import { NavLink, withRouter } from 'react-router-dom';
 import { withStyles } from '@material-ui/core/styles';
 import {
   AppBar,

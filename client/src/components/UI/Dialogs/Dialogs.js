@@ -36,7 +36,7 @@ const FormDialog = props => {
   const handleClose = e => {
     setOpen(false);
   };
-  console.log(props);
+
   return (
     <div>
       {/* Email icon to open subscribe this website*/}
