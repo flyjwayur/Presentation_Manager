@@ -29,7 +29,6 @@
     "morgan": "^1.9.1",
     "nodemon": "^1.18.8",
     "package.json": "^2.0.1",
-    "recompose": "^0.30.0",
     "validator": "^10.10.0"
   }
 }

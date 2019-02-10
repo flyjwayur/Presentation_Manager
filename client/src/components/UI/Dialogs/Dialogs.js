@@ -7,7 +7,9 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
-  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from '@material-ui/core';
 import Email from '@material-ui/icons/Email';
 import { withStyles } from '@material-ui/core/styles';
@@ -40,9 +42,12 @@ const FormDialog = props => {
   return (
     <div>
       {/* Email icon to open subscribe this website*/}
-      <IconButton>
-        <Email onClick={handleClickOpen} />
-      </IconButton>
+      <ListItem button>
+        <ListItemIcon>
+          <Email onClick={handleClickOpen} />
+        </ListItemIcon>
+        <ListItemText primary='Subscribe' onClick={handleClickOpen} />
+      </ListItem>
       <Dialog
         open={open}
         onClose={handleClose}
