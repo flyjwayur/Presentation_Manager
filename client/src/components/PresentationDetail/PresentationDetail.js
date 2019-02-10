@@ -14,6 +14,7 @@ import {
   ListItem,
   ListItemText,
   Divider,
+  Chip,
 } from '@material-ui/core';
 import { DetailImage } from '../../components/UI/Icon/Icon';
 import BorderColor from '@material-ui/icons/BorderColor';
@@ -136,7 +137,8 @@ class PresentationDetail extends Component {
                   <ListItemText primary={`Article: ${article}`} />
                 </ListItem>
                 <ListItem divider>
-                  <ListItemText primary={`Keywords: ${keywords}`} />
+                  <Chip label={`Keywords: ${keywords}`} color='primary' />
+                  {/* <ListItemText primary={`Keywords: ${keywords}`} /> */}
                 </ListItem>
                 <ListItem divider>
                   <ListItemText primary={`Date: ${date}`} />
