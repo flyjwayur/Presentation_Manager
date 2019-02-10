@@ -12,18 +12,21 @@ import {
   ListItemText,
 } from '@material-ui/core';
 import Email from '@material-ui/icons/Email';
-import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
-  dialogContentText: {
-    color: theme.palette.secondary.main,
-  },
-});
+//**** Give style with React Hook **** (It seems still testin)
+// import { makeStyles } from '@material-ui/core/styles';
+
+// const useStyles = makeStyles(theme => ({
+//   dialogContentText: {
+//     color: theme.palette.secondary.main,
+//   },
+// }));
 
 const FormDialog = props => {
   //Hook - use state and other React features without writing class
   //useState hook: let us add React state to function components
   const [open, setOpen] = useState(false);
+  // const classes = useStyles();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -53,9 +56,12 @@ const FormDialog = props => {
         onClose={handleClose}
         aria-labelledby='form-dialog-title'
       >
-        <DialogTitle id='form-dialog-title'>Subscribe</DialogTitle>
+        <DialogTitle id='form-dialog-title' color='secondary'>
+          Subscribe
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText className={props.dialogContentText}>
+          {/* <DialogContentText className={classes.dialogContentText}> */}
+          <DialogContentText color='textPrimary'>
             To subscribe to this website, please enter your email address here.
             We will send updates occasionally.
           </DialogContentText>
@@ -66,6 +72,7 @@ const FormDialog = props => {
             label='Email Address'
             type='email'
             fullWidth
+            color='textPrimary'
           />
         </DialogContent>
         <DialogActions>
@@ -81,4 +88,4 @@ const FormDialog = props => {
   );
 };
 
-export default withStyles(styles)(FormDialog);
+export default FormDialog;

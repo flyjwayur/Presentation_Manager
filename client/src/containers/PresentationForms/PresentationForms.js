@@ -72,12 +72,26 @@ const styles = theme => ({
       color: theme.palette.primary.darker,
     },
   },
-  goBackButton: {
-    flex: 1,
-    position: 'absolute',
-    top: 150,
-    left: 100,
+  goBackLinkButton: {
+    textDecoration: 'none',
   },
+  topGoBackButton: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'flex',
+      justifyContent: 'center',
+      marginLeft: theme.spacing.unit * 5,
+      marginBottom: theme.spacing.unit * 5,
+    },
+    display: 'none',
+  },
+  BottomGoBackButton: {
+    [theme.breakpoints.up('sm')]: {
+      display: 'none',
+    },
+    flexGrow: 1,
+    margin: theme.spacing.unit * 5,
+  },
+
   hintText: {
     color: theme.palette.secondary.main,
     fontSize: 15,
@@ -316,11 +330,14 @@ class PresentationForms extends Component {
 
       return (
         <div>
-          <Link to={`/presentations/${singlePresentation._id}`}>
+          <Link
+            to={`/presentations/${singlePresentation._id}`}
+            className={classes.goBackLinkButton}
+          >
             <Button
-              variant='outlined'
               color='primary'
-              className={classes.goBackButton}
+              variant='outlined'
+              className={classes.topGoBackButton}
             >
               Go Back
             </Button>
@@ -344,11 +361,11 @@ class PresentationForms extends Component {
     //If it's add type, it works as a form for adding presentation (reusable code)
     return (
       <div>
-        <Link to='/presentations'>
+        <Link to='/presentations' className={classes.goBackLinkButton}>
           <Button
             color='primary'
             variant='outlined'
-            className={classes.goBackButton}
+            className={classes.topGoBackButton}
           >
             Go back
           </Button>
@@ -499,6 +516,15 @@ class PresentationForms extends Component {
             </Button>
           </FormControl>
         </div>
+        <Link to='/presentations' className={classes.goBackLinkButton}>
+          <Button
+            variant='outlined'
+            color='primary'
+            className={classes.BottomGoBackButton}
+          >
+            Go Back
+          </Button>
+        </Link>
       </div>
     );
   }
@@ -668,6 +694,18 @@ const Edit = props => {
           </CardContent>
         </Card>
       </Grid>
+      <Link
+        to={`/presentations/${singlePresentation._id}`}
+        className={classes.goBackLinkButton}
+      >
+        <Button
+          variant='outlined'
+          color='primary'
+          className={classes.BottomGoBackButton}
+        >
+          Go Back
+        </Button>
+      </Link>
     </Grid>
   );
 };

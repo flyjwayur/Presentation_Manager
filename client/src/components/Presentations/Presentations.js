@@ -16,7 +16,7 @@ import {
   TableCell,
   Typography,
   Button,
-  Fab,
+  IconButton,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import AddCircle from '@material-ui/icons/AddCircle';
@@ -51,12 +51,10 @@ const styles = theme => ({
   goBackButton: {
     flex: 2,
   },
-  fab: {
-    backgroundColor: theme.palette.secondary.light,
-  },
   addIcon: {
-    fontSize: 60,
+    fontSize: 80,
     flex: 1,
+    fill: theme.palette.secondary.main,
   },
 });
 
@@ -95,11 +93,11 @@ class Presentations extends Component {
     }
   };
 
-  renderPresentationsInSMscreen = ({ match, history, presentations }) => {
+  renderPresentationsInTablet = ({ match, history, presentations }) => {
     if (presentations.length > 0) {
       return presentations.map(presentation => {
         return (
-          <Grid item xs={12} sm={6} key={presentation._id.toString()}>
+          <Grid item xs={12} sm={12} md={6} key={presentation._id.toString()}>
             <PresenationCard
               presentation={presentation}
               match={match}
@@ -124,18 +122,18 @@ class Presentations extends Component {
     const { isLoading, error, presentations, classes } = this.props;
 
     console.log(this.props.width);
-    //Media query : if the screen size is smaller than sm, render cards
-    if (isWidthDown('sm', this.props.width)) {
+    //Media query : if the screen size is smaller than md, render cards
+    if (isWidthDown('md', this.props.width)) {
       return (
         <div className={classes.gridRoot}>
           <Grid container justify='center' spacing={8}>
-            {this.renderPresentationsInSMscreen(this.props)}
+            {this.renderPresentationsInTablet(this.props)}
           </Grid>
         </div>
       );
     }
 
-    //Media query : if the screen size is bigger than sm, render table
+    //Media query : if the screen size is bigger than md, render table
     return (
       <Fragment>
         <div className={classes.iconPosition}>
@@ -159,13 +157,13 @@ class Presentations extends Component {
               textDecoration: 'none',
             }}
           >
-            <Fab className={classes.fab}>
+            <IconButton>
               <AddCircle
                 color='secondary'
                 arial-label='Add'
                 className={classes.addIcon}
               />
-            </Fab>
+            </IconButton>
           </Link>
         </div>
         <div className={classes.root}>

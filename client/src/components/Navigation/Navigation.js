@@ -49,11 +49,6 @@ const styles = theme => ({
   nav__brand: {
     flexGrow: 1,
   },
-  nav__titleIcon: {
-    '&:hover': {
-      color: theme.palette.secondary.light,
-    },
-  },
   nav__title: {
     flexGrow: 1,
     color: theme.palette.secondary.light,

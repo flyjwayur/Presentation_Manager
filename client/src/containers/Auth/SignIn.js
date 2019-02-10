@@ -120,7 +120,7 @@ class SignIn extends Component {
 
     return (
       <Grid container justify='center'>
-        <Grid item xs={12} sm={6} md={6} lg={4}>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
           <Paper>
             <div className={classes.signIn__form_title}>
               <Typography variant='h5' color='textSecondary' gutterBottom>

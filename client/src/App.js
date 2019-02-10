@@ -18,6 +18,9 @@ import jwt_decode from 'jwt-decode';
 import setAuthToken from './authentication/setAuthToken';
 import auth from './authentication/auth';
 import PrivateRoute from './components/PrivateRoute/PrivateRoute';
+import { CssBaseline } from '@material-ui/core';
+
+const drawerWidth = 250;
 
 const styles = theme => ({
   root: {
@@ -25,11 +28,21 @@ const styles = theme => ({
     backgroundColor: theme.palette.third.dark,
     height: '100vh',
   },
-  wrapper: {
-    paddingTop: theme.spacing.unit * 10,
-    paddingRight: theme.spacing.unit * 2,
-    paddingLeft: theme.spacing.unit * 2,
+  mainWrapper: {
+    marginLeft: 0,
+    marginTop: theme.spacing.unit * 20,
+    // padding: theme.spacing.unit * 3,
+    // paddingTop: theme.spacing.unit * 10,
+    // paddingRight: theme.spacing.unit * 2,
+    // paddingLeft: theme.spacing.unit * 2,
     backgroundColor: theme.palette.third.dark,
+    [theme.breakpoints.up('sm')]: {
+      flexGrow: 1,
+      marginTop: theme.spacing.unit * 10,
+      marginLeft: drawerWidth,
+      paddingTop: theme.spacing.unit * 10,
+    },
+    paddingBottom: theme.spacing.unit * 10,
   },
 });
 
@@ -99,8 +112,9 @@ class App extends Component {
 
     return (
       <div className={classes.root}>
+        <CssBaseline />
         <Navigation />
-        <div className={classes.wrapper}>
+        <main className={classes.mainWrapper}>
           <Switch>
             <Route exact path='/' component={() => <HomePage />} />
             <PrivateRoute
@@ -142,7 +156,7 @@ class App extends Component {
             <Route exact path='/signIn' component={SignIn} />
             <Redirect to='/' />
           </Switch>
-        </div>
+        </main>
       </div>
     );
   }
