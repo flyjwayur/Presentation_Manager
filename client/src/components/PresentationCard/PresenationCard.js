@@ -19,6 +19,9 @@ const styles = theme => ({
   tableCell: {
     backgroundColor: theme.palette.secondary.main,
   },
+  card: {
+    margin: theme.spacing.unit * 2,
+  },
   cardHeader: {
     backgroundColor: theme.palette.secondary.main,
   },
@@ -89,7 +92,7 @@ class PresentationCard extends Component {
     const { classes } = this.props;
     return (
       <Grid container direction='column' alignItems='center'>
-        <Card>
+        <Card className={classes.card}>
           <CardHeader title={topic} className={classes.cardHeader}>
             {/* <Typography variant='h6' gutterBottom color='secondary'>
               {topic}
