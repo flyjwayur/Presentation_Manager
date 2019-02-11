@@ -1,9 +1,13 @@
 import React, { Component, Fragment } from 'react';
 import Spinner from '../../components/UI/Spinner/Spinner';
 import Presentation from '../../components/Presentation/Presentation';
+import PresenationCard from '../../components/PresentationCard/PresenationCard';
 import { Link } from 'react-router-dom';
+import withWidth, { isWidthDown } from '@material-ui/core/withWidth';
 import { withStyles } from '@material-ui/core/styles';
+import { compose } from 'recompose';
 import {
+  Grid,
   Paper,
   Table,
   TableHead,
@@ -12,7 +16,7 @@ import {
   TableCell,
   Typography,
   Button,
-  Fab,
+  IconButton,
 } from '@material-ui/core';
 import PropTypes from 'prop-types';
 import AddCircle from '@material-ui/icons/AddCircle';
@@ -32,6 +36,9 @@ const styles = theme => ({
   tableHead: {
     backgroundColor: theme.palette.secondary.main,
   },
+  gridRoot: {
+    flexGrow: 1,
+  },
   hightlightText: {
     color: theme.palette.secondary.dark,
     fontWeight: 900,
@@ -44,20 +51,18 @@ const styles = theme => ({
   goBackButton: {
     flex: 2,
   },
-  fab: {
-    backgroundColor: theme.palette.secondary.light,
-  },
   addIcon: {
-    fontSize: 60,
+    fontSize: 80,
     flex: 1,
+    fill: theme.palette.secondary.main,
   },
 });
 
-const CustumTableCell = withStyles(theme => ({
+const CustomTableCell = withStyles(theme => ({
   head: {
     backgroundColor: theme.palette.secondary.light,
     color: theme.palette.third.dark,
-    fontSize: 14,
+    fontSize: 17,
     fontWeight: 800,
   },
 }))(TableCell);
@@ -88,9 +93,47 @@ class Presentations extends Component {
     }
   };
 
+  renderPresentationsInTablet = ({ match, history, presentations }) => {
+    if (presentations.length > 0) {
+      return presentations.map(presentation => {
+        return (
+          <Grid item xs={12} sm={12} md={6} key={presentation._id.toString()}>
+            <PresenationCard
+              presentation={presentation}
+              match={match}
+              history={history}
+              deletePresentation={this.props.deletePresentation}
+            />
+          </Grid>
+        );
+      });
+    } else if (presentations.length === 0) {
+      return (
+        <Typography variant='subtitle1' gutterBottom color='secondary'>
+          There are no presentations
+        </Typography>
+      );
+    } else {
+      return null;
+    }
+  };
+
   render() {
     const { isLoading, error, presentations, classes } = this.props;
 
+    console.log(this.props.width);
+    //Media query : if the screen size is smaller than md, render cards
+    if (isWidthDown('md', this.props.width)) {
+      return (
+        <div className={classes.gridRoot}>
+          <Grid container justify='center' spacing={8}>
+            {this.renderPresentationsInTablet(this.props)}
+          </Grid>
+        </div>
+      );
+    }
+
+    //Media query : if the screen size is bigger than md, render table
     return (
       <Fragment>
         <div className={classes.iconPosition}>
@@ -114,13 +157,13 @@ class Presentations extends Component {
               textDecoration: 'none',
             }}
           >
-            <Fab className={classes.fab}>
+            <IconButton>
               <AddCircle
                 color='secondary'
                 arial-label='Add'
                 className={classes.addIcon}
               />
-            </Fab>
+            </IconButton>
           </Link>
         </div>
         <div className={classes.root}>
@@ -133,8 +176,10 @@ class Presentations extends Component {
           {/* Handle errors */}
           {error && (
             <div>
-              <Typography color='secondary'>{error}</Typography>
-              <Typography color='secondary'>
+              <Typography color='secondary' variant='subtitle1' gutterBottom>
+                {error}
+              </Typography>
+              <Typography color='secondary' variant='h6' gutterBottom>
                 Could you refresh the page?
               </Typography>
             </div>
@@ -142,23 +187,23 @@ class Presentations extends Component {
           {/* Handle loading presentation data */}
           {isLoading && <Spinner />}
           {/* Render presentations */}
-          <div>
+          <>
             <Paper className={classes.root}>
               <Table className={classes.table}>
                 <TableHead>
                   <TableRow>
-                    <CustumTableCell>Presentor</CustumTableCell>
-                    <CustumTableCell align='right'>Evaluator</CustumTableCell>
-                    <CustumTableCell align='right'>Topic</CustumTableCell>
-                    <CustumTableCell align='right'>Article</CustumTableCell>
-                    <CustumTableCell align='center'>Date</CustumTableCell>
-                    <CustumTableCell align='center'>Monitor</CustumTableCell>
+                    <CustomTableCell>Presentor</CustomTableCell>
+                    <CustomTableCell align='right'>Evaluator</CustomTableCell>
+                    <CustomTableCell align='right'>Topic</CustomTableCell>
+                    <CustomTableCell align='right'>Article</CustomTableCell>
+                    <CustomTableCell align='center'>Date</CustomTableCell>
+                    <CustomTableCell align='center'>Monitor</CustomTableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>{this.renderPresentations(this.props)}</TableBody>
               </Table>
             </Paper>
-          </div>
+          </>
         </div>
       </Fragment>
     );
@@ -169,4 +214,7 @@ Presentations.propTypes = {
   classes: PropTypes.object.isRequired,
 };
 
-export default withStyles(styles)(Presentations);
+export default compose(
+  withStyles(styles),
+  withWidth(),
+)(Presentations);

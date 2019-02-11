@@ -7,21 +7,26 @@ import {
   DialogContentText,
   DialogTitle,
   TextField,
-  IconButton,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
 } from '@material-ui/core';
 import Email from '@material-ui/icons/Email';
-import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
-  emailIcon: {
-    backgroundColor: theme.palette.secondary.light,
-  },
-});
+//**** Give style with React Hook **** (It seems still testin)
+// import { makeStyles } from '@material-ui/core/styles';
 
-function FormDialog() {
+// const useStyles = makeStyles(theme => ({
+//   dialogContentText: {
+//     color: theme.palette.secondary.main,
+//   },
+// }));
+
+const FormDialog = props => {
   //Hook - use state and other React features without writing class
   //useState hook: let us add React state to function components
   const [open, setOpen] = useState(false);
+  // const classes = useStyles();
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -40,17 +45,23 @@ function FormDialog() {
   return (
     <div>
       {/* Email icon to open subscribe this website*/}
-      <IconButton>
-        <Email onClick={handleClickOpen} />
-      </IconButton>
+      <ListItem button>
+        <ListItemIcon>
+          <Email onClick={handleClickOpen} />
+        </ListItemIcon>
+        <ListItemText primary='Subscribe' onClick={handleClickOpen} />
+      </ListItem>
       <Dialog
         open={open}
         onClose={handleClose}
         aria-labelledby='form-dialog-title'
       >
-        <DialogTitle id='form-dialog-title'>Subscribe</DialogTitle>
+        <DialogTitle id='form-dialog-title' color='secondary'>
+          Subscribe
+        </DialogTitle>
         <DialogContent>
-          <DialogContentText>
+          {/* <DialogContentText className={classes.dialogContentText}> */}
+          <DialogContentText color='textPrimary'>
             To subscribe to this website, please enter your email address here.
             We will send updates occasionally.
           </DialogContentText>
@@ -61,6 +72,7 @@ function FormDialog() {
             label='Email Address'
             type='email'
             fullWidth
+            color='textPrimary'
           />
         </DialogContent>
         <DialogActions>
@@ -74,6 +86,6 @@ function FormDialog() {
       </Dialog>
     </div>
   );
-}
+};
 
-export default withStyles(styles)(FormDialog);
+export default FormDialog;

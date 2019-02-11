@@ -13,20 +13,17 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
   container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    flexGrow: 1,
-  },
-  signUp__form_container: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
+    paddingBottom: theme.spacing.unit * 10,
   },
   signUp__form_title: {
     backgroundColor: theme.palette.primary.darker,
     borderRadius: 4,
     padding: theme.spacing.unit * 2,
+  },
+  signUp__form_container: {
+    display: 'flex',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
   },
   signUp_form_button: {
     margin: theme.spacing.unit * 3,
@@ -91,8 +88,8 @@ class SignUp extends Component {
     const feedbackMessages = this.validateInputs();
 
     return (
-      <Grid container className={classes.container}>
-        <Grid item xs={12} sm={6}>
+      <Grid container justify='center' className={classes.container}>
+        <Grid item xs={12} sm={12} md={6} lg={4}>
           <Paper>
             <div className={classes.signUp__form_title}>
               <Typography variant='h5' color='textSecondary' gutterBottom>
