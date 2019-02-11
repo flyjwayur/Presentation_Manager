@@ -85,6 +85,10 @@ const styles = theme => ({
     flexGrow: 1,
     padding: theme.spacing.unit * 3,
   },
+  avatar: {
+    width: '25px',
+    borderRadius: '50%',
+  },
 });
 
 function HomeIcon(props) {
@@ -111,8 +115,10 @@ class Navigation extends Component {
       setAuthToken(false);
     }
   };
+
   render() {
     const { classes } = this.props;
+    const { isAuthenticated, user } = auth;
 
     const drawer = (
       <div>
@@ -164,7 +170,7 @@ class Navigation extends Component {
           </ListItem>
           <Divider />
           <SubscribeDialog />
-          {auth.isAuthenticated ? (
+          {isAuthenticated ? (
             <>
               <Divider className={classes.nav__signUpInOutMobile} />
               <ListItem
@@ -232,15 +238,24 @@ class Navigation extends Component {
                 </Typography>
               </NavLink>
             </div>
-            {auth.isAuthenticated ? (
-              <Button
-                variant='outlined'
-                color='primary'
-                onClick={this.signOut}
-                className={classes.nav__signUpInOutDesktop}
-              >
-                Sign Out
-              </Button>
+            {isAuthenticated ? (
+              <>
+                <IconButton>
+                  <img
+                    src={user.avatar}
+                    alt={user.username}
+                    className={classes.avatar}
+                  />
+                </IconButton>
+                <Button
+                  variant='outlined'
+                  color='primary'
+                  onClick={this.signOut}
+                  className={classes.nav__signUpInOutDesktop}
+                >
+                  Sign Out
+                </Button>
+              </>
             ) : (
               <div className={classes.nav__signUpInOutDesktop}>
                 <NavLink to='/signUp' className={classes.nav__links}>

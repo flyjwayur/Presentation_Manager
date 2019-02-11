@@ -6,7 +6,10 @@ import {
   Grid,
   Paper,
   Button,
+  Snackbar,
+  SnackbarContent,
 } from '@material-ui/core';
+import WarningIcon from '@material-ui/icons/Warning';
 import TextInputField from '../../components/UI/TextInputField/TextInputField';
 import validateSignInForm from '../../Validation/validateSignInForm';
 import { withStyles } from '@material-ui/core/styles';
@@ -14,6 +17,9 @@ import auth from '../../authentication/auth';
 import { Redirect } from 'react-router-dom';
 
 const styles = theme => ({
+  signIn__wrapper: {
+    margin: theme.spacing.unit * 3,
+  },
   signIn__form_container: {
     display: 'flex',
     flexWrap: 'wrap',
@@ -32,6 +38,12 @@ const styles = theme => ({
   },
   signIn_form_button: {
     margin: theme.spacing.unit * 3,
+  },
+  snackbar: {
+    position: 'absolute',
+    display: 'flex',
+    alignItems: 'center',
+    top: '400px',
   },
 });
 
@@ -117,11 +129,22 @@ class SignIn extends Component {
     if (redirectToReferrer === true) {
       return <Redirect to={from} />;
     }
-
+    console.log('auth.isAuthenticated', auth.isAuthenticated);
     return (
       <Grid container justify='center'>
+        {auth.isAuthenticated === false ? (
+          <Snackbar>
+            <SnackbarContent
+              aria-describedby='client-snackbar'
+              message={
+                <span id='message-id'>Please Login to see presentations</span>
+              }
+              className={classes.snackbar}
+            />
+          </Snackbar>
+        ) : null}
         <Grid item xs={12} sm={12} md={6} lg={4}>
-          <Paper>
+          <Paper classname={classes.signIn__wrapper}>
             <div className={classes.signIn__form_title}>
               <Typography variant='h5' color='textSecondary' gutterBottom>
                 Sign In
