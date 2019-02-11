@@ -9,7 +9,7 @@ import {
   Snackbar,
   SnackbarContent,
 } from '@material-ui/core';
-import WarningIcon from '@material-ui/icons/Warning';
+// import WarningIcon from '@material-ui/icons/Warning';
 import TextInputField from '../../components/UI/TextInputField/TextInputField';
 import validateSignInForm from '../../Validation/validateSignInForm';
 import { withStyles } from '@material-ui/core/styles';
@@ -129,7 +129,7 @@ class SignIn extends Component {
     if (redirectToReferrer === true) {
       return <Redirect to={from} />;
     }
-    console.log('auth.isAuthenticated', auth.isAuthenticated);
+    // console.log('auth.isAuthenticated', auth.isAuthenticated);
     return (
       <Grid container justify='center'>
         {auth.isAuthenticated === false ? (
@@ -144,7 +144,7 @@ class SignIn extends Component {
           </Snackbar>
         ) : null}
         <Grid item xs={12} sm={12} md={6} lg={4}>
-          <Paper classname={classes.signIn__wrapper}>
+          <Paper className={classes.signIn__wrapper}>
             <div className={classes.signIn__form_title}>
               <Typography variant='h5' color='textSecondary' gutterBottom>
                 Sign In
