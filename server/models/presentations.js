@@ -3,35 +3,39 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const PresentationSchema = new Schema({
-  presenter : {
-    type : String,
+  userId: {
+    type: mongoose.Types.ObjectId,
     required: true,
-    minlength : 2
   },
-  evaluator : {
-    type : String,
+  presenter: {
+    type: String,
     required: true,
-    minlength : 2
+    minlength: 2,
   },
-  topic : {
-    type : String,
+  evaluator: {
+    type: String,
     required: true,
-    minlength : 2
+    minlength: 2,
   },
-  article : {
-    type : String,
-    required: true
+  topic: {
+    type: String,
+    required: true,
+    minlength: 2,
   },
-  date : {
-    type : Date,
-    required: true
+  article: {
+    type: String,
+    required: true,
   },
-  keywords : {
-    type : String
-  }
-  ,summary : {
-    type : String
-  }
+  date: {
+    type: Date,
+    required: true,
+  },
+  keywords: {
+    type: String,
+  },
+  summary: {
+    type: String,
+  },
 });
 
 const Presentation = mongoose.model('PresentationsDB', PresentationSchema);

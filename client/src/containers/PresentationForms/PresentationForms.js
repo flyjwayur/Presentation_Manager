@@ -99,34 +99,18 @@ const styles = theme => ({
 });
 
 const FeedbackWithHints = ({ validity, uiClasses }) => {
-  return validity ? (
-    <FormHelperText className={uiClasses}>{validity}</FormHelperText>
-  ) : null;
+  return validity ? <FormHelperText className={uiClasses}>{validity}</FormHelperText> : null;
 };
 
 class PresentationForms extends Component {
   state = {
-    presenter: this.props.singlePresentation
-      ? this.props.singlePresentation.presenter
-      : '',
-    evaluator: this.props.singlePresentation
-      ? this.props.singlePresentation.evaluator
-      : '',
-    topic: this.props.singlePresentation
-      ? this.props.singlePresentation.topic
-      : '',
-    article: this.props.singlePresentation
-      ? this.props.singlePresentation.article
-      : '',
-    date: this.props.singlePresentation
-      ? this.props.singlePresentation.date
-      : '',
-    keywords: this.props.singlePresentation
-      ? this.props.singlePresentation.keywords
-      : '',
-    summary: this.props.singlePresentation
-      ? this.props.singlePresentation.summary
-      : '',
+    presenter: this.props.singlePresentation ? this.props.singlePresentation.presenter : '',
+    evaluator: this.props.singlePresentation ? this.props.singlePresentation.evaluator : '',
+    topic: this.props.singlePresentation ? this.props.singlePresentation.topic : '',
+    article: this.props.singlePresentation ? this.props.singlePresentation.article : '',
+    date: this.props.singlePresentation ? this.props.singlePresentation.date : '',
+    keywords: this.props.singlePresentation ? this.props.singlePresentation.keywords : '',
+    summary: this.props.singlePresentation ? this.props.singlePresentation.summary : '',
     touched: {
       presenter: false,
       evaluator: false,
@@ -135,6 +119,11 @@ class PresentationForms extends Component {
       date: false,
     },
   };
+  componentDidMount() {
+    if (!localStorage.getItem('jwttoken')) {
+      return <redirect to="/signin" />;
+    }
+  }
 
   handleInputsChange = e => {
     this.setState({
@@ -172,33 +161,20 @@ class PresentationForms extends Component {
       }
     };
 
-    if (
-      this.state.touched.presenter &&
-      !regex.presenter.test(trimInputs(presenter))
-    ) {
-      hintMessage.presenter =
-        'Presenter should be more than 2 characters, including space.';
+    if (this.state.touched.presenter && !regex.presenter.test(trimInputs(presenter))) {
+      hintMessage.presenter = 'Presenter should be more than 2 characters, including space.';
     }
 
-    if (
-      this.state.touched.evaluator &&
-      !regex.evaluator.test(trimInputs(evaluator))
-    ) {
-      hintMessage.evaluator =
-        'Evaluator should be more than 2 characters, including space.';
+    if (this.state.touched.evaluator && !regex.evaluator.test(trimInputs(evaluator))) {
+      hintMessage.evaluator = 'Evaluator should be more than 2 characters, including space.';
     }
 
     if (this.state.touched.topic && !regex.topic.test(trimInputs(topic))) {
-      hintMessage.topic =
-        "Topic should be more than 2 in characters, numbers or _  - or ' ";
+      hintMessage.topic = "Topic should be more than 2 in characters, numbers or _  - or ' ";
     }
 
-    if (
-      this.state.touched.article &&
-      !regex.article.test(trimInputs(article))
-    ) {
-      hintMessage.article =
-        'article should have URL format ex)https://www.example.io';
+    if (this.state.touched.article && !regex.article.test(trimInputs(article))) {
+      hintMessage.article = 'article should have URL format ex)https://www.example.io';
     }
 
     //Check whether date exist or not
@@ -222,12 +198,9 @@ class PresentationForms extends Component {
     // And it displays the all error messages for input fields hints
     const newPresentation = this.state;
 
-    console.log(
-      'before : validationErrorMessage',
-      this.props.validationErrorMessage,
-    );
+    console.log('before : validationErrorMessage', this.props.validationErrorMessage);
     this.props
-      .onAddPresentation(newPresentation, this.props.history)
+      .onAddPresentation(newPresentation)
       .then(() => {
         if (this.props.validationErrorMessage) {
           this.props.history.push('/presentations');
@@ -235,10 +208,7 @@ class PresentationForms extends Component {
       })
       .catch(err => console.log(err));
 
-    console.log(
-      'after : validationErrorMessage',
-      this.props.validationErrorMessage,
-    );
+    console.log('after : validationErrorMessage', this.props.validationErrorMessage);
   };
 
   handleUpdate = (e, id) => {
@@ -251,13 +221,7 @@ class PresentationForms extends Component {
   };
 
   ableSubmitButton = (presenter, evaluator, topic, article, date) => {
-    const hintMessages = this.validateInputs(
-      presenter,
-      evaluator,
-      topic,
-      article,
-      date,
-    );
+    const hintMessages = this.validateInputs(presenter, evaluator, topic, article, date);
     const inputValues = [presenter, evaluator, topic, article, date];
 
     //check whether hintMessage is empty("") or input values exist to able/disable submit button
@@ -273,41 +237,13 @@ class PresentationForms extends Component {
   render() {
     // For creating input fields
     const { singlePresentation, formType, classes } = this.props;
-    const inputsArr = [
-      'presenter',
-      'evaluator',
-      'topic',
-      'article',
-      'date',
-      'keywords',
-      'summary',
-    ];
+    const inputsArr = ['presenter', 'evaluator', 'topic', 'article', 'date', 'keywords', 'summary'];
     // For validating given inputs
-    const {
-      presenter,
-      evaluator,
-      topic,
-      article,
-      date,
-      keywords,
-      summary,
-    } = this.state;
+    const { presenter, evaluator, topic, article, date, keywords, summary } = this.state;
 
-    const hintMessages = this.validateInputs(
-      presenter,
-      evaluator,
-      topic,
-      article,
-      date,
-    );
+    const hintMessages = this.validateInputs(presenter, evaluator, topic, article, date);
 
-    const activateButton = this.ableSubmitButton(
-      presenter,
-      evaluator,
-      topic,
-      article,
-      date,
-    );
+    const activateButton = this.ableSubmitButton(presenter, evaluator, topic, article, date);
 
     //Control inputs values for edit
     const inputValuesForEdit = {
@@ -325,7 +261,7 @@ class PresentationForms extends Component {
     if (formType === 'editForm' && singlePresentation) {
       //Get the all keys except _id and _V to create edit field with existing value
       keysOnSinglePresentation = Object.keys(singlePresentation).filter(
-        key => key !== '_id' && key !== '__v',
+        key => key !== '_id' && key !== '__v'
       );
 
       return (
@@ -334,11 +270,7 @@ class PresentationForms extends Component {
             to={`/presentations/${singlePresentation._id}`}
             className={classes.goBackLinkButton}
           >
-            <Button
-              color='primary'
-              variant='outlined'
-              className={classes.topGoBackButton}
-            >
+            <Button color="primary" variant="outlined" className={classes.topGoBackButton}>
               Go Back
             </Button>
           </Link>
@@ -361,22 +293,16 @@ class PresentationForms extends Component {
     //If it's add type, it works as a form for adding presentation (reusable code)
     return (
       <div>
-        <Link to='/presentations' className={classes.goBackLinkButton}>
-          <Button
-            color='primary'
-            variant='outlined'
-            className={classes.topGoBackButton}
-          >
+        <Link to="/presentations" className={classes.goBackLinkButton}>
+          <Button color="primary" variant="outlined" className={classes.topGoBackButton}>
             Go back
           </Button>
         </Link>
 
         <div>
-          {Object.values(this.props.validationErrorMessage).map(
-            (error, index) => {
-              return <div key={index}>{error}</div>;
-            },
-          )}
+          {Object.values(this.props.validationErrorMessage).map((error, index) => {
+            return <div key={index}>{error}</div>;
+          })}
         </div>
         <div className={classes.container}>
           <FormControl>
@@ -394,8 +320,8 @@ class PresentationForms extends Component {
                         root: classes.cssOutlinedInput,
                       }}
                       label={`${inputKey}`}
-                      variant='filled'
-                      type='date'
+                      variant="filled"
+                      type="date"
                       id={`${inputKey}`}
                       name={`${inputKey}`}
                       value={`${this.state[inputKey]}`}
@@ -422,8 +348,8 @@ class PresentationForms extends Component {
                         root: classes.cssOutlinedInput,
                       }}
                       label={`${inputKey}`}
-                      variant='filled'
-                      type='url'
+                      variant="filled"
+                      type="url"
                       id={`${inputKey}`}
                       name={`${inputKey}`}
                       value={`${this.state[inputKey]}`}
@@ -457,8 +383,8 @@ class PresentationForms extends Component {
                         },
                       }}
                       label={`${inputKey}`}
-                      variant='filled'
-                      type='text'
+                      variant="filled"
+                      type="text"
                       id={`${inputKey}`}
                       name={`${inputKey}`}
                       value={`${this.state[inputKey]}`}
@@ -488,8 +414,8 @@ class PresentationForms extends Component {
                       },
                     }}
                     label={`${inputKey}`}
-                    variant='filled'
-                    type='text'
+                    variant="filled"
+                    type="text"
                     id={`${inputKey}`}
                     name={`${inputKey}`}
                     value={`${this.state[inputKey]}`}
@@ -506,9 +432,9 @@ class PresentationForms extends Component {
             })}
             <Button
               className={classes.button}
-              color='secondary'
-              variant='contained'
-              type='submit'
+              color="secondary"
+              variant="contained"
+              type="submit"
               onClick={this.handleInputsSubmit}
               disabled={activateButton}
             >
@@ -516,12 +442,8 @@ class PresentationForms extends Component {
             </Button>
           </FormControl>
         </div>
-        <Link to='/presentations' className={classes.goBackLinkButton}>
-          <Button
-            variant='outlined'
-            color='primary'
-            className={classes.BottomGoBackButton}
-          >
+        <Link to="/presentations" className={classes.goBackLinkButton}>
+          <Button variant="outlined" color="primary" className={classes.BottomGoBackButton}>
             Go Back
           </Button>
         </Link>
@@ -545,13 +467,11 @@ const Edit = props => {
   const { presenter, topic } = singlePresentation;
 
   return (
-    <Grid container align='center'>
+    <Grid container align="center">
       <Grid item xs={12}>
         <Card className={classes.card}>
           <CardHeader
-            avatar={
-              <Avatar aria-label='Presentor'>{presenter.charAt(0)}</Avatar>
-            }
+            avatar={<Avatar aria-label="Presentor">{presenter.charAt(0)}</Avatar>}
             className={classes.CardHeader}
             title={presenter}
             subheader={topic}
@@ -573,8 +493,8 @@ const Edit = props => {
                           root: classes.cssOutlinedInput,
                         }}
                         label={`${inputKey}`}
-                        variant='filled'
-                        type='date'
+                        variant="filled"
+                        type="date"
                         id={`${inputKey}`}
                         name={`${inputKey}`}
                         value={inputValuesForEdit.date}
@@ -601,8 +521,8 @@ const Edit = props => {
                           root: classes.cssOutlinedInput,
                         }}
                         label={`${inputKey}`}
-                        variant='filled'
-                        type='url'
+                        variant="filled"
+                        type="url"
                         id={`${inputKey}`}
                         name={`${inputKey}`}
                         value={inputValuesForEdit[`${inputKey}`]}
@@ -636,8 +556,8 @@ const Edit = props => {
                           },
                         }}
                         label={`${inputKey}`}
-                        variant='filled'
-                        type='text'
+                        variant="filled"
+                        type="text"
                         id={`${inputKey}`}
                         name={`${inputKey}`}
                         value={inputValuesForEdit[`${inputKey}`]}
@@ -666,8 +586,8 @@ const Edit = props => {
                         },
                       }}
                       label={`${inputKey}`}
-                      variant='filled'
-                      type='text'
+                      variant="filled"
+                      type="text"
                       id={`${inputKey}`}
                       name={`${inputKey}`}
                       value={inputValuesForEdit[`${inputKey}`]}
@@ -684,8 +604,8 @@ const Edit = props => {
               })}
               <Button
                 onClick={e => handleUpdate(e, singlePresentation._id)}
-                variant='contained'
-                color='secondary'
+                variant="contained"
+                color="secondary"
                 disabled={activateButton}
               >
                 Update
@@ -694,15 +614,8 @@ const Edit = props => {
           </CardContent>
         </Card>
       </Grid>
-      <Link
-        to={`/presentations/${singlePresentation._id}`}
-        className={classes.goBackLinkButton}
-      >
-        <Button
-          variant='outlined'
-          color='primary'
-          className={classes.BottomGoBackButton}
-        >
+      <Link to={`/presentations/${singlePresentation._id}`} className={classes.goBackLinkButton}>
+        <Button variant="outlined" color="primary" className={classes.BottomGoBackButton}>
           Go Back
         </Button>
       </Link>

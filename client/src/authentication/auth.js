@@ -11,3 +11,15 @@ const auth = {
   },
 };
 export default auth;
+
+const initialState = {
+  isAuthenticated: false,
+  user: {},
+};
+
+function authReducer(state = initialState, action) {
+  switch (action.type) {
+    case 'SignIn':
+      return { ...state, isAuthenticated: true, user: action.payload };
+  }
+}

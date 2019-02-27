@@ -4,7 +4,7 @@ import {
   VALIDATION_ERROR_MESSAGE
 } from "./actionTypes";
 
-export const addPresentation = (newPresentation, history) => {
+export const addPresentation = (newPresentation) => {
   return async dispatch => {
     try {
       const response = await axios.post("/api/presentations", newPresentation);
