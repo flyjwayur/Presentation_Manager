@@ -112,7 +112,7 @@ const HomePage = props => {
             <Grid item xs={12} sm={12} md={6} lg={6}>
               <div className={classes.messagesWrapper}>
                 <Typography variant='h5' className={classes.message}>
-                  Awesome Talks, Awsome Speakers !
+                  Awesome Talks, Awesome Speakers !
                 </Typography>
                 <Typography variant='h5' className={classes.message}>
                   Would you like to check presentations ?

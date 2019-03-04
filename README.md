@@ -33,7 +33,7 @@ Presentaion Manager application where students can see, add, edit, delete a pres
   - Encrypt password with bcryptjs
 - Deploy in gcloud (First, in Heroku)
 
-## Getting started
+## 3. Getting started
 
 Clone the project:
 
@@ -44,7 +44,7 @@ Clone the project:
 > yarn run dev
 ```
 
-## License
+## 4. License
 
 - This project is licensed under the MIT License.
 - The SVG images in the project are from [Undraws.co](https://undraw.co/illustrations)
