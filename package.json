@@ -9,8 +9,8 @@
     "start-watch": "nodemon server.js",
     "client": "yarn start --prefix client",
     "build": "cd client && yarn && yarn run build",
-    "heroku-postbuild": "cd client && yarn install && yarn run build",
-    "dev": "concurrently \"yarn && yarn run start-watch\" \"cd  client  && yarn start\" "
+    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn run build --prefix client",
+    "dev": "concurrently \"yarn && yarn run start-watch\" \"yarn run client\" "
   },
   "engines": {
     "node": "11.9.0"

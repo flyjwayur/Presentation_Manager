@@ -1,9 +1,8 @@
 const express = require('express');
 const jwt = require('jsonwebtoken');
-const { secretOrKey } = require('../../config/config');
+const { secretOrKey } = require('../../config/keys');
 const { signUp, signIn } = require('../controllers/users.controller');
 const userRouter = express.Router();
-
 
 userRouter.post('/signup', signUp);
 userRouter.post('/signin', signIn);
@@ -16,13 +15,12 @@ userRouter.get('/current', verifyToken, (req, res) => {
       res.sendStatus(403);
     } else {
       console.log('data', data);
-      res.json({message: 'A authorized user has been accessed ', data});
+      res.json({ message: 'A authorized user has been accessed ', data });
     }
   });
 });
 
-
-function verifyToken(req, res, next){
+function verifyToken(req, res, next) {
   const bearerHeader = req.headers['authorization'];
   if (bearerHeader) {
     //Split at the space
@@ -36,7 +34,7 @@ function verifyToken(req, res, next){
     next();
   } else {
     // 401 : Unauthenticated
-    return res.status(401).json({message: 'Token has not provided'});
+    return res.status(401).json({ message: 'Token has not provided' });
   }
 }
 

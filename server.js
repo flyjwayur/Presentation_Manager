@@ -3,11 +3,11 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const morgan = require('morgan');
-const { MONGODB_URI } = require('./config/config');
+const { mongoURL } = require('./config/keys');
 const presentationRouter = require('./server/routes/presentationRoute');
 const userRouter = require('./server/routes/userRoute');
 const MongoClient = require('mongodb').MongoClient;
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 5005;
 const hostname = 'localhost';
 
 const app = express();
@@ -26,13 +26,13 @@ const options = {
 };
 
 mongoose
-  .connect(MONGODB_URI, options)
-  .then(console.log('Databese is connected'))
+  .connect(mongoURL, options)
+  .then(console.log('Database is connected'))
   .catch(err => {
     console.log('there is err', err);
   });
 
-const client = new MongoClient(MONGODB_URI, { useNewUrlParser: true });
+const client = new MongoClient(mongoURL, { useNewUrlParser: true });
 client.connect(err => {
   const collection = client.db('finlandForum').collection('devices');
   // perform actions on the collection object
