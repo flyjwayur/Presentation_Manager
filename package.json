@@ -9,7 +9,7 @@
     "start-watch": "nodemon app.js",
     "client": "yarn start --prefix client",
     "build": "cd client && yarn && yarn run build",
-    "heroku-postbuild": "cd client && yarn && yarn run build",
+    "heroku-postbuild": "yarn install && cd client && yarn install && yarn run build",
     "dev": "concurrently \"yarn && yarn run start-watch\" \"cd  client  && yarn start\" "
   },
   "engines": {
