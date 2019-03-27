@@ -14,6 +14,7 @@ const app = express();
 
 app.use(morgan('dev'));
 
+//Set up the Mongo database
 const options = {
   useNewUrlParser: true,
   autoIndex: false, // Don't build indexes
@@ -31,7 +32,6 @@ mongoose
     console.log('there is err', err);
   });
 
-
 const client = new MongoClient(MONGODB_URI, { useNewUrlParser: true });
 client.connect(err => {
   const collection = client.db('finlandForum').collection('devices');
@@ -39,20 +39,20 @@ client.connect(err => {
   client.close();
 });
 
-
-// Serve static files from the React app
-app.use(express.static(path.join(__dirname, '/client/build')));
+// BodyParser decode data in different formats.
 app.use(bodyParser.json());
 
 // REST API end points under '/'
 app.use('/api/presentations', presentationRouter);
 app.use('/api/users', userRouter);
 
-// if(process.env.node_env ==='production') {
-// The catchall handler : if some request that does not match, send back React's index.html file
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client/build/index.html'));
-});
-//}
+if (process.env.node_env === 'production') {
+  // Serve static files from the React app
+  app.use(express.static(path.join(__dirname, '/client/build')));
+  // The catchall handler : if some request that does not match, send back React's index.html file
+  app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'client/build/index.html'));
+  });
+}
 
 app.listen(PORT, () => console.log(`Listening on ${hostname}:${PORT}`));
