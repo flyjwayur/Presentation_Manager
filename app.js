@@ -7,7 +7,7 @@ const { MONGODB_URI } = require('./config/config');
 const presentationRouter = require('./server/routes/presentationRoute');
 const userRouter = require('./server/routes/userRoute');
 const MongoClient = require('mongodb').MongoClient;
-const PORT = process.env.PORT || 5003;
+const PORT = process.env.PORT || 8080;
 const hostname = 'localhost';
 
 const app = express();
