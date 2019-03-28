@@ -38,7 +38,7 @@ app.use(bodyParser.json());
 app.use('/api/presentations', presentationRouter);
 app.use('/api/users', userRouter);
 
-if (process.env.node_env === 'production') {
+if (process.env.NODE_ENV === 'production') {
   // Serve static files from the React app
   app.use(express.static(path.join(__dirname, '/client/build')));
   // The catchall handler : if some request that does not match, send back React's index.html file
