@@ -5,11 +5,11 @@
   "main": "app.js",
   "scripts": {
     "client-install": "cd client && yarn",
-    "start": "node server.js",
-    "start-watch": "nodemon server.js",
+    "start": "node app.js",
+    "start-watch": "nodemon app.js",
     "client": "yarn start --prefix client",
     "build": "cd client && yarn && yarn run build",
-    "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install && cd client && yarn install && yarn run build",
+    "heroku-postbuild": "yarn install && cd client && yarn install && yarn run build",
     "dev": "concurrently \"yarn && yarn run start-watch\" \"cd  client  && yarn start\" "
   },
   "engines": {
