@@ -6,7 +6,7 @@ const morgan = require('morgan');
 const db = require('./config/keys').mongoURI;
 const presentationRouter = require('./server/routes/presentationRoute');
 const userRouter = require('./server/routes/userRoute');
-const PORT = process.env.PORT || 5008;
+const PORT = process.env.PORT || 5000;
 const hostname = 'localhost';
 
 const app = express();
