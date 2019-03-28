@@ -10,7 +10,7 @@
     "client": "yarn start --prefix client",
     "build": "cd client && yarn && yarn run build",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false yarn install --prefix client && yarn run build --prefix client",
-    "dev": "concurrently \"yarn && yarn run start-watch\" \"yarn run client\" "
+    "dev": "concurrently \"yarn && yarn run start-watch\" \"cd  client  && yarn start\" "
   },
   "engines": {
     "node": "11.9.0"
