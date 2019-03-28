@@ -3,11 +3,10 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const path = require('path');
 const morgan = require('morgan');
-const { mongoURL } = require('./config/keys');
+const db = require('./config/keys').mongoURI;
 const presentationRouter = require('./server/routes/presentationRoute');
 const userRouter = require('./server/routes/userRoute');
-const MongoClient = require('mongodb').MongoClient;
-const PORT = process.env.PORT || 5005;
+const PORT = process.env.PORT || 5007;
 const hostname = 'localhost';
 
 const app = express();
@@ -26,18 +25,11 @@ const options = {
 };
 
 mongoose
-  .connect(mongoURL, options)
+  .connect(db, options)
   .then(console.log('Database is connected'))
   .catch(err => {
     console.log('there is err', err);
   });
-
-const client = new MongoClient(mongoURL, { useNewUrlParser: true });
-client.connect(err => {
-  const collection = client.db('finlandForum').collection('devices');
-  // perform actions on the collection object
-  client.close();
-});
 
 // BodyParser decode data in different formats.
 app.use(bodyParser.json());
